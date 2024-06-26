@@ -18,3 +18,4 @@ phpMyAdmin : http://localhost:8001
 
 Test
 http://localhost/public/index.php
+http://localhost/src/views/index.php
