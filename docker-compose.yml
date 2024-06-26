@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db: 
+    container_name: mysql8
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nibm
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d" # this is how we persist a sql db even when container stops  
+  www:
+    container_name: php-apache
+    # image: php-apache
+    build:  # solution for "Call to undefined function mysqli_connect()""
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "./:/var/www/html" # sync the current dir on local machine to the dir of container
+    ports:
+      - "80:80"
+      - "443:443" # for future ssl traffic
+    depends_on:
+      - db    # services wait for db to start.
+  phpmyadmin:
+    container_name: php-myadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8001:80"
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
