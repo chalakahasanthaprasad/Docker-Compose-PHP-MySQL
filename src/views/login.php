@@ -1,5 +1,5 @@
 <?php include '../../includes/header.php'; ?>
-<main>
+<main style="text-align: center; margin-top: 50px;">
     <h2>Login</h2>
     <?php if (isset($message)) echo "<p>$message</p>"; ?>
     <form action="../controllers/login_controller.php" method="post">
