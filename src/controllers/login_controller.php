@@ -10,19 +10,7 @@ class LoginController {
     public function __construct($db) {
         $this->userModel = new User($db);
     }
-
-    public function login2($username, $password) {
-        $user = $this->userModel->getUserByUsername($username);
-        
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['username'] = $user['username'];
-            return "Login successful. Welcome, " . $user['username'];
-        } else {
-            return "Invalid username or password.";
-        }
-    }
-
+    
     public function login($username, $password) {
         $user = $this->userModel->getUserByUsername($username);
         
