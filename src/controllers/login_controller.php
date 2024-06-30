@@ -1,6 +1,6 @@
 <?php
 // controllers/LoginController.php
-session_start();
+include_once '../controllers/login_controller.php';
 include_once '../../config/dbcon.php';
 include_once '../models/user.php';
 
@@ -18,7 +18,7 @@ class LoginController {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $user['username'];
             //return "Login successful. Welcome, " . $user['username'];
-            return header('location:../views/dashboard.php');
+            return header('location: ../views/dashboard.php');
         } else {
             return "Invalid username or password.";
         }

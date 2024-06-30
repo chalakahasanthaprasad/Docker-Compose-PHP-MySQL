@@ -1,15 +1,35 @@
-<?php include '../../includes/headerN.php'; ?>
+<?php
+session_start();
+if (strlen($_SESSION['loggedin']==true)) {
+    header('location: logout.php');
+    } else{
+  
+  
+  ?>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management System</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.0.7/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
 <div id="wrapper">
-    <?php include '../../includes/sidebar.php'; ?>
+    <?php include ('../../includes/sidebar.php')?>;
 
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Student Management Dashboard</h1>
-                </div>
-            </div>
+				<div class="col-lg-12">
+					<h4 class="page-header"> <?php echo strtoupper("welcome"." ".htmlentities($_SESSION['username']));?></h4>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
             <!-- Your content here -->
             <div class="row">
                 <div class="col-lg-12">
@@ -41,3 +61,4 @@
 </div>    
 
 <?php include '../../includes/footer.php'; ?>
+<?php } ?>
