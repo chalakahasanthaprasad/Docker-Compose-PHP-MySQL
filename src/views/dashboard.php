@@ -1,11 +1,11 @@
 <?php
 session_start();
-if (strlen($_SESSION['loggedin']==true)) {
-    header('location: logout.php');
-    } else{
-  
-  
-  ?>
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +14,7 @@ if (strlen($_SESSION['loggedin']==true)) {
     <title>Student Management System</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.0.7/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../../assets/css/sb-admin-2.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -61,4 +61,3 @@ if (strlen($_SESSION['loggedin']==true)) {
 </div>    
 
 <?php include '../../includes/footer.php'; ?>
-<?php } ?>
