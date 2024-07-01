@@ -3,27 +3,32 @@ session_start();
 include_once '../../config/dbcon.php';
 include_once '../models/user.php';
 
-class LoginController {
+class LoginController
+{
     private $userModel;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->userModel = new User($db);
     }
-    
-    public function login($username, $password) {
+
+    public function login($username, $password)
+    {
         $user = $this->userModel->getUserByUsername($username);
-        
+
         if ($username == isset($user['username']) && $password == $user['password']) {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $user['username'];
+            $_SESSION['start'] = time();
+            $_SESSION['expire'] = $_SESSION['start'] + (30 * 60);
             //print console
             //echo "<script>console.log('" . addslashes("Point") . "');</script>";
-            return header('location:../views/dashboard.php');
+            header('location:../views/dashboard.php');
+            exit;
         } else {
             return "Invalid username or password.";
         }
     }
-
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,4 +43,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 }
-?>
