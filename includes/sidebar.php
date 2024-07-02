@@ -45,10 +45,24 @@
                     <a href="#"><i class="fa fa-certificate fa-fw"></i> Courses<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="add_course.php">Add Course</a>
+                            <a href="add_courses.php">Add Course</a>
                         </li>
                         <li>
                             <a href="view_courses.php">View Courses</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                <!-- Subjects Section -->
+                <li>
+                    <a href="#"><i class="fa fa-book fa-fw"></i> Subjects<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="add_subjects.php">Add Subjects</a>
+                        </li>
+                        <li>
+                            <a href="view_subjects.php">View Subjects</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

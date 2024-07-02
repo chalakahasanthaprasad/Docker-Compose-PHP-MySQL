@@ -3,28 +3,15 @@ session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("location: login.php");
     exit;
-    // } else {
-    //     $now = time(); // Checking the time now when home page starts.
+} else {
+    $now = time(); // 30 min -  Checking the time now when home page starts.
 
-    //     if ($now > $_SESSION['expire']) {
-    //         session_destroy();
-    //         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
-    //     } else { //Starting this else one [else1]
+    if ($now > $_SESSION['expire']) {
+        session_destroy();
+        echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
+    } else {
 ?>
-
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Student Management System</title>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css" rel="stylesheet">
-        <link href="../../assets/css/sb-admin-2.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    </head>
-
-    <body>
+        <?php include('../../includes/header.php'); ?>
         <div id="wrapper">
             <?php include('../../includes/sidebar.php') ?>;
 
@@ -36,7 +23,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         </div>
                         <!-- /.col-lg-12 -->
                     </div>
-                    <!-- Your content here -->
+                    <!-- content here -->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
@@ -67,10 +54,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
         <?php include '../../includes/datetime.php'; ?>
 
-        <!-- <?php
-            }
-            // }
-                ?> -->
+<?php
+    }
+}
+?>
 
 
-        <?php include '../../includes/footer.php'; ?>
+<?php include '../../includes/footer.php'; ?>

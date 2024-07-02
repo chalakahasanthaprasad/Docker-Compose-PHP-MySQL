@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once '../../config/dbcon.php';
-include_once '../models/user.php';
+include_once '../models/UserModel.php';
 
 class LoginController
 {
@@ -9,7 +9,7 @@ class LoginController
 
     public function __construct($db)
     {
-        $this->userModel = new User($db);
+        $this->userModel = new UserModel($db);
     }
 
     public function login($username, $password)
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($message) {
         // Redirect back to login page with error message
         $_SESSION['login_error'] = $message;
-        header('location: ../views/login.php');
+        header('location:../views/login.php');
         exit;
     }
 }
