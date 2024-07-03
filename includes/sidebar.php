@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">Student Management System</a>
+        <a class="navbar-brand" href="dashboard.php">Student Management System</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -23,7 +23,7 @@
         <div class="sidebar-nav navbar-collapse collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    <a href="dashboard.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
 
                 <!-- Student Section -->

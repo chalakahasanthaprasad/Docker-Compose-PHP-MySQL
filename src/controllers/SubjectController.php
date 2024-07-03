@@ -15,12 +15,12 @@ class SubjectController
 
     public function viewSubjects()
     {
-        $Subject = $this->subjectModel->getAllSubjects();
-        if ($Subject === false) {
-            echo "Error fetching courses.";
+        $Subjects = $this->subjectModel->getAllSubjects();
+        if ($Subjects === false) {
+            echo "Error fetching subject.";
             return;
         }
-        return $Subject;
+        return $Subjects;
     }
 }
 
