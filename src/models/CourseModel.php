@@ -29,24 +29,35 @@ class CourseModel
 
     public function addCourse($code, $cfullname, $created_date)
     {
-        $stmt = $this->db->prepare("INSERT INTO tbl_course (code, cfull, created_date) VALUES (?, ?, ?)");
+        $this->db->begin_transaction();
 
-        if ($stmt === false) {
-            die('Prepare failed: ' . $this->db->error);
+        try {
+            $stmt = $this->db->prepare("INSERT INTO tbl_course (code, cfull, created_date) VALUES (?, ?, ?)");
+
+            if ($stmt === false) {
+                throw new Exception('Prepare failed: ' . $this->db->error);
+            }
+
+            $stmt->bind_param('sss', $code, $cfullname, $created_date);
+            $success = $stmt->execute();
+
+            if ($success === false) {
+                throw new Exception('Execute failed: ' . $stmt->error);
+            }
+
+            // Commit the transaction
+            $this->db->commit();
+
+            $stmt->close();
+            return $success;
+        } catch (Exception $e) {
+            // Rollback the transaction if an error occurs
+            $this->db->rollback();
+            error_log($e->getMessage());
+            return false;
         }
-
-        // Bind the parameters to the placeholders
-        $stmt->bind_param('sss', $code, $cfullname, $created_date);
-
-        $success = $stmt->execute();
-
-        if ($success === false) {
-            die('Execute failed: ' . $stmt->error);
-        }
-        $stmt->close();
-
-        return $success;
     }
+
 
 
 }
