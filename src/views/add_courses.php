@@ -12,20 +12,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include ('../../includes/header.php'); ?>
-        <form method="post" action="../controllers/CourseController.php">
+        <form method="post" id="courseForm" action="../controllers/CourseController.php">
             <div id="wrapper">
                 <!-- Navigation -->
-                <?php include ('../../includes/sidebar.php'); ?>
-                <!--nav-->
+                <?php include ('../../includes/sidebar.php') ?>;
+
                 <div id="page-wrapper">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="page-header"><?php echo strtoupper("welcome " . htmlentities($_SESSION['username'])); ?>
+                            <h4 class="page-header">
+                                <?php echo strtoupper("welcome" . " " . htmlentities($_SESSION['username'])); ?>
                             </h4>
                         </div>
-                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.row -->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
@@ -35,12 +34,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <div class="col-lg-4">
-                                                    <label>Course Short Name (Code) <span id=""
+                                                    <label>Course Short Name<span id=""
                                                             style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" name="course-short" id="cshort"
-                                                        required="required">
+                                                    <input class="form-control" name="course-code" id="course-code"
+                                                        required="required" onblur="checkCourseAvailability()">
+                                                    <span id="course-availability-status" style="font-size:12px;"></span>
                                                 </div>
                                             </div>
                                             <br><br>
@@ -50,8 +50,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                             style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" name="course-full" id="cfull"
+                                                    <input class="form-control" name="course-full" id="course-full"
                                                         required="required">
+                                                    <span id="course-status" style="font-size:12px;"></span>
                                                 </div>
                                             </div>
                                             <br><br>
@@ -67,7 +68,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <br><br>
                                             <div class="form-group">
                                                 <div class="col-lg-4"></div>
-                                                <div class="col-lg-6"><br><br>
+                                                <div class="col-lg-6">
+                                                    <br><br>
                                                     <input type="submit" class="btn btn-primary" name="submit"
                                                         value="Create Course">
                                                 </div>
@@ -83,7 +85,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </form>
 
         <?php include '../../includes/datetime.php'; ?>
-
+        <script>
+            function checkCourseAvailability() {
+                let courseShort = $("#course-code").val();
+                $.ajax({
+                    url: "../controllers/CourseController.php",
+                    type: "POST",
+                    data: { cshort: courseShort },
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        if (!data.available) {
+                            $("#course-availability-status").html("<span style='color:red'>Course Code Name Already Exist</span>");
+                        } else {
+                            $("#course-availability-status").html("<span style='color:green'>Course Code Name Available</span>");
+                        }
+                    }
+                });
+            }
+        </script>
 
         <?php
     }

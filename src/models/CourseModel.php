@@ -58,6 +58,19 @@ class CourseModel
         }
     }
 
+    public function isCourseAvailable($code)
+    {
+        $count = null;
+        $stmt = $this->db->prepare("SELECT count(*) FROM tbl_course WHERE code = ?");
+        $stmt->bind_param('s', $code);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count == 0;
+    }
+
+
 
 
 }

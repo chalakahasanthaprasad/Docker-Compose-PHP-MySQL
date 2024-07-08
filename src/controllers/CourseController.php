@@ -23,12 +23,28 @@ class CourseController
         return $courses;
     }
 
+
+    public function checkCourseAvailability()
+    {
+        if (isset($_POST['cshort'])) {
+            $code = $_POST['cshort'];
+            $isAvailable = $this->courseModel->isCourseAvailable($code);
+            echo json_encode(['available' => $isAvailable]);
+        }
+    }
+
     public function addCourse()
     {
         if (isset($_POST['submit'])) {
-            $code = $_POST['course-short'];
+            $code = $_POST['course-code'];
             $cfullname = $_POST['course-full'];
             $created_date = $_POST['cdate'];
+
+            if (!$this->courseModel->isCourseAvailable($code)) {
+                echo '<script>alert("Course Code Name Already Exist")</script>';
+                echo '<script>window.location.href="../views/add_courses.php";</script>';
+                exit;
+            }
 
             $query = $this->courseModel->addCourse($code, $cfullname, $created_date);
 
@@ -40,6 +56,7 @@ class CourseController
 
             exit;
         }
+
     }
 
 }
@@ -47,5 +64,12 @@ class CourseController
 
 $courseController = new CourseController($connect);
 $courses = $courseController->viewCourses();
-$courseController->addCourse();
+
+// Handle AJAX request
+if (isset($_POST['cshort'])) {
+    $courseController->checkCourseAvailability();
+} else {
+    $courseController->addCourse();
+}
+
 mysqli_close($connect);
