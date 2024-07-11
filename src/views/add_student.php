@@ -13,7 +13,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         ?>
         <?php include ('../../includes/header.php'); ?>
         <?php include ('../controllers/CourseController.php'); ?>
-        <form method="post" id="addstudentForm" action="../controllers/CourseController.php">
+        <?php include ('../controllers/CityController.php'); ?>
+        <form method="post" id="addstudentForm" action="../controllers/StudentController.php">
             <div id="wrapper">
                 <?php include ('../../includes/sidebar.php'); ?>
                 <div id="page-wrapper">
@@ -94,7 +95,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>Mobile Number<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" type="tel" name="mobno" required="required"
+                                                    <input class="form-control" type="tel" name="mobile" required="required"
                                                         maxlength="10" pattern="[0-9]{10}">
                                                 </div>
                                             </div>
@@ -105,7 +106,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                             style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" type="tel" name="parent_mobno"
+                                                    <input class="form-control" type="tel" name="parent_mobile"
                                                         required="required" maxlength="10" pattern="[0-9]{10}">
                                                 </div>
                                             </div>
@@ -115,7 +116,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>City<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" name="city" required="required">
+                                                    <select name="course" id="course" class="form-control">
+                                                        <option value="">Select city</option>
+                                                        <?php
+                                                        if ($cities) {
+                                                            foreach ($cities as $city) {
+                                                                echo '<option value="' . htmlentities($city['id']) . '">' . htmlentities($city['name']) . '</option>';
+                                                            }
+                                                        } else {
+                                                            echo '<option value="">No courses available</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <br><br>
@@ -124,7 +136,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>Address<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <textarea class="form-control" rows="3" name="padd"
+                                                    <textarea class="form-control" rows="3" name="address"
                                                         required="required"></textarea>
                                                 </div>
                                             </div>
