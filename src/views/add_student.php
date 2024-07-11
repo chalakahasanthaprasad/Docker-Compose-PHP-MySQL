@@ -76,6 +76,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                         <label>Female</label>
                                                     </div>
                                                 </div>
+                                                <br><br>
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label>Date of birth</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input class="form-control" value="<?php echo date('Y-m-d'); ?>"
+                                                            name="dob">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +126,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>City<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select name="course" id="course" class="form-control">
+                                                    <select name="city" id="city" class="form-control">
                                                         <option value="">Select city</option>
                                                         <?php
                                                         if ($cities) {
@@ -140,6 +150,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                         required="required"></textarea>
                                                 </div>
                                             </div>
+                                            <br><br>
+                                            <br><br>
+                                            <div class="col-lg-4">
+                                                <label>Registerd Date</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input class="form-control" value="<?php echo date('Y-m-d'); ?>"
+                                                    readonly="readonly" name="registerd_date">
+                                            </div>
+                                            <br><br>
                                             <br><br>
                                             <div class="form-group">
                                                 <div class="col-lg-4">
