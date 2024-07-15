@@ -58,7 +58,7 @@ class CourseModel
         }
     }
 
-    public function isCourseAvailable($code)
+    public function isCourseCodeAvailable($code)
     {
         $count = null;
         $stmt = $this->db->prepare("SELECT count(*) FROM tbl_course WHERE code = ?");
@@ -70,7 +70,37 @@ class CourseModel
         return $count == 0;
     }
 
+    // //  Less Secure .......................................................................................
+//     public function checkShortNameExists($code)
+//     {
+//         $query = mysqli_query($this->db, "SELECT * FROM tbl_course WHERE code='$code'");
+//         return mysqli_num_rows($query) > 0;
+//     }
 
+    //     public function checkFullNameExists($cfull)
+//     {
+//         $query = mysqli_query($this->db, "SELECT * FROM tbl_course WHERE cfull='$cfull'");
+//         return mysqli_num_rows($query) > 0;
+//     }
+    // //  Less Secure .........................................................................................
+
+    public function isCourseNameAvailable($code)
+    {
+        $count = null;
+        $stmt = $this->db->prepare("SELECT count(*) FROM tbl_course WHERE cfull = ?");
+        $stmt->bind_param('s', $code);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count == 0;
+    }
+
+    public function getCourseById($cid)
+    {
+        $query = mysqli_query($this->db, "SELECT * FROM tbl_course WHERE cid='$cid'");
+        return mysqli_fetch_assoc($query);
+    }
 
 
 }
