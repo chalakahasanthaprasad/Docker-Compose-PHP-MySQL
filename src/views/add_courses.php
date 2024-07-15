@@ -38,8 +38,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                             style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" name="course-code" id="course-code"
-                                                        required="required" onblur="checkCourseAvailability()">
+                                                    <input class="form-control" name="code" id="code" required="required"
+                                                        onblur="checkCourseAvailability()">
                                                     <span id="course-availability-status" style="font-size:12px;"></span>
                                                 </div>
                                             </div>
@@ -87,11 +87,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php include '../../includes/datetime.php'; ?>
         <script>
             function checkCourseAvailability() {
-                let courseShort = $("#course-code").val();
+                let courseShort = $("#code").val();
                 $.ajax({
                     url: "../controllers/CourseController.php",
                     type: "POST",
-                    data: { cshort: courseShort },
+                    data: { code: courseShort },
                     success: function (response) {
                         let data = JSON.parse(response);
                         if (!data.available) {
