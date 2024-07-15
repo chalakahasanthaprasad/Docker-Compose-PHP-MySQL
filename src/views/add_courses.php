@@ -39,8 +39,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input class="form-control" name="code" id="code" required="required"
-                                                        onblur="checkCourseAvailability()">
-                                                    <span id="course-availability-status" style="font-size:12px;"></span>
+                                                        onblur="checkCourseCodeAvailability()">
+                                                    <span id="course-code-availability-status" style="font-size:12px;"></span>
                                                 </div>
                                             </div>
                                             <br><br>
@@ -50,9 +50,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                             style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" name="course-full" id="course-full"
-                                                        required="required">
-                                                    <span id="course-status" style="font-size:12px;"></span>
+                                                    <input class="form-control" name="cfull" id="cfull" required="required"
+                                                        onblur="checkCourseNameAvailability()">
+                                                    <span id="course-name-availability-status" style="font-size:12px;"></span>
                                                 </div>
                                             </div>
                                             <br><br>
@@ -86,7 +86,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         <?php include '../../includes/datetime.php'; ?>
         <script>
-            function checkCourseAvailability() {
+            function checkCourseCodeAvailability() {
                 let courseShort = $("#code").val();
                 $.ajax({
                     url: "../controllers/CourseController.php",
@@ -95,9 +95,26 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     success: function (response) {
                         let data = JSON.parse(response);
                         if (!data.available) {
-                            $("#course-availability-status").html("<span style='color:red'>Course Code Name Already Exist</span>");
+                            $("#course-code-availability-status").html("<span style='color:red'>Course Code Already Exist</span>");
                         } else {
-                            $("#course-availability-status").html("<span style='color:green'>Course Code Name Available</span>");
+                            $("#course-code-availability-status").html("<span style='color:green'>Course Code Available</span>");
+                        }
+                    }
+                });
+            }
+
+            function checkCourseNameAvailability() {
+                let courseName = $("#cfull").val();
+                $.ajax({
+                    url: "../controllers/CourseController.php",
+                    type: "POST",
+                    data: { cfull: courseName },
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        if (!data.available) {
+                            $("#course-name-availability-status").html("<span style='color:red'>Course Name Already Exist</span>");
+                        } else {
+                            $("#course-name-availability-status").html("<span style='color:green'>Course Name Available</span>");
                         }
                     }
                 });

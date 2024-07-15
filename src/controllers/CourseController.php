@@ -59,7 +59,7 @@ class CourseController
     }
 
 
-    public function checkCodeCourseAvailability()
+    public function checkCourseCodeAvailability()
     {
         if (isset($_POST['code'])) {
             $code = $_POST['code'];
@@ -68,7 +68,7 @@ class CourseController
         }
     }
 
-    public function checkFullNameAvailability()
+    public function checkCourseNameAvailability()
     {
         if (isset($_POST['cfull'])) {
             $cfull = $_POST['cfull'];
@@ -84,10 +84,10 @@ $courseController = new CourseController($connect);
 
 // Handle AJAX request
 if (isset($_POST['code'])) {
-    $courseController->checkCodeCourseAvailability();
+    $courseController->checkCourseCodeAvailability();
 }
 if (isset($_POST['cfull'])) {
-    $courseController->checkFullNameAvailability();
+    $courseController->checkCourseNameAvailability();
 }
 if (isset($_POST['cid']) && $_POST['action']) {
     $course = $courseController->editCourse($cid);
