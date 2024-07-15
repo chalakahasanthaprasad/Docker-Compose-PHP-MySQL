@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 11, 2024 at 07:16 PM
+-- Generation Time: Jul 15, 2024 at 06:01 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -72,9 +72,9 @@ INSERT INTO `tbl_city` (`id`, `name`, `province_code`) VALUES
 
 CREATE TABLE `tbl_course` (
   `cid` int NOT NULL,
-  `code` varchar(250) DEFAULT NULL,
-  `cfull` varchar(250) DEFAULT NULL,
-  `created_date` varchar(50) DEFAULT NULL,
+  `code` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `cfull` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `created_date` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `update_date` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -185,7 +185,7 @@ INSERT INTO `tbl_student` (`std_id`, `std_name`, `course_code`, `gender`, `addre
 (48, 'Dulshan Lakmal', 'B.Sc.', 'Male', '4545 Ampara Road, Ampara', '2002-12-05', '0712345725', '0778765479', '2024-04-17', 1),
 (49, 'Menaka Jayathilaka', 'B.Com.', 'Female', '4646 Galle Road, Colombo', '2003-01-10', '0712345726', '0778765480', '2024-04-18', 5),
 (50, 'Ravindu Jayasuriya', 'MBA', 'Male', '4747 Kandy Road, Kandy', '2004-02-15', '0712345727', '0778765481', '2024-04-19', 11),
-(51, 'testFemale', 'MBA', 'Female', 'col 7', '2002-07-11', '0715116262', '0725445545', '2024-07-11', 5),
+(51, 'testFemale', '', 'Female', 'col 7', '2002-07-11', '0715116262', '0725445545', '2024-07-11', 5),
 (52, 'testMale', 'MCA', 'Male', 'aaa', '2000-07-11', '1111111111', '2222222222', '2024-07-11', 7);
 
 -- --------------------------------------------------------
@@ -264,7 +264,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_course`
 --
 ALTER TABLE `tbl_course`
-  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
