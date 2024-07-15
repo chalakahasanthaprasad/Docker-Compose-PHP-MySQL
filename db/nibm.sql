@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 11, 2024 at 07:16 PM
+-- Generation Time: Jul 15, 2024 at 06:05 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -72,9 +72,9 @@ INSERT INTO `tbl_city` (`id`, `name`, `province_code`) VALUES
 
 CREATE TABLE `tbl_course` (
   `cid` int NOT NULL,
-  `code` varchar(250) DEFAULT NULL,
-  `cfull` varchar(250) DEFAULT NULL,
-  `created_date` varchar(50) DEFAULT NULL,
+  `code` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `cfull` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `created_date` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `update_date` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -87,7 +87,22 @@ INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `created_date`, `update_date`)
 (2, 'B.E.', 'Bachelor of Engineering', '2024-03-02', NULL),
 (3, 'B.Sc.', 'Bachelor of Science', '2024-03-03', NULL),
 (4, 'B.Com.', 'Bachelor of Commerce', '2024-03-04', NULL),
-(5, 'MBA', 'Master of Business Administration', '2024-03-05', NULL);
+(5, 'MBA', 'Master of Business Administration', '2024-03-05', NULL),
+(6, 'BBA', 'Bachelor of Business Administration', '2024-03-06', NULL),
+(7, 'M.Sc.', 'Master of Science', '2024-03-07', NULL),
+(8, 'B.A.', 'Bachelor of Arts', '2024-03-08', NULL),
+(9, 'M.E.', 'Master of Engineering', '2024-03-09', NULL),
+(10, 'Ph.D.', 'Doctor of Philosophy', '2024-03-10', NULL),
+(11, 'LLB', 'Bachelor of Laws', '2024-03-11', NULL),
+(12, 'LLM', 'Master of Laws', '2024-03-12', NULL),
+(13, 'B.Tech.', 'Bachelor of Technology', '2024-03-13', NULL),
+(14, 'M.Tech.', 'Master of Technology', '2024-03-14', NULL),
+(15, 'B.Arch.', 'Bachelor of Architecture', '2024-03-15', NULL),
+(16, 'M.Arch.', 'Master of Architecture', '2024-03-16', NULL),
+(17, 'B.Ed.', 'Bachelor of Education', '2024-03-17', NULL),
+(18, 'M.Ed.', 'Master of Education', '2024-03-18', NULL),
+(19, 'B.Pharm.', 'Bachelor of Pharmacy', '2024-03-19', NULL),
+(20, 'M.Pharm.', 'Master of Pharmacy', '2024-03-20', NULL);
 
 -- --------------------------------------------------------
 
@@ -185,7 +200,7 @@ INSERT INTO `tbl_student` (`std_id`, `std_name`, `course_code`, `gender`, `addre
 (48, 'Dulshan Lakmal', 'B.Sc.', 'Male', '4545 Ampara Road, Ampara', '2002-12-05', '0712345725', '0778765479', '2024-04-17', 1),
 (49, 'Menaka Jayathilaka', 'B.Com.', 'Female', '4646 Galle Road, Colombo', '2003-01-10', '0712345726', '0778765480', '2024-04-18', 5),
 (50, 'Ravindu Jayasuriya', 'MBA', 'Male', '4747 Kandy Road, Kandy', '2004-02-15', '0712345727', '0778765481', '2024-04-19', 11),
-(51, 'testFemale', 'MBA', 'Female', 'col 7', '2002-07-11', '0715116262', '0725445545', '2024-07-11', 5),
+(51, 'testFemale', '', 'Female', 'col 7', '2002-07-11', '0715116262', '0725445545', '2024-07-11', 5),
 (52, 'testMale', 'MCA', 'Male', 'aaa', '2000-07-11', '1111111111', '2222222222', '2024-07-11', 7);
 
 -- --------------------------------------------------------
@@ -264,7 +279,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_course`
 --
 ALTER TABLE `tbl_course`
-  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
