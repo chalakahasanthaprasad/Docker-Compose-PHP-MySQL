@@ -48,6 +48,12 @@
                             <a href="add_courses.php">Add Course</a>
                         </li>
                         <li>
+                            <a href="manage_courses.php">Manage Course</a>
+                        </li>
+                        <li>
+                            <a href="edit_course.php">Edit Course</a>
+                        </li>
+                        <li>
                             <a href="view_courses.php">View Courses</a>
                         </li>
                     </ul>

@@ -2,7 +2,7 @@
 // controller/CourseController.php
 
 include ('../../config/dbcon.php');
-include ('../models/CourseModel.php');
+require_once ('../models/CourseModel.php');
 
 class CourseController
 {
@@ -58,7 +58,6 @@ class CourseController
         }
 
     }
-
 }
 
 
@@ -71,5 +70,6 @@ if (isset($_POST['cshort'])) {
 } else {
     $courseController->addCourse();
 }
+
 
 mysqli_close($connect);
