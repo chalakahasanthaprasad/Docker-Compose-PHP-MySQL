@@ -27,11 +27,16 @@ class CourseController
     {
         if (isset($_POST['submit'])) {
             $code = $_POST['code'];
-            $cfullname = $_POST['course-full'];
+            $cfullname = $_POST['cfull'];
             $created_date = $_POST['cdate'];
 
             if (!$this->courseModel->isCourseCodeAvailable($code)) {
-                echo '<script>alert("Course Code Name Already Exist")</script>';
+                echo '<script>alert("Course Code Already Exist")</script>';
+                echo '<script>window.location.href="../views/add_courses.php";</script>';
+                exit;
+            }
+            if (!$this->courseModel->isCourseNameAvailable($cfullname)) {
+                echo '<script>alert("Course Name Already Exist")</script>';
                 echo '<script>window.location.href="../views/add_courses.php";</script>';
                 exit;
             }
