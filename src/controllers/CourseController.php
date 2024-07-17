@@ -1,8 +1,8 @@
 <?php
 // controller/CourseController.php
 
-include ('../../config/dbcon.php');
-require_once ('../models/CourseModel.php');
+include('../../config/dbcon.php');
+require_once('../models/CourseModel.php');
 
 class CourseController
 {
@@ -63,6 +63,20 @@ class CourseController
         return $course;
     }
 
+    public function deleteCourse($cid)
+    {
+        $this->courseModel->deleteCourseById($cid);
+        echo '<script>alert("Course deleted")</script>';
+        echo '<script>window.location.href="../views/manage_courses.php"</script>';
+    }
+
+    public function updateCourse($cid, $cshortname, $cfullname, $udate)
+    {
+        $this->courseModel->updateCourse($cid, $cshortname, $cfullname, $udate);
+        echo '<script>alert("Course updated successfully")</script>';
+        echo '<script>window.location.href="../views/manage_courses.php"</script>';
+    }
+
 
     public function checkCourseCodeAvailability()
     {
@@ -94,11 +108,17 @@ if (isset($_POST['code'])) {
 if (isset($_POST['cfull'])) {
     $courseController->checkCourseNameAvailability();
 }
-if (isset($_POST['cid']) && $_POST['action']) {
-    $course = $courseController->editCourse($cid);
-} else {
+
+if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {
+    $cid = $_POST['cid'];
+    $cshortname = $_POST['code'] ?? null;
+    $cfullname = $_POST['cfull'] ?? null;
+    $udate = $_POST['udate'] ?? null;
+    $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
+}
+if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'addcourseForm') {
     $courseController->addCourse();
-    $courses = $courseController->viewCourses();
 }
 
+$courses = $courseController->viewCourses();
 //mysqli_close($connect);
