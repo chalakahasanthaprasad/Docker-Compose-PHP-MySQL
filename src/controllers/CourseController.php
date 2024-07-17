@@ -96,10 +96,9 @@ if (isset($_POST['cfull'])) {
 }
 if (isset($_POST['cid']) && $_POST['action']) {
     $course = $courseController->editCourse($cid);
-    return $course;
 } else {
     $courseController->addCourse();
     $courses = $courseController->viewCourses();
 }
 
-mysqli_close($connect);
+//mysqli_close($connect);

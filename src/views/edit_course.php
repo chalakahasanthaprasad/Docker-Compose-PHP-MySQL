@@ -13,7 +13,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         switch ($action) {
             case 'edit':
-
+                $course = $courseController->editCourse($cid);
                 break;
             // case 'delete':
             //     $courseController->deleteCourse($cid);
@@ -61,6 +61,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <?php
+
                                             if ($courses) { ?>
                                                 <div class="form-group">
                                                     <div class="col-lg-4">
