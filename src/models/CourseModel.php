@@ -102,5 +102,21 @@ class CourseModel
         return mysqli_fetch_assoc($query);
     }
 
+    public function updateCourse($cid, $cshortname, $cfullname, $udate)
+    {
+        $stmt = $this->db->prepare("UPDATE tbl_course SET code = ?, cfull = ?, update_date = ? WHERE cid = ?");
+        $stmt->bind_param('sssi', $cshortname, $cfullname, $udate, $cid); // 's' for string, 'i' for integer
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    public function deleteCourseById($cid)
+    {
+        $stmt = $this->db->prepare("DELETE FROM tbl_course WHERE cid = ?");
+        $stmt->bind_param('i', $cid); // 'i' for integer
+        $stmt->execute();
+        $stmt->close();
+    }
+
 
 }

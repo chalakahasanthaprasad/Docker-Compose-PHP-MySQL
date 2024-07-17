@@ -10,29 +10,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     if (isset($_GET['action'])) {
         $action = $_GET['action'];
         $cid = isset($_GET['cid']) ? intval($_GET['cid']) : null;
-
+        echo 'console.log(' . json_encode($action) . ');';
         switch ($action) {
             case 'edit':
                 $course = $courseController->editCourse($cid);
                 break;
-            // case 'delete':
-            //     $courseController->deleteCourse($cid);
-            //     break;
-            // case 'update':
-            //     $cshortname = $_POST['course-short'];
-            //     $cfullname = $_POST['course-full'];
-            //     $udate = $_POST['udate'];
-            //     $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
-            //     break;
-            default:
-                $courseController->viewCourses();
+            case 'delete':
+                $courseController->deleteCourse($cid);
                 break;
         }
     } else {
         $courseController->viewCourses();
     }
-
-
 
     if ($now > $_SESSION['expire']) {
         session_destroy();
@@ -41,7 +30,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         ?>
         <?php include ('../../includes/header.php'); ?>
         <?php require_once ('../controllers/CourseController.php'); ?>
-        <form method="post" id="courseForm" action="../controllers/CourseController.php">
+        <form method="post" id="updatecourseForm" action="../controllers/CourseController.php">
             <div id="wrapper">
                 <!-- Navigation -->
                 <?php include ('../../includes/sidebar.php') ?>;
@@ -64,14 +53,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
                                             if ($courses) { ?>
                                                 <div class="form-group">
+                                                    <input type="hidden" name="form_id" value="updatecourseForm">
                                                     <div class="col-lg-4">
                                                         <label>Course Short Name<span
                                                                 style="font-size:11px;color:red">*</span></label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input class="form-control" name="course-code" id="code"
-                                                            value="<?php echo $course['code']; ?>" required="required"
-                                                            onblur="courseAvailability()">
+                                                        <input type="hidden" class="form-control" name="cid" id="cid"
+                                                            value="<?php echo $course['cid']; ?>" required="required">
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <input class="form-control" name="code" id="code"
+                                                            value="<?php echo $course['code']; ?>" required="required">
                                                         <span id="course-availability-status" style="font-size:12px;"></span>
                                                     </div>
                                                 </div>
@@ -82,9 +75,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                                 style="font-size:11px;color:red">*</span></label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input class="form-control" name="course-full" id="cfull"
-                                                            value="<?php echo $course['cfull']; ?>" required="required"
-                                                            onblur="coursefullAvail()">
+                                                        <input class="form-control" name="cfull" id="cfull"
+                                                            value="<?php echo $course['cfull']; ?>" required="required">
                                                         <span id="course-status" style="font-size:12px;"></span>
                                                     </div>
                                                 </div>
@@ -105,8 +97,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <div class="form-group">
                                                 <div class="col-lg-4"></div>
                                                 <div class="col-lg-6"><br><br>
-                                                    <input type="submit" class="btn btn-primary" name="submit"
-                                                        value="Update Course">
+                                                    <input type="submit" class="btn btn-primary" name="submit" value="update">
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +111,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </form>
 
         <?php include '../../includes/datetime.php'; ?>
-        <script>
+        <!-- <script>
             function courseAvailability() {
                 jQuery.ajax({
                     url: "../controllers/course_availability.php",
@@ -144,7 +135,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     error: function () { }
                 });
             }
-        </script>
+        </script> -->
 
         <?php
     }

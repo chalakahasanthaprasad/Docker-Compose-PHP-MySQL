@@ -12,7 +12,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include ('../../includes/header.php'); ?>
-        <form method="post" id="courseForm" action="../controllers/CourseController.php">
+        <form method="post" id="addcourseForm" action="../controllers/CourseController.php">
             <div id="wrapper">
                 <!-- Navigation -->
                 <?php include ('../../includes/sidebar.php') ?>;
@@ -33,6 +33,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
+                                            <input type="hidden" name="form_id" value="addcourseForm">
                                                 <div class="col-lg-4">
                                                     <label>Course Short Name<span id=""
                                                             style="font-size:11px;color:red">*</span></label>
