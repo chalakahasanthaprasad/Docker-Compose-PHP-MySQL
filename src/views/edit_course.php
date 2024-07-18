@@ -6,11 +6,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 } else {
     $now = time(); // 30 min -  Checking the time now when home page starts.
 
-    require_once ('../controllers/CourseController.php');
+    require_once('../controllers/CourseController.php');
     if (isset($_GET['action'])) {
         $action = $_GET['action'];
         $cid = isset($_GET['cid']) ? intval($_GET['cid']) : null;
-        echo 'console.log(' . json_encode($action) . ');';
+        // echo 'console.log(' . json_encode($action) . ');';
         switch ($action) {
             case 'edit':
                 $course = $courseController->editCourse($cid);
@@ -28,12 +28,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
     } else {
         ?>
-        <?php include ('../../includes/header.php'); ?>
-        <?php require_once ('../controllers/CourseController.php'); ?>
+        <?php include('../../includes/header.php'); ?>
+        <?php require_once('../controllers/CourseController.php'); ?>
         <form method="post" id="updatecourseForm" action="../controllers/CourseController.php">
             <div id="wrapper">
                 <!-- Navigation -->
-                <?php include ('../../includes/sidebar.php') ?>;
+                <?php include('../../includes/sidebar.php') ?>;
 
                 <div id="page-wrapper">
                     <div class="row">
@@ -64,8 +64,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" name="code" id="code"
-                                                            value="<?php echo $course['code']; ?>" required="required">
-                                                        <span id="course-availability-status" style="font-size:12px;"></span>
+                                                            value="<?php echo $course['code']; ?>" required="required"
+                                                            onblur="checkCourseCodeAvailability()">
+                                                        <span id="course-code-availability-status" style="font-size:12px;"></span>
                                                     </div>
                                                 </div>
                                                 <br><br>
@@ -76,8 +77,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" name="cfull" id="cfull"
-                                                            value="<?php echo $course['cfull']; ?>" required="required">
-                                                        <span id="course-status" style="font-size:12px;"></span>
+                                                            value="<?php echo $course['cfull']; ?>" required="required"
+                                                            onblur="checkCourseNameAvailability()">
+                                                        <span id="course-name-availability-status" style="font-size:12px;"></span>
                                                     </div>
                                                 </div>
                                                 <br><br>
@@ -111,31 +113,41 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </form>
 
         <?php include '../../includes/datetime.php'; ?>
-        <!-- <script>
-            function courseAvailability() {
-                jQuery.ajax({
-                    url: "../controllers/course_availability.php",
-                    data: 'code=' + $("#code").val(),
+        <script>
+            function checkCourseCodeAvailability() {
+                let courseShort = $("#code").val();
+                $.ajax({
+                    url: "../controllers/CourseController.php",
                     type: "POST",
-                    success: function (data) {
-                        $("#course-availability-status").html(data);
-                    },
-                    error: function () { }
+                    data: { code: courseShort },
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        if (!data.available) {
+                            $("#course-code-availability-status").html("<span style='color:red'>Course Code Already Exist</span>");
+                        } else {
+                            $("#course-code-availability-status").html("<span style='color:green'>Course Code Available</span>");
+                        }
+                    }
                 });
             }
 
-            function coursefullAvail() {
-                jQuery.ajax({
-                    url: "../controllers/course_availability.php",
-                    data: 'cfull=' + $("#cfull").val(),
+            function checkCourseNameAvailability() {
+                let courseName = $("#cfull").val();
+                $.ajax({
+                    url: "../controllers/CourseController.php",
                     type: "POST",
-                    success: function (data) {
-                        $("#course-status").html(data);
-                    },
-                    error: function () { }
+                    data: { cfull: courseName },
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        if (!data.available) {
+                            $("#course-name-availability-status").html("<span style='color:red'>Course Name Already Exist</span>");
+                        } else {
+                            $("#course-name-availability-status").html("<span style='color:green'>Course Name Available</span>");
+                        }
+                    }
                 });
             }
-        </script> -->
+        </script>
 
         <?php
     }
