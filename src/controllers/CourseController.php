@@ -7,7 +7,7 @@ require_once('../models/CourseModel.php');
 class CourseController
 {
     private $courseModel;
-
+    private $dv_course;
     public function __construct($db)
     {
         $this->courseModel = new CourseModel($db);
@@ -72,9 +72,15 @@ class CourseController
 
     public function updateCourse($cid, $cshortname, $cfullname, $udate)
     {
-        $this->courseModel->updateCourse($cid, $cshortname, $cfullname, $udate);
-        echo '<script>alert("Course updated successfully")</script>';
-        echo '<script>window.location.href="../views/manage_courses.php"</script>';
+        $dv_course = $this->editCourse($cid);
+        if ($dv_course['code'] !== $cshortname || $dv_course['cfull'] !== $cfullname) {
+            $this->courseModel->updateCourse($cid, $cshortname, $cfullname, $udate);
+            echo '<script>alert("Course updated successfully ")</script>';
+            echo '<script>window.location.href="../views/manage_courses.php"</script>';
+        } else {
+            // echo '<script>alert("Nothing Change ' . $dv_course['code'] . '|| ' . $cshortname . '")</script>';
+            echo '<script>window.location.href="../views/manage_courses.php"</script>';
+        }
     }
 
 
@@ -115,6 +121,7 @@ if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 
     $cfullname = $_POST['cfull'] ?? null;
     $udate = $_POST['udate'] ?? null;
     $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
+
 }
 if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'addcourseForm') {
     $courseController->addCourse();

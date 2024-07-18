@@ -85,7 +85,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 <br><br>
                                                 <div class="form-group">
                                                     <div class="col-lg-4">
-                                                        <label>Date</label>
+                                                        <label>Last Updated Date</label>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" value="<?php echo date('d-m-Y'); ?>"
