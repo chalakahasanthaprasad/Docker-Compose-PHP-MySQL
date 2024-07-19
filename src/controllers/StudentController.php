@@ -1,8 +1,8 @@
 <?php
 // controller/StudentController.php 
 
-include ('../../config/dbcon.php');
-include ('../models/StudentModel.php');
+include('../../config/dbcon.php');
+include('../models/StudentModel.php');
 
 class StudentController
 {
@@ -21,6 +21,16 @@ class StudentController
             return;
         }
         return $students;
+    }
+
+    public function LoadStudentById($sid)
+    {
+        $student = $this->studentModel->getStudentById($sid);
+        if ($student === false) {
+            echo "Error fetching student";
+            return;
+        }
+        return $student;
     }
 
     public function registerStudent()
@@ -53,9 +63,26 @@ class StudentController
             }
         }
     }
+    //Hard delete
+    public function deleteStudent($sid)
+    {
+        $this->studentModel->deleteStudentById($sid);
+        echo '<script>alert("Student Data deleted")</script>';
+        echo '<script>window.location.href="../views/manage_student.php"</script>';
+    }
 }
 
 $studentController = new StudentController($connect);
 $students = $studentController->viewStudents();
 $studentController->registerStudent();
-mysqli_close($connect);
+
+if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {
+    $cid = $_POST['cid'];
+    $cshortname = $_POST['code'] ?? null;
+    $cfullname = $_POST['cfull'] ?? null;
+    $udate = $_POST['udate'] ?? null;
+    $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
+
+}
+
+//mysqli_close($connect);

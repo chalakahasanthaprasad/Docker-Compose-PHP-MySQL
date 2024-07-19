@@ -11,8 +11,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
     } else {
         ?>
-        <?php include ('../../includes/header.php'); ?>
-        <?php include ('../controllers/StudentController.php'); ?>
+        <?php include('../../includes/header.php'); ?>
+        <?php include('../controllers/StudentController.php'); ?>
         <div id="wrapper">
 
             <!-- Navigation -->

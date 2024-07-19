@@ -96,10 +96,21 @@ class CourseModel
         return $count == 0;
     }
 
+    // public function getCourseById($cid)
+    // {
+    //     $query = mysqli_query($this->db, "SELECT * FROM tbl_course WHERE cid='$cid'");
+    //     return mysqli_fetch_assoc($query);
+    // }
+
     public function getCourseById($cid)
     {
-        $query = mysqli_query($this->db, "SELECT * FROM tbl_course WHERE cid='$cid'");
-        return mysqli_fetch_assoc($query);
+        $stmt = mysqli_prepare($this->db, "SELECT * FROM tbl_course WHERE cid = ?");
+        mysqli_stmt_bind_param($stmt, 'i', $cid);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $course = mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt);
+        return $course;
     }
 
     public function updateCourse($cid, $cshortname, $cfullname, $udate)
