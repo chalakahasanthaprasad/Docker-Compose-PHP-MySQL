@@ -1,8 +1,8 @@
 <?php
 // controller/StudentController.php 
 
-include ('../../config/dbcon.php');
-include ('../models/StudentModel.php');
+include('../../config/dbcon.php');
+include('../models/StudentModel.php');
 
 class StudentController
 {
@@ -58,4 +58,14 @@ class StudentController
 $studentController = new StudentController($connect);
 $students = $studentController->viewStudents();
 $studentController->registerStudent();
+
+if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {
+    $cid = $_POST['cid'];
+    $cshortname = $_POST['code'] ?? null;
+    $cfullname = $_POST['cfull'] ?? null;
+    $udate = $_POST['udate'] ?? null;
+    $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
+
+}
+
 mysqli_close($connect);

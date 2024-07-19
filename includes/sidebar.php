@@ -34,6 +34,9 @@
                             <a href="add_student.php">Add Student</a>
                         </li>
                         <li>
+                            <a href="manage_student.php">Manage Students</a>
+                        </li>
+                        <li>
                             <a href="view_students.php">View Students</a>
                         </li>
                     </ul>

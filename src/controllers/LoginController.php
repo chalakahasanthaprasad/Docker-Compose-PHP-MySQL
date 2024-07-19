@@ -20,7 +20,7 @@ class LoginController
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $user['username'];
             $_SESSION['start'] = time();
-            $_SESSION['expire'] = $_SESSION['start'] + (30 * 60);
+            $_SESSION['expire'] = $_SESSION['start'] + (60 * 60);
             //print console
             //echo "<script>console.log('" . addslashes("Point") . "');</script>";
             header('location:../views/dashboard.php');
