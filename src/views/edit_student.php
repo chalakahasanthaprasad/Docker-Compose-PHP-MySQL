@@ -46,7 +46,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <div class="col-lg-12">
 
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">Register</div>
+                                    <div class="panel-heading">Register for</div>
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-10">
@@ -56,14 +56,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <select name="course" id="course" class="form-control">
                                                         <option value="">Select Course</option>
                                                         <?php
-                                                        if ($courses) {
-                                                            foreach ($courses as $course) {
-                                                                echo '<option value="' . htmlentities($course['code']) . '">' . htmlentities($course['cfull']) . '</option>';
+                                                            if ($courses) {
+                                                                foreach ($courses as $course) {
+                                                                    $selected = ($course['code'] == $student['course_code']) ? 'selected' : '';
+                                                                    echo '<option value="' . htmlentities($course['code']) . '" ' . $selected . '>' . htmlentities($course['cfull']) . '</option>';
+                                                                }
+                                                            } else {
+                                                                echo '<option value="">No courses available</option>';
                                                             }
-                                                        } else {
-                                                            echo '<option value="">No courses available</option>';
-                                                        }
-                                                        ?>
+                                                            ?>
                                                     </select>
                                                 </div>
                                             </div>
