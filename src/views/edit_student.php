@@ -91,10 +91,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                             <label>Gender</label>
                                                         </div>
                                                         <div class="col-lg-4">
-                                                            <input type="radio" name="gender" id="male" value="Male" checked>
-                                                            <label>Male</label>
-                                                            <input type="radio" name="gender" id="female" value="Female">
-                                                            <label>Female</label>
+                                                        <input type="radio" name="gender" id="male" value="Male" <?php if ($student['gender'] == 'Male') echo 'checked'; ?>>
+                                                            <label for="male">Male</label>
+                                                            <input type="radio" name="gender" id="female" value="Female" <?php if ($student['gender'] == 'Female') echo 'checked'; ?>>
+                                                            <label for="female">Female</label>
                                                         </div>
                                                     </div>
                                                     <br><br>
