@@ -62,9 +62,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                         <td><?php echo $student['parent_number']; ?></td>
                                                         <td><?php echo $student['registered_date']; ?></td>
                                                         <td>
-                                                            <a href="edit_student.php?action=edit&cid=<?php echo htmlentities($student['std_id']); ?>"
+                                                            <a href="edit_student.php?action=edit&sid=<?php echo htmlentities($student['std_id']); ?>"
                                                                 class="btn btn-primary">Edit</a>
-                                                            <a href="edit_student.php?action=delete&cid=<?php echo htmlentities($student['std_id']); ?>"
+                                                            <a href="edit_student.php?action=delete&sid=<?php echo htmlentities($student['std_id']); ?>"
                                                                 class="btn btn-danger"
                                                                 onclick="return confirm('Do you really want to delete?');">Delete</a>
                                                         </td>

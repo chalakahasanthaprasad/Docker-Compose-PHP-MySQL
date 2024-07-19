@@ -23,6 +23,16 @@ class StudentController
         return $students;
     }
 
+    public function LoadStudentById($sid)
+    {
+        $student = $this->studentModel->getStudentById($sid);
+        if ($student === false) {
+            echo "Error fetching student";
+            return;
+        }
+        return $student;
+    }
+
     public function registerStudent()
     {
         if (isset($_POST['submit'])) {
@@ -53,6 +63,13 @@ class StudentController
             }
         }
     }
+    //Hard delete
+    public function deleteStudent($sid)
+    {
+        $this->studentModel->deleteStudentById($sid);
+        echo '<script>alert("Student Data deleted")</script>';
+        echo '<script>window.location.href="../views/manage_student.php"</script>';
+    }
 }
 
 $studentController = new StudentController($connect);
@@ -68,4 +85,4 @@ if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 
 
 }
 
-mysqli_close($connect);
+//mysqli_close($connect);

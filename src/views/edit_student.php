@@ -6,6 +6,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 } else {
     $now = time(); // 30 min -  Checking the time now when home page starts.
 
+    require_once('../controllers/StudentController.php');
+    if (isset($_GET['action'])) {
+        $action = $_GET['action'];
+        $sid = isset($_GET['sid']) ? intval($_GET['sid']) : null;
+        switch ($action) {
+            case 'edit':
+                $student = $studentController->LoadStudentById($sid);
+                break;
+            case 'delete':
+                $studentController->deleteStudent($sid);
+                break;
+        }
+    } else {
+        $studentController->viewStudents();
+    }
+
+
     if ($now > $_SESSION['expire']) {
         session_destroy();
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
@@ -151,7 +168,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <textarea class="form-control" rows="3" name="address"
-                                                            required="required" value="<?php echo $student['address']; ?>"></textarea>
+                                                            required="required" ><?php echo $student['address']; ?></textarea>
                                                     </div>
                                                 </div>
                                                 <br><br>
