@@ -33,9 +33,9 @@ class StudentModel
         mysqli_stmt_bind_param($stmt, 'i', $sid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
-        $course = mysqli_fetch_assoc($result);
+        $student = mysqli_fetch_assoc($result);
         mysqli_stmt_close($stmt);
-        return $course;
+        return $student;
     }
 
     public function registerStudent($data)
