@@ -1,8 +1,8 @@
 <?php
 // controller/StudentController.php 
 
-include('../../config/dbcon.php');
-include('../models/StudentModel.php');
+require_once('../../config/dbcon.php');
+require_once('../models/StudentModel.php');
 
 class StudentController
 {
