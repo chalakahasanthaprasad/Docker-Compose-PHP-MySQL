@@ -15,74 +15,100 @@ class StudentController
 
     public function viewStudents()
     {
-        $students = $this->studentModel->getAllStudents();
-        if ($students === false) {
-            echo "Error fetching student.";
-            return;
+        try {
+            $students = $this->studentModel->getAllStudents();
+            if ($students === false) {
+                throw new Exception("Error fetching students.");
+            }
+            return $students;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage()); // Log the error for debugging
+            return false;
         }
-        return $students;
     }
 
-    public function LoadStudentById($sid)
+    public function loadStudentById($sid)
     {
-        $student = $this->studentModel->getStudentById($sid);
-        if ($student === false) {
-            echo "Error fetching student";
-            return;
+        try {
+            if (empty($sid) || !is_numeric($sid)) {
+                throw new Exception("Invalid student ID");
+            }
+
+            $student = $this->studentModel->getStudentById($sid);
+            if ($student === false) {
+                throw new Exception("Error fetching student");
+            }
+            return $student;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage()); // Log the error for debugging
+            return false;
         }
-        return $student;
     }
 
     public function registerStudent()
     {
-        if (isset($_POST['submit'])) {
+        try {
+            if (isset($_POST['submit'])) {
+                $data = [
+                    'fname' => $_POST['name'],
+                    'course' => $_POST['course'],
+                    'gender' => $_POST['gender'],
+                    'address' => $_POST['address'],
+                    'dob' => $_POST['dob'],
+                    'mobile' => $_POST['mobile'],
+                    'parent_mobile' => $_POST['parent_mobile'],
+                    'regdate' => $_POST['registerd_date'],
+                    'city' => $_POST['city']
+                ];
 
-            $data = [
+                // Encode the data as JSON
+                $jsonData = json_encode($data);
 
-                'fname' => $_POST['name'],
-                'course' => $_POST['course'],
-                'gender' => $_POST['gender'],
-                'address' => $_POST['address'],
-                'dob' => $_POST['dob'],
-                'mobile' => $_POST['mobile'],
-                'parent_mobile' => $_POST['parent_mobile'],
-                'regdate' => $_POST['registerd_date'],
-                'city' => $_POST['city']
-            ];
+                // Output the JSON data to the browser's console
+                echo "<script>console.log($jsonData);</script>";
 
-            // Encode the data as JSON
-            $jsonData = json_encode($data);
-
-            // Output the JSON data to the browser's console
-            echo "<script>console.log($jsonData);</script>";
-
-            if ($this->studentModel->registerStudent($data)) {
-                echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
-            } else {
-                echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_student.php";</script>';
+                if ($this->studentModel->registerStudent($data)) {
+                    echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
+                } else {
+                    throw new Exception("Something went wrong. Please try again");
+                }
             }
+        } catch (Exception $e) {
+            echo '<script>alert("' . $e->getMessage() . '"); window.location.href="../views/add_student.php";</script>';
+            error_log($e->getMessage()); // Log the error for debugging
         }
     }
-    //Hard delete
+
     public function deleteStudent($sid)
     {
-        $this->studentModel->deleteStudentById($sid);
-        echo '<script>alert("Student Data deleted")</script>';
-        echo '<script>window.location.href="../views/manage_student.php"</script>';
+        try {
+            $this->studentModel->deleteStudentById($sid);
+            echo '<script>alert("Student Data deleted")</script>';
+            echo '<script>window.location.href="../views/manage_student.php"</script>';
+        } catch (Exception $e) {
+            echo '<script>alert("Error deleting student: ' . $e->getMessage() . '"); window.location.href="../views/manage_student.php";</script>';
+            error_log($e->getMessage()); // Log the error for debugging
+        }
     }
 }
 
-$studentController = new StudentController($connect);
-$students = $studentController->viewStudents();
-$studentController->registerStudent();
+try {
+    $studentController = new StudentController($connect);
+    $students = $studentController->viewStudents();
+    $studentController->registerStudent();
 
-if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {
-    $cid = $_POST['cid'];
-    $cshortname = $_POST['code'] ?? null;
-    $cfullname = $_POST['cfull'] ?? null;
-    $udate = $_POST['udate'] ?? null;
-    $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
-
+    if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {
+        $cid = $_POST['cid'];
+        $cshortname = $_POST['code'] ?? null;
+        $cfullname = $_POST['cfull'] ?? null;
+        $udate = $_POST['udate'] ?? null;
+        $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
+    }
+} catch (Exception $e) {
+    echo '<script>alert("Error: ' . $e->getMessage() . '"); window.location.href="../views/manage_student.php";</script>';
+    error_log($e->getMessage()); // Log the error for debugging
 }
 
 //mysqli_close($connect);
