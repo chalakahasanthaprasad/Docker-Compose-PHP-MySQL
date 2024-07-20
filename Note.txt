@@ -1,0 +1,19 @@
+These functions in PHP are used to include the contents of one file into another during execution.
+
+include() and require()
+
+Both include the specified file.
+Difference: If the file is not found, include() generates a warning and continues execution, while require() generates a fatal error and stops execution.
+include_once() and require_once()
+
+Similar to include() and require(), but they ensure a file is included only once, regardless of how many times they are called.
+Difference: If the file is not found, include_once() generates a warning and continues execution, while require_once() generates a fatal error and stops execution.
+When to use which:
+
+include() and include_once(): For optional files or templates that might not be available.
+require() and require_once(): For essential files like configuration files or database connections.
+In summary:
+
+Use require or require_once for critical files.
+Use include or include_once for optional files.
+Use _once variants to prevent duplicate inclusions.
