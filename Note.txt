@@ -17,3 +17,10 @@ In summary:
 Use require or require_once for critical files.
 Use include or include_once for optional files.
 Use _once variants to prevent duplicate inclusions.
+
+
+
+#Database tables
+In terms of naming conventions for database tables, it's generally recommended to use plural nouns for table names.
+This follows the principle that a table is a collection of records, so the name should reflect the plurality of its contents.
+Therefore, subjects would be more standard and conventional than subject.
