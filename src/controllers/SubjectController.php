@@ -1,8 +1,8 @@
 <?php
 // controller/SubjectController.php
 
-include ('../../config/dbcon.php');
-include ('../models/SubjectModel.php');
+include('../../config/dbcon.php');
+include('../models/SubjectModel.php');
 
 class SubjectController
 {
@@ -22,10 +22,24 @@ class SubjectController
         }
         return $Subjects;
     }
+
+    public function checkSubjectAvailability()
+    {
+        if (isset($_POST['sbjname'])) {
+            $sname = $_POST['sbjname'];
+            $isAvailable = $this->subjectModel->isSubjectAvailable($sname);
+            echo json_encode(['available' => $isAvailable]);
+        }
+    }
 }
 
 
 $subjectController = new SubjectController($connect);
-$subjects = $subjectController->viewSubjects();
+//$subjects = $subjectController->viewSubjects();
+
+// Handle AJAX request
+if (isset($_POST['sbjname'])) {
+    $subjectController->checkSubjectAvailability();
+}
 
 mysqli_close($connect);
