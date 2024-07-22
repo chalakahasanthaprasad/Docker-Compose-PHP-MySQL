@@ -1,3 +1,5 @@
+#include() and require()
+
 These functions in PHP are used to include the contents of one file into another during execution.
 
 include() and require()
