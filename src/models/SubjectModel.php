@@ -35,4 +35,16 @@ class SubjectModel
         $stmt->bind_param("sssssssss", ...array_values($data));
         return $stmt->execute();
     }
+
+    public function isSubjectAvailable($sname)
+    {
+        $count = null;
+        $stmt = $this->db->prepare("SELECT count(*) FROM tbl_subjects WHERE subject_name = ?");
+        $stmt->bind_param('s', $sname);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count == 0;
+    }
 }

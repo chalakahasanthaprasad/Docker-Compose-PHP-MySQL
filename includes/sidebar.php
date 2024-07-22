@@ -65,7 +65,7 @@
                     <a href="#"><i class="fa fa-book fa-fw"></i> Subjects<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="add_subjects.php">Add Subjects</a>
+                            <a href="add_subject.php">Add Subjects</a>
                         </li>
                         <li>
                             <a href="view_subjects.php">View Subjects</a>
