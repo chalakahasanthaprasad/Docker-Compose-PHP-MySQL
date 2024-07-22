@@ -113,6 +113,25 @@ class CourseModel
         return $course;
     }
 
+    public function getLastSubjectByCourse($courseCode)
+    {
+        $query = "
+            SELECT s.subject_code
+            FROM course_subjects cs
+            JOIN tbl_subjects s ON cs.subject_id = s.subject_id
+            JOIN tbl_course c ON cs.course_id = c.cid
+            WHERE c.cid = ?
+            ORDER BY s.subject_code DESC
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $courseCode);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
     public function updateCourse($cid, $cshortname, $cfullname, $udate)
     {
         $stmt = $this->db->prepare("UPDATE tbl_course SET code = ?, cfull = ?, update_date = ? WHERE cid = ?");

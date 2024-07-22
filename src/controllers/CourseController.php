@@ -101,6 +101,13 @@ class CourseController
             echo json_encode(['available' => $isAvailable]);
         }
     }
+    public function getLastSubject($courseCode)
+    {
+        $lastSubject = $this->courseModel->getLastSubjectByCourse($courseCode);
+        echo json_encode($lastSubject);
+        exit;
+    }
+
 
 }
 
@@ -125,6 +132,11 @@ if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 
 }
 if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'addcourseForm') {
     $courseController->addCourse();
+}
+
+if (isset($_POST['course_code'])) {
+    $courseCode = $_POST['course_code'];
+    $courseController->getLastSubject($courseCode);
 }
 
 $courses = $courseController->viewCourses();

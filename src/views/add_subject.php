@@ -45,18 +45,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                         <?php
                                                         if ($courses) {
                                                             foreach ($courses as $course) {
-                                                                echo '<option value="' . htmlentities($course['code']) . '">' . htmlentities($course['cfull']) . '</option>';
+                                                                echo '<option value="' . htmlentities($course['cid']) . '">' . htmlentities($course['cfull']) . '</option>';
                                                             }
                                                         } else {
                                                             echo '<option value="">No courses available</option>';
                                                         }
                                                         ?>
                                                     </select>
+                                                    <div id="last-subject-code" style="font-size:12px; font-weight: bold;">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <br><br>
                                         </div>
-
+                                        <br><br><br><br>
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <div class="col-lg-4">
@@ -100,32 +101,57 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         <?php include '../../includes/datetime.php'; ?>
         <script>
-            function checkSubjectAvailability() {
-                let subjectName = $("#sbjname").val();
-                $.ajax({
-                    url: "../controllers/SubjectController.php",
-                    type: "POST",
-                    data: { sbjname: subjectName },
-                    success: function (response) {
-                        let data = JSON.parse(response);
-                        if (!data.available) {
-                            $("#subject-availability-status").html("<span style='color:red'>Subject Already Exist</span>");
-                        } else {
-                            $("#subject-availability-status").html("<span style='color:green'>Subject Available</span>");
+            $(document).ready(function () {
+                // Check subject availability
+                function checkSubjectAvailability() {
+                    let subjectName = $("#sbjname").val();
+                    $.ajax({
+                        url: "../controllers/SubjectController.php",
+                        type: "POST",
+                        data: { sbjname: subjectName },
+                        success: function (response) {
+                            let data = JSON.parse(response);
+                            if (!data.available) {
+                                $("#subject-availability-status").html("<span style='color:red'>Subject Already Exists</span>");
+                            } else {
+                                $("#subject-availability-status").html("<span style='color:green'>Subject Available</span>");
+                            }
                         }
-                    }
+                    });
+                }
+
+                // Fetch and display the last registered subject code for the selected course
+                $(document).ready(function () {
+                    $("#course").change(function () {
+                        let courseCode = $(this).val();
+                        if (courseCode) {
+                            $.ajax({
+                                url: "../controllers/CourseController.php",
+                                type: "POST",
+                                data: { course_code: courseCode },
+                                success: function (response) {
+                                    console.log("AJAX response:", response); // Debugging line
+                                    let data = JSON.parse(response);
+                                    if (data && data.subject_code) {
+                                        $("#last-subject-code").text("Last Registered Subject Code: " + data.subject_code);
+                                    } else {
+                                        $("#last-subject-code").text("No subjects registered for this course.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("AJAX error:", status, error); // Error handling
+                                }
+                            });
+                        } else {
+                            $("#last-subject-code").text("");
+                        }
+                    });
                 });
-            }
-
+            });
         </script>
-
         <?php
     }
 }
 ?>
-
-
 <?php include '../../includes/footer.php';
-
-
 ?>
