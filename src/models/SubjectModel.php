@@ -27,6 +27,41 @@ class SubjectModel
         }
     }
 
+    public function addSubject($code, $subjectname, $created_date)
+    {
+        $this->db->begin_transaction();
+        echo $code, $subjectname, $created_date;
+
+        try {
+            $stmt = $this->db->prepare("INSERT INTO tbl_subjects(subject_code, subject_name, created_date) VALUES (?, ?, ?)");
+
+            if ($stmt === false) {
+                echo 'Execute failed: ' . $stmt->error;
+                //throw new Exception('Prepare failed: ' . $this->db->error);
+            }
+
+            $stmt->bind_param('sss', $code, $subjectname, $created_date);
+            $success = $stmt->execute();
+
+            if ($success === false) {
+                echo 'Execute failed: ' . $stmt->error;
+                //throw new Exception('Execute failed: ' . $stmt->error);
+
+            }
+
+            // Commit the transaction
+            $this->db->commit();
+
+            $stmt->close();
+            return $success;
+        } catch (Exception $e) {
+            // Rollback the transaction if an error occurs
+            $this->db->rollback();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
     public function registerStudent($data)
     {
         $query = "INSERT INTO registration (std_name,course_code,gender,address,birthofdate,mobile_number,parent_number,registered_date,city_id)

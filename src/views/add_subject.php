@@ -35,6 +35,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
+                                                <input type="hidden" name="form_id" value="addSubjectForm">
                                                 <div class="col-lg-4">
                                                     <label for="course">Select Course<span id=""
                                                             style="font-size:11px;color:red">*</span></label>
@@ -76,7 +77,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>Creation Date</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" value="<?php echo date('d-m-Y'); ?>"
+                                                    <input class="form-control" value="<?php echo date('Y-m-d'); ?>"
                                                         readonly="readonly" name="cdate">
                                                 </div>
                                             </div>
