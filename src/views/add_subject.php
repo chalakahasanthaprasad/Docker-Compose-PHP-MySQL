@@ -14,7 +14,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php include('../../includes/header.php'); ?>
         <?php include('../controllers/CourseController.php'); ?>
         <?php include('../controllers/SubjectController.php'); ?>
-        <form method="post" id="addcourseForm" action="../controllers/CourseController.php">
+        <form method="post" id="addSubjectForm" action="../controllers/SubjectController.php">
             <div id="wrapper">
                 <!-- Navigation -->
                 <?php include('../../includes/sidebar.php') ?>;
