@@ -61,7 +61,7 @@ class SubjectController
             // echo $lastSubjectCode['subject_code'];
 
             $newSubjectCode = $this->incrementString($lastSubjectCode['subject_code']);
-            $query = $this->subjectModel->addSubject($newSubjectCode, $subjectname, $created_date);
+            $query = $this->subjectModel->addSubject($courseCode, $newSubjectCode, $subjectname, $created_date);
 
             if ($query) {
                 echo '<script>alert("Subject Added successfully"); window.location.href="../views/add_subject.php";</script>';
@@ -72,6 +72,12 @@ class SubjectController
             exit;
         }
 
+    }
+    public function getCourseSubjects($courseCode)
+    {
+        $subjects = $this->subjectModel->getAllSubjectsByCourse($courseCode);
+        echo json_encode($subjects);
+        exit;
     }
     public function incrementString($input)
     {
@@ -98,5 +104,9 @@ if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 
     $subjectController->addSubject();
 }
 
+if (isset($_POST['course_code'])) {
+    $courseCode = $_POST['course_code'];
+    $subjectController->getCourseSubjects($courseCode);
+}
 
 mysqli_close($connect);
