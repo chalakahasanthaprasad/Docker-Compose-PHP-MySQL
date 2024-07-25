@@ -64,6 +64,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             </div>
                                         </div>
                                     </div>
+                                    <br><br><br>
                                     <div class="col-lg-10">
                                         <div id="subject-table"></div>
                                     </div>
@@ -100,7 +101,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 console.log("AJAX response:", response); // Debugging line
                                 let data = JSON.parse(response);
                                 if (data && data.length > 0) {
-                                    let tableHTML = `<table class="table table-striped">
+                                    let tableHTML = `<table id="subjects-table" class="table table-striped table-bordered">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>Subject Code</th>
@@ -116,6 +117,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     });
                                     tableHTML += `</tbody></table>`;
                                     $("#subject-table").html(tableHTML);
+                                    $('#subjects-table').DataTable(); // Initialize DataTables
                                 } else {
                                     $("#subject-table").html("<p>No subjects registered for this course.</p>");
                                 }
@@ -130,11 +132,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 });
             });
 
-            $(document).ready(function () {
-                $("#dataTables-example").DataTable({
-                    responsive: true
-                });
-            });
+
         </script>
 
         <?php
