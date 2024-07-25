@@ -1,16 +1,19 @@
 <?php
 // controller/SubjectController.php
 
-include('../../config/dbcon.php');
-include('../models/SubjectModel.php');
+require_once('../../config/dbcon.php');
+require_once('../models/SubjectModel.php');
+require_once('../models/CourseModel.php');
 
 class SubjectController
 {
     private $subjectModel;
+    private $courseModel;
 
     public function __construct($db)
     {
         $this->subjectModel = new SubjectModel($db);
+        $this->courseModel = new CourseModel($db);
     }
 
     public function viewSubjects()
@@ -31,6 +34,56 @@ class SubjectController
             echo json_encode(['available' => $isAvailable]);
         }
     }
+    public function loadCourseById($courseCode)
+    {
+        return $this->courseModel->getLastSubjectByCourse($courseCode);
+    }
+
+    public function addSubject()
+    {
+        if (isset($_POST['submit'])) {
+            $courseCode = $_POST['course'];
+            $subjectname = $_POST['sbjname'];
+            $created_date = $_POST['cdate'];
+            $lastSubjectCode = $this->loadCourseById($courseCode); // output is arrary
+
+            // Debugging: Print the $lastSubjectCode
+            // echo "<pre>";
+            // print_r($lastSubjectCode);
+            // echo "</pre>";
+
+            //Output Array Like this
+            // Array
+            // (
+            //     [subject_code] => CS111
+            // )
+
+            // echo $lastSubjectCode['subject_code'];
+
+            $newSubjectCode = $this->incrementString($lastSubjectCode['subject_code']);
+            $query = $this->subjectModel->addSubject($newSubjectCode, $subjectname, $created_date);
+
+            if ($query) {
+                echo '<script>alert("Subject Added successfully"); window.location.href="../views/add_subject.php";</script>';
+            } else {
+                echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_subject.php";</script>';
+            }
+
+            exit;
+        }
+
+    }
+    public function incrementString($input)
+    {
+        if (preg_match('/([a-zA-Z]+)(\d+)/', $input, $matches)) {
+            $alphabeticPart = $matches[1];
+            $numericPart = $matches[2];
+            $newNumericPart = $numericPart + 1;
+            return $alphabeticPart . $newNumericPart;
+        } else {
+            return $input;
+        }
+    }
 }
 
 
@@ -41,5 +94,9 @@ $subjectController = new SubjectController($connect);
 if (isset($_POST['sbjname'])) {
     $subjectController->checkSubjectAvailability();
 }
+if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'addSubjectForm' && isset($_POST['course'])) {
+    $subjectController->addSubject();
+}
+
 
 mysqli_close($connect);
