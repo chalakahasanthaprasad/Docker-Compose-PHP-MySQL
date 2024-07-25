@@ -61,7 +61,7 @@ class SubjectController
             // echo $lastSubjectCode['subject_code'];
 
             $newSubjectCode = $this->incrementString($lastSubjectCode['subject_code']);
-            $query = $this->subjectModel->addSubject($newSubjectCode, $subjectname, $created_date);
+            $query = $this->subjectModel->addSubject($courseCode, $newSubjectCode, $subjectname, $created_date);
 
             if ($query) {
                 echo '<script>alert("Subject Added successfully"); window.location.href="../views/add_subject.php";</script>';

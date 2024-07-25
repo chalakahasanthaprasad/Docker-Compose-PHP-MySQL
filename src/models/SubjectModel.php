@@ -51,40 +51,71 @@ class SubjectModel
         return $subjects;
     }
 
-    public function addSubject($code, $subjectname, $created_date)
+    public function addSubject($course_id, $subject_code, $subject_name, $created_date)
     {
         $this->db->begin_transaction();
-        echo $code, $subjectname, $created_date;
 
         try {
-            $stmt = $this->db->prepare("INSERT INTO tbl_subjects(subject_code, subject_name, created_date) VALUES (?, ?, ?)");
+            // Insert into subjects table
+            $stmt = $this->db->prepare("INSERT INTO tbl_subjects (subject_code, subject_name, created_date) VALUES (?, ?, ?)");
 
             if ($stmt === false) {
-                echo 'Execute failed: ' . $stmt->error;
-                //throw new Exception('Prepare failed: ' . $this->db->error);
+                throw new Exception('Prepare failed (subjects table): ' . $this->db->error);
             }
 
-            $stmt->bind_param('sss', $code, $subjectname, $created_date);
+            $stmt->bind_param('sss', $subject_code, $subject_name, $created_date);
             $success = $stmt->execute();
 
             if ($success === false) {
-                echo 'Execute failed: ' . $stmt->error;
-                //throw new Exception('Execute failed: ' . $stmt->error);
+                throw new Exception('Execute failed (subjects table): ' . $stmt->error);
+            }
 
+            // Get the last inserted subject_id
+            $subject_id = $this->db->insert_id;
+
+            // Close the statement for subjects table
+            $stmt->close();
+
+            // Debugging: Print the $subject_id
+            echo "<pre>";
+            print_r($subject_id);
+            echo "</pre>";
+
+            // Insert into course_subjects table
+            $stmt = $this->db->prepare("INSERT INTO course_subjects (course_id, subject_id) VALUES (?, ?)");
+
+            if ($stmt === false) {
+                throw new Exception('Prepare failed (course_subjects table): ' . $this->db->error);
+            }
+
+            $stmt->bind_param('ii', $course_id, $subject_id);
+            $success = $stmt->execute();
+
+            if ($success === false) {
+                throw new Exception('Execute failed (course_subjects table): ' . $stmt->error);
             }
 
             // Commit the transaction
             $this->db->commit();
 
+            // Close the statement for course_subjects table
             $stmt->close();
+
             return $success;
         } catch (Exception $e) {
+
+            // // Additional Debugging: Print the error message :debug purpose
+            // echo "<pre>";
+            // print_r($e->getMessage());
+            // echo "</pre>";
+
             // Rollback the transaction if an error occurs
             $this->db->rollback();
             error_log($e->getMessage());
             return false;
         }
     }
+
 
 
     public function registerStudent($data)
