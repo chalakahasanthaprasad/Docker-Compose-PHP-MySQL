@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 25, 2024 at 07:01 PM
+-- Generation Time: Jul 25, 2024 at 07:48 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -165,7 +165,9 @@ INSERT INTO `course_subjects` (`course_id`, `subject_id`) VALUES
 (19, 98),
 (19, 99),
 (19, 100),
-(19, 101);
+(19, 101),
+(2, 102),
+(1, 103);
 
 -- --------------------------------------------------------
 
@@ -471,7 +473,8 @@ INSERT INTO `tbl_subjects` (`subject_id`, `subject_code`, `subject_name`, `creat
 (99, 'PHARM108', 'Pharmacognosy', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
 (100, 'PHARM109', 'Biopharmaceutics', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
 (101, 'PHARM110', 'Pharmaceutical Analysis', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
-(102, 'ENG113', 'System Software', '2024-07-24 00:00:00', NULL);
+(102, 'ENG113', 'System Software', '2024-07-24 00:00:00', NULL),
+(103, 'CS112', 'testsubject', '2024-07-25 00:00:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -546,7 +549,7 @@ ALTER TABLE `tbl_student`
 -- AUTO_INCREMENT for table `tbl_subjects`
 --
 ALTER TABLE `tbl_subjects`
-  MODIFY `subject_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `subject_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- Constraints for dumped tables
