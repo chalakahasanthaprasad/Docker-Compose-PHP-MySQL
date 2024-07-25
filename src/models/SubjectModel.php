@@ -10,6 +10,7 @@ class SubjectModel
         $this->db = $db;
     }
 
+    //
     public function getAllSubjects()
     {
         $table_name = "tbl_subject";
@@ -25,6 +26,29 @@ class SubjectModel
         } else {
             return false;
         }
+    }
+
+    //Get Subjects according to course 
+    public function getAllSubjectsByCourse($courseCode)
+    {
+        $query = "
+            SELECT s.subject_code, s.subject_name
+            FROM course_subjects cs
+            JOIN tbl_subjects s ON cs.subject_id = s.subject_id
+            JOIN tbl_course c ON cs.course_id = c.cid
+            WHERE c.cid = ?
+            ORDER BY s.subject_code DESC
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $courseCode);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $subjects = [];
+        while ($row = $result->fetch_assoc()) {
+            $subjects[] = $row;
+        }
+        return $subjects;
     }
 
     public function addSubject($code, $subjectname, $created_date)
@@ -61,6 +85,7 @@ class SubjectModel
             return false;
         }
     }
+
 
     public function registerStudent($data)
     {

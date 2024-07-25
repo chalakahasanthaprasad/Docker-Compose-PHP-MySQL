@@ -73,6 +73,12 @@ class SubjectController
         }
 
     }
+    public function getCourseSubjects($courseCode)
+    {
+        $subjects = $this->subjectModel->getAllSubjectsByCourse($courseCode);
+        echo json_encode($subjects);
+        exit;
+    }
     public function incrementString($input)
     {
         if (preg_match('/([a-zA-Z]+)(\d+)/', $input, $matches)) {
@@ -98,5 +104,9 @@ if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 
     $subjectController->addSubject();
 }
 
+if (isset($_POST['course_code'])) {
+    $courseCode = $_POST['course_code'];
+    $subjectController->getCourseSubjects($courseCode);
+}
 
 mysqli_close($connect);
