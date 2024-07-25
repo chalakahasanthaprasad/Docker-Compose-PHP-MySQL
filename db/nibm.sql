@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 22, 2024 at 07:04 PM
+-- Generation Time: Jul 25, 2024 at 07:01 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -249,7 +249,8 @@ INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `created_date`, `update_date`)
 (18, 'M.Ed.', 'Master of Education', '2024-03-18', NULL),
 (19, 'B.Pharm.', 'Bachelor of Pharmacy', '2024-03-19', NULL),
 (20, 'M.Pharm.', 'Master of Pharmacy', '2024-03-20', NULL),
-(21, 'Test', 'TestFull', '15-07-2024', '17-07-2024');
+(21, 'Test', 'TestFull', '15-07-2024', '17-07-2024'),
+(26, 'test2', 'test23', '24-07-2024', NULL);
 
 -- --------------------------------------------------------
 
@@ -360,8 +361,8 @@ CREATE TABLE `tbl_subjects` (
   `subject_id` int NOT NULL,
   `subject_code` varchar(50) NOT NULL,
   `subject_name` varchar(250) NOT NULL,
-  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_date` datetime NOT NULL,
+  `update_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -469,7 +470,8 @@ INSERT INTO `tbl_subjects` (`subject_id`, `subject_code`, `subject_name`, `creat
 (98, 'PHARM107', 'Pharmaceutical Chemistry', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
 (99, 'PHARM108', 'Pharmacognosy', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
 (100, 'PHARM109', 'Biopharmaceutics', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
-(101, 'PHARM110', 'Pharmaceutical Analysis', '2024-07-22 17:53:02', '2024-07-22 17:53:02');
+(101, 'PHARM110', 'Pharmaceutical Analysis', '2024-07-22 17:53:02', '2024-07-22 17:53:02'),
+(102, 'ENG113', 'System Software', '2024-07-24 00:00:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -526,7 +528,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_course`
 --
 ALTER TABLE `tbl_course`
-  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
@@ -544,7 +546,7 @@ ALTER TABLE `tbl_student`
 -- AUTO_INCREMENT for table `tbl_subjects`
 --
 ALTER TABLE `tbl_subjects`
-  MODIFY `subject_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `subject_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- Constraints for dumped tables
