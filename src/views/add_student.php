@@ -11,12 +11,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
     } else {
         ?>
-        <?php include ('../../includes/header.php'); ?>
-        <?php include ('../controllers/CourseController.php'); ?>
-        <?php include ('../controllers/CityController.php'); ?>
+        <?php include('../../includes/header.php'); ?>
+        <?php include('../controllers/CourseController.php'); ?>
+        <?php include('../controllers/CityController.php'); ?>
         <form method="post" id="addstudentForm" action="../controllers/StudentController.php">
             <div id="wrapper">
-                <?php include ('../../includes/sidebar.php'); ?>
+                <?php include('../../includes/sidebar.php'); ?>
                 <div id="page-wrapper">
                     <div class="row">
                         <div class="col-lg-12">
@@ -51,40 +51,52 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Personal Informations</div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label>Name<span style="font-size:11px;color:red">*</span></label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input class="form-control" name="name" required="required"
-                                                            pattern="[A-Za-z]+$">
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label>Gender</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="radio" name="gender" id="male" value="Male" checked>
-                                                        <label>Male</label>
-                                                        <input type="radio" name="gender" id="female" value="Female">
-                                                        <label>Female</label>
-                                                    </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Personal Informations</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-2">
+                                                    <label>Name<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
-                                                <br><br>
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label>Date of birth</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input class="form-control" value="<?php echo date('Y-m-d'); ?>"
-                                                            name="dob">
-                                                    </div>
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="name" required="required"
+                                                        pattern="[A-Za-z]+$">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-2">
+                                                    <label>Gender</label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <input type="radio" name="gender" id="male" value="Male" checked>
+                                                    <label>Male</label>
+                                                    <input type="radio" name="gender" id="female" value="Female">
+                                                    <label>Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-2">
+                                                    <label>Date of birth</label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" value="<?php echo date('Y-m-d'); ?>" name="dob">
                                                 </div>
                                             </div>
                                         </div>
