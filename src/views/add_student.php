@@ -27,12 +27,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Register</div>
+                                <div class="panel-heading">Course Details</div>
                                 <div class="panel-body">
+
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                                <label for="course">Select Course</label>
+                                                <label for="course">Course Program You are Looking For</label>
                                                 <select name="course" id="course" class="form-control">
                                                     <option value="">Select Course</option>
                                                     <?php
@@ -51,7 +52,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
