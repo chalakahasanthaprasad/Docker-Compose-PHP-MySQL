@@ -30,7 +30,7 @@ class InstituteModel
     public function getAllTrainingCentersLocations()
     {
         $table_name = "tbl_training_center_locations";
-        $query = "SELECT location_id,center_name FROM $table_name";
+        $query = "SELECT center_id,center_name FROM $table_name";
         $response = mysqli_query($this->db, $query);
 
         if ($response) {

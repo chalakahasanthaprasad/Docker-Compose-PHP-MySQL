@@ -40,7 +40,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <?php
                                                     if ($tclocations) {
                                                         foreach ($tclocations as $tclocation) {
-                                                            echo '<option value="' . htmlentities($tclocation['location_id']) . '">' . htmlentities($tclocation['center_name']) . '</option>';
+                                                            echo '<option value="' . htmlentities($tclocation['center_id']) . '">' . htmlentities($tclocation['center_name']) . '</option>';
                                                         }
                                                     } else {
                                                         echo '<option value="">No Training Center available</option>';
