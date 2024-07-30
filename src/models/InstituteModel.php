@@ -26,4 +26,21 @@ class InstituteModel
             return false;
         }
     }
+
+    public function getAllTrainingCentersLocations()
+    {
+        $table_name = "tbl_training_center_locations";
+        $query = "SELECT location_id,center_name FROM $table_name";
+        $response = mysqli_query($this->db, $query);
+
+        if ($response) {
+            $tclocations = [];
+            while ($i = mysqli_fetch_assoc($response)) {
+                $tclocations[] = $i;
+            }
+            return $tclocations;
+        } else {
+            return false;
+        }
+    }
 }

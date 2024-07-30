@@ -6,16 +6,15 @@ require_once('../models/InstituteModel.php');
 
 class FacultyController
 {
-    private $facultyModel;
-    private $dv_faculty;
+    private $instituteModel;
     public function __construct($db)
     {
-        $this->facultyModel = new InstituteModel($db);
+        $this->instituteModel = new InstituteModel($db);
     }
 
     public function viewfaculties()
     {
-        $faculties = $this->facultyModel->getAllfaculties();
+        $faculties = $this->instituteModel->getAllfaculties();
         if ($faculties === false) {
             echo "Error fetching faculties.";
             return;
