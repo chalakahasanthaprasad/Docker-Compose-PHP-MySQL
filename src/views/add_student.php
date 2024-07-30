@@ -101,7 +101,27 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <div class="col-lg-2">
-                                                    <label>Name<span style="font-size:11px;color:red">*</span></label>
+                                                    <label>Title<span style="font-size:11px;color:red">*</span></label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <select name="title" id="title" class="form-control">
+                                                        <option value="">Select Title</option>
+                                                        <option value="Mr">Mr</option>
+                                                        <option value="Mrs">Mrs</option>
+                                                        <option value="Miss">Miss</option>
+                                                        <option value="Rev">Rev</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-2">
+                                                    <label>Full Name<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input class="form-control" name="name" required="required"
@@ -109,6 +129,22 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-2">
+                                                    <label>National Identity Card (NIC) Number<span
+                                                            style="font-size:11px;color:red">*</span></label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" type="text" id="nic" name="nic" maxlength="12"
+                                                        required="required">
+                                                    <p id="message"></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <br>
@@ -128,6 +164,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         </div>
                                     </div>
                                     <br>
+
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
@@ -136,6 +173,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input class="form-control" value="<?php echo date('Y-m-d'); ?>" name="dob">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-2">
+                                                    <label>Fluent In</label>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <select name="language" id="language" class="form-control">
+                                                        <option value="">Select Language</option>
+                                                        <option value="English">English</option>
+                                                        <option value="Sinhala">Sinhala</option>
+                                                        <option value="Tamil">Tamil</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,6 +215,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                         maxlength="10" pattern="[0-9]{10}">
                                                 </div>
                                             </div>
+                                            <br><br>
+                                            <div class="form-group">
+                                                <div class="col-lg-4">
+                                                    <label>Email<span style="font-size:11px;color:red">*</span></label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input class="form-control" type="email" name="email" required="required">
+                                                </div>
+                                            </div>
+
                                             <br><br>
                                             <div class="form-group">
                                                 <div class="col-lg-4">
@@ -230,6 +295,27 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
         </form>
         <?php include '../../includes/datetime.php'; ?>
+        <script>
+            document.getElementById('nic').addEventListener('input', function () {
+                const nicInput = document.getElementById('nic').value;
+                const messageElement = document.getElementById('message');
+
+                // Regex patterns for NIC numbers
+                const oldNicPattern = /^[0-9]{9}[vVxX]$/;
+                const newNicPattern = /^[0-9]{12}$/;
+
+                // Check if the NIC number matches either pattern
+                if (oldNicPattern.test(nicInput) || newNicPattern.test(nicInput)) {
+                    messageElement.textContent = '  Valid NIC number!';
+                    messageElement.className = 'success';
+                    messageElement.style.color = 'green';
+                } else {
+                    messageElement.textContent = '  Invalid NIC number. Please enter a valid NIC.';
+                    messageElement.className = 'error';
+                    messageElement.style.color = 'red';
+                }
+            });
+        </script>
 
         <?php
     }
