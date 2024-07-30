@@ -36,14 +36,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <div class="form-group">
                                                 <label for="course">Preferred Training Center</label>
                                                 <select name="course" id="course" class="form-control">
-                                                    <option value="">Select Course</option>
+                                                    <option value="">Select Training Center</option>
                                                     <?php
                                                     if ($tclocations) {
                                                         foreach ($tclocations as $tclocation) {
                                                             echo '<option value="' . htmlentities($tclocation['location_id']) . '">' . htmlentities($tclocation['center_name']) . '</option>';
                                                         }
                                                     } else {
-                                                        echo '<option value="">No courses available</option>';
+                                                        echo '<option value="">No Training Center available</option>';
                                                     }
                                                     ?>
                                                 </select>
@@ -55,14 +55,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <div class="form-group">
                                                 <label for="course">Preferred Faculty</label>
                                                 <select name="course" id="course" class="form-control">
-                                                    <option value="">Select Course</option>
+                                                    <option value="">Select Faculty</option>
                                                     <?php
                                                     if ($faculties) {
                                                         foreach ($faculties as $faculty) {
                                                             echo '<option value="' . htmlentities($faculty['faculty_id']) . '">' . htmlentities($faculty['faculty_name']) . '</option>';
                                                         }
                                                     } else {
-                                                        echo '<option value="">No courses available</option>';
+                                                        echo '<option value="">No Faculties available</option>';
                                                     }
                                                     ?>
                                                 </select>
