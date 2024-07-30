@@ -14,6 +14,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php include('../../includes/header.php'); ?>
         <?php include('../controllers/CourseController.php'); ?>
         <?php include('../controllers/CityController.php'); ?>
+        <?php include('../controllers/FacultyController.php'); ?>
         <form method="post" id="addstudentForm" action="../controllers/StudentController.php">
             <div id="wrapper">
                 <?php include('../../includes/sidebar.php'); ?>
@@ -29,7 +30,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <div class="panel panel-default">
                                 <div class="panel-heading">Course Details</div>
                                 <div class="panel-body">
-
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <label for="course">Preferred Faculty</label>
+                                                <select name="course" id="course" class="form-control">
+                                                    <option value="">Select Course</option>
+                                                    <?php
+                                                    if ($faculties) {
+                                                        foreach ($faculties as $faculty) {
+                                                            echo '<option value="' . htmlentities($faculty['faculty_id']) . '">' . htmlentities($faculty['faculty_name']) . '</option>';
+                                                        }
+                                                    } else {
+                                                        echo '<option value="">No courses available</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
