@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 25, 2024 at 07:48 PM
+-- Generation Time: Jul 30, 2024 at 04:21 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -257,6 +257,30 @@ INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `created_date`, `update_date`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_faculty`
+--
+
+CREATE TABLE `tbl_faculty` (
+  `faculty_id` int NOT NULL,
+  `faculty_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tbl_faculty`
+--
+
+INSERT INTO `tbl_faculty` (`faculty_id`, `faculty_name`) VALUES
+(1, 'School of Business'),
+(2, 'School of Computing'),
+(3, 'School of Engineering'),
+(4, 'School of Languages'),
+(5, 'School of Design'),
+(7, 'Business Analytics Centre'),
+(8, 'Productivity and Quality Centre');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_login`
 --
 
@@ -476,6 +500,33 @@ INSERT INTO `tbl_subjects` (`subject_id`, `subject_code`, `subject_name`, `creat
 (102, 'ENG113', 'System Software', '2024-07-24 00:00:00', NULL),
 (103, 'CS112', 'testsubject', '2024-07-25 00:00:00', NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_training_center_locations`
+--
+
+CREATE TABLE `tbl_training_center_locations` (
+  `location_id` int NOT NULL,
+  `center_name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `state` varchar(100) NOT NULL,
+  `postal_code` varchar(20) NOT NULL,
+  `country` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tbl_training_center_locations`
+--
+
+INSERT INTO `tbl_training_center_locations` (`location_id`, `center_name`, `address`, `city`, `state`, `postal_code`, `country`) VALUES
+(1, 'Colombo Training Center', '123 Main St', 'Colombo', 'Western Province', '00100', 'Sri Lanka'),
+(2, 'Kandy Training Center', '456 Queen St', 'Kandy', 'Central Province', '20000', 'Sri Lanka'),
+(3, 'Galle Training Center', '789 King St', 'Galle', 'Southern Province', '80000', 'Sri Lanka'),
+(4, 'Mathara Training Center', '101 Prince St', 'Mathara', 'Southern Province', '81000', 'Sri Lanka'),
+(5, 'Kurunagela Training Center', '202 Princess St', 'Kurunagela', 'North Western Province', '60000', 'Sri Lanka');
+
 --
 -- Indexes for dumped tables
 --
@@ -500,6 +551,12 @@ ALTER TABLE `tbl_course`
   ADD PRIMARY KEY (`cid`);
 
 --
+-- Indexes for table `tbl_faculty`
+--
+ALTER TABLE `tbl_faculty`
+  ADD PRIMARY KEY (`faculty_id`);
+
+--
 -- Indexes for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -516,6 +573,12 @@ ALTER TABLE `tbl_student`
 --
 ALTER TABLE `tbl_subjects`
   ADD PRIMARY KEY (`subject_id`);
+
+--
+-- Indexes for table `tbl_training_center_locations`
+--
+ALTER TABLE `tbl_training_center_locations`
+  ADD PRIMARY KEY (`location_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -550,6 +613,12 @@ ALTER TABLE `tbl_student`
 --
 ALTER TABLE `tbl_subjects`
   MODIFY `subject_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
+-- AUTO_INCREMENT for table `tbl_training_center_locations`
+--
+ALTER TABLE `tbl_training_center_locations`
+  MODIFY `location_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
