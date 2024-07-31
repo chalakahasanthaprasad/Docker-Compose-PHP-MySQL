@@ -88,8 +88,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                         <label>Course Level<span style="font-size:11px;color:red">*</span></label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <select name="course_level" id="course_level" class="form-control">
-                                                            <option value=""><?php echo $course['course_level']; ?></option>
+                                                        <select id="course_level" name="course_level" class="form-control" required>
+                                                            <option value="Certificate" <?php echo $course['course_level'] === 'Certificate' ? 'selected' : ''; ?>>
+                                                                Certificate</option>
+                                                            <option value="Diploma" <?php echo $course['course_level'] === 'Diploma' ? 'selected' : ''; ?>>Diploma</option>
+                                                            <option value="Higher National Diploma" <?php echo $course['course_level'] === 'Higher National Diploma' ? 'selected' : ''; ?>>Higher National Diploma</option>
+                                                            <option value="Degree" <?php echo $course['course_level'] === 'Degree' ? 'selected' : ''; ?>>Degree</option>
+                                                            <option value="Master" <?php echo $course['course_level'] === 'Master' ? 'selected' : ''; ?>>Master</option>
                                                         </select>
                                                     </div>
                                                 </div>
