@@ -29,8 +29,8 @@ class InstituteModel
 
     public function getAllTrainingCentersLocations()
     {
-        $table_name = "tbl_training_center_locations";
-        $query = "SELECT location_id,center_name FROM $table_name";
+        $table_name = "tbl_training_centers";
+        $query = "SELECT center_id,center_name FROM $table_name";
         $response = mysqli_query($this->db, $query);
 
         if ($response) {
@@ -42,5 +42,49 @@ class InstituteModel
         } else {
             return false;
         }
+    }
+
+    public function getFacultiesByCenterId($centerId)
+    {
+        $query = "
+            SELECT tc.center_id, tc.center_name, f.faculty_id, f.faculty_name 
+            FROM tbl_training_centers tc 
+            JOIN training_center_faculties fc ON tc.center_id = fc.center_id 
+            JOIN tbl_faculty f ON fc.faculty_id = f.faculty_id 
+            WHERE tc.center_id = ?
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $centerId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $faculties = [];
+        while ($row = $result->fetch_assoc()) {
+            $faculties[] = $row;
+        }
+        return $faculties;
+    }
+
+    public function getCoursesByCenterIdAndFacultyId($centerId, $facultyId)
+    {
+        $query = "
+            SELECT c.cid, c.cfull
+            FROM tbl_course c
+            JOIN course_faculty cf ON c.cid = cf.course_id
+            JOIN training_center_courses tcc ON c.cid = tcc.course_id
+            WHERE tcc.center_id = ? AND cf.faculty_id = ?;
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $centerId, $facultyId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+
+        $faculties = [];
+        while ($row = $result->fetch_assoc()) {
+            $faculties[] = $row;
+        }
+        return $faculties;
     }
 }

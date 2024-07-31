@@ -11,11 +11,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
     } else {
         ?>
-        <?php include ('../../includes/header.php'); ?>
+        <?php include('../../includes/header.php'); ?>
         <form method="post" id="addcourseForm" action="../controllers/CourseController.php">
             <div id="wrapper">
                 <!-- Navigation -->
-                <?php include ('../../includes/sidebar.php') ?>;
+                <?php include('../../includes/sidebar.php') ?>;
 
                 <div id="page-wrapper">
                     <div class="row">
@@ -33,7 +33,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                            <input type="hidden" name="form_id" value="addcourseForm">
+                                                <input type="hidden" name="form_id" value="addcourseForm">
                                                 <div class="col-lg-4">
                                                     <label>Course Short Name<span id=""
                                                             style="font-size:11px;color:red">*</span></label>
@@ -54,6 +54,22 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <input class="form-control" name="cfull" id="cfull" required="required"
                                                         onblur="checkCourseNameAvailability()">
                                                     <span id="course-name-availability-status" style="font-size:12px;"></span>
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="form-group">
+                                                <div class="col-lg-4">
+                                                    <label>Fluent In</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <select name="course_level" id="course_level" class="form-control">
+                                                        <option value="">Select Course Level</option>
+                                                        <option value="English">Certificate</option>
+                                                        <option value="Sinhala">Diploma</option>
+                                                        <option value="Tamil">Higher National Diploma</option>
+                                                        <option value="Sinhala">Degree</option>
+                                                        <option value="Tamil">Master</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <br><br>

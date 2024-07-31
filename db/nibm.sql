@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 30, 2024 at 04:21 PM
+-- Generation Time: Jul 30, 2024 at 08:35 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -222,6 +222,7 @@ CREATE TABLE `tbl_course` (
   `cid` int NOT NULL,
   `code` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `cfull` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `course_level` varchar(50) NOT NULL,
   `created_date` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `update_date` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -230,29 +231,29 @@ CREATE TABLE `tbl_course` (
 -- Dumping data for table `tbl_course`
 --
 
-INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `created_date`, `update_date`) VALUES
-(1, 'MCA', 'Master of Computer Applications', '2024-03-01', '19-07-2024'),
-(2, 'B.E.', 'Bachelor of Engineering', '2024-03-02', NULL),
-(3, 'B.Sc.', 'Bachelor of Science', '2024-03-03', NULL),
-(4, 'B.Com.', 'Bachelor of Commerce', '2024-03-04', NULL),
-(5, 'MBA', 'Master of Business Administration', '2024-03-05', NULL),
-(6, 'BBA', 'Bachelor of Business Administration', '2024-03-06', NULL),
-(7, 'M.Sc.', 'Master of Science', '2024-03-07', NULL),
-(8, 'B.A.', 'Bachelor of Arts', '2024-03-08', NULL),
-(9, 'M.E.', 'Master of Engineering', '2024-03-09', NULL),
-(10, 'Ph.D.', 'Doctor of Philosophy', '2024-03-10', NULL),
-(11, 'LLB', 'Bachelor of Laws', '2024-03-11', NULL),
-(12, 'LLM', 'Master of Laws', '2024-03-12', NULL),
-(13, 'B.Tech.', 'Bachelor of Technology', '2024-03-13', NULL),
-(14, 'M.Tech.', 'Master of Technology', '2024-03-14', NULL),
-(15, 'B.Arch.', 'Bachelor of Architecture', '2024-03-15', NULL),
-(16, 'M.Arch.', 'Master of Architecture', '2024-03-16', NULL),
-(17, 'B.Ed.', 'Bachelor of Education', '2024-03-17', NULL),
-(18, 'M.Ed.', 'Master of Education', '2024-03-18', NULL),
-(19, 'B.Pharm.', 'Bachelor of Pharmacy', '2024-03-19', NULL),
-(20, 'M.Pharm.', 'Master of Pharmacy', '2024-03-20', NULL),
-(21, 'Test', 'TestFull', '15-07-2024', '17-07-2024'),
-(26, 'test2', 'test23', '24-07-2024', NULL);
+INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `course_level`, `created_date`, `update_date`) VALUES
+(1, 'MCA', 'Master of Computer Applications', 'Master', '2024-03-01', '19-07-2024'),
+(2, 'B.E.', 'Bachelor of Engineering', 'Degree', '2024-03-02', NULL),
+(3, 'B.Sc.', 'Bachelor of Science', 'Degree', '2024-03-03', NULL),
+(4, 'B.Com.', 'Bachelor of Commerce', 'Degree', '2024-03-04', NULL),
+(5, 'MBA', 'Master of Business Administration', 'Master', '2024-03-05', NULL),
+(6, 'BBA', 'Bachelor of Business Administration', 'Degree', '2024-03-06', NULL),
+(7, 'M.Sc.', 'Master of Science', 'Master', '2024-03-07', NULL),
+(8, 'B.A.', 'Bachelor of Arts', 'Degree', '2024-03-08', NULL),
+(9, 'M.E.', 'Master of Engineering', 'Master', '2024-03-09', NULL),
+(10, 'Ph.D.', 'Doctor of Philosophy', 'Master', '2024-03-10', NULL),
+(11, 'LLB', 'Bachelor of Laws', 'Degree', '2024-03-11', NULL),
+(12, 'LLM', 'Master of Laws', 'Master', '2024-03-12', NULL),
+(13, 'B.Tech.', 'Bachelor of Technology', 'Degree', '2024-03-13', NULL),
+(14, 'M.Tech.', 'Master of Technology', 'Master', '2024-03-14', NULL),
+(15, 'B.Arch.', 'Bachelor of Architecture', 'Degree', '2024-03-15', NULL),
+(16, 'M.Arch.', 'Master of Architecture', 'Master', '2024-03-16', NULL),
+(17, 'B.Ed.', 'Bachelor of Education', 'Degree', '2024-03-17', NULL),
+(18, 'M.Ed.', 'Master of Education', 'Master', '2024-03-18', NULL),
+(19, 'B.Pharm.', 'Bachelor of Pharmacy', 'Degree', '2024-03-19', NULL),
+(20, 'M.Pharm.', 'Master of Pharmacy', 'Master', '2024-03-20', NULL),
+(21, 'C.java', 'Certificate Course Java', 'Certificate', '15-07-2024', '17-07-2024'),
+(26, 'DSE', 'Diploma In Software Engineering', 'Diploma', '24-07-2024', NULL);
 
 -- --------------------------------------------------------
 
@@ -503,11 +504,11 @@ INSERT INTO `tbl_subjects` (`subject_id`, `subject_code`, `subject_name`, `creat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_training_center_locations`
+-- Table structure for table `tbl_training_centers`
 --
 
-CREATE TABLE `tbl_training_center_locations` (
-  `location_id` int NOT NULL,
+CREATE TABLE `tbl_training_centers` (
+  `center_id` int NOT NULL,
   `center_name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `city` varchar(100) NOT NULL,
@@ -517,15 +518,77 @@ CREATE TABLE `tbl_training_center_locations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `tbl_training_center_locations`
+-- Dumping data for table `tbl_training_centers`
 --
 
-INSERT INTO `tbl_training_center_locations` (`location_id`, `center_name`, `address`, `city`, `state`, `postal_code`, `country`) VALUES
+INSERT INTO `tbl_training_centers` (`center_id`, `center_name`, `address`, `city`, `state`, `postal_code`, `country`) VALUES
 (1, 'Colombo Training Center', '123 Main St', 'Colombo', 'Western Province', '00100', 'Sri Lanka'),
 (2, 'Kandy Training Center', '456 Queen St', 'Kandy', 'Central Province', '20000', 'Sri Lanka'),
 (3, 'Galle Training Center', '789 King St', 'Galle', 'Southern Province', '80000', 'Sri Lanka'),
 (4, 'Mathara Training Center', '101 Prince St', 'Mathara', 'Southern Province', '81000', 'Sri Lanka'),
 (5, 'Kurunagela Training Center', '202 Princess St', 'Kurunagela', 'North Western Province', '60000', 'Sri Lanka');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `training_center_courses`
+--
+
+CREATE TABLE `training_center_courses` (
+  `center_id` int NOT NULL,
+  `course_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `training_center_courses`
+--
+
+INSERT INTO `training_center_courses` (`center_id`, `course_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 5),
+(3, 5),
+(4, 5),
+(5, 5),
+(1, 6),
+(2, 6),
+(3, 6),
+(4, 6),
+(5, 6),
+(1, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `training_center_faculties`
+--
+
+CREATE TABLE `training_center_faculties` (
+  `center_id` int NOT NULL,
+  `faculty_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `training_center_faculties`
+--
+
+INSERT INTO `training_center_faculties` (`center_id`, `faculty_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(1, 2),
+(2, 2),
+(4, 2),
+(1, 3),
+(3, 3),
+(5, 3),
+(1, 4),
+(4, 4),
+(1, 5),
+(5, 5);
 
 --
 -- Indexes for dumped tables
@@ -575,10 +638,24 @@ ALTER TABLE `tbl_subjects`
   ADD PRIMARY KEY (`subject_id`);
 
 --
--- Indexes for table `tbl_training_center_locations`
+-- Indexes for table `tbl_training_centers`
 --
-ALTER TABLE `tbl_training_center_locations`
-  ADD PRIMARY KEY (`location_id`);
+ALTER TABLE `tbl_training_centers`
+  ADD PRIMARY KEY (`center_id`);
+
+--
+-- Indexes for table `training_center_courses`
+--
+ALTER TABLE `training_center_courses`
+  ADD PRIMARY KEY (`center_id`,`course_id`),
+  ADD KEY `course_id` (`course_id`);
+
+--
+-- Indexes for table `training_center_faculties`
+--
+ALTER TABLE `training_center_faculties`
+  ADD PRIMARY KEY (`center_id`,`faculty_id`),
+  ADD KEY `faculty_id` (`faculty_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -615,10 +692,10 @@ ALTER TABLE `tbl_subjects`
   MODIFY `subject_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
--- AUTO_INCREMENT for table `tbl_training_center_locations`
+-- AUTO_INCREMENT for table `tbl_training_centers`
 --
-ALTER TABLE `tbl_training_center_locations`
-  MODIFY `location_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `tbl_training_centers`
+  MODIFY `center_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -630,6 +707,20 @@ ALTER TABLE `tbl_training_center_locations`
 ALTER TABLE `course_subjects`
   ADD CONSTRAINT `course_subjects_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `tbl_course` (`cid`) ON DELETE CASCADE,
   ADD CONSTRAINT `course_subjects_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `tbl_subjects` (`subject_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `training_center_courses`
+--
+ALTER TABLE `training_center_courses`
+  ADD CONSTRAINT `training_center_courses_ibfk_1` FOREIGN KEY (`center_id`) REFERENCES `tbl_training_centers` (`center_id`),
+  ADD CONSTRAINT `training_center_courses_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `tbl_course` (`cid`);
+
+--
+-- Constraints for table `training_center_faculties`
+--
+ALTER TABLE `training_center_faculties`
+  ADD CONSTRAINT `training_center_faculties_ibfk_1` FOREIGN KEY (`center_id`) REFERENCES `tbl_training_centers` (`center_id`),
+  ADD CONSTRAINT `training_center_faculties_ibfk_2` FOREIGN KEY (`faculty_id`) REFERENCES `tbl_faculty` (`faculty_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
