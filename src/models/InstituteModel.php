@@ -68,12 +68,11 @@ class InstituteModel
     public function getCoursesByCenterIdAndFacultyId($centerId, $facultyId)
     {
         $query = "
-            SELECT c.cid,c.cfull
+            SELECT c.cid, c.cfull
             FROM tbl_course c
             JOIN course_faculty cf ON c.cid = cf.course_id
-            JOIN training_center_faculties tcf ON cf.faculty_id = tcf.faculty_id
             JOIN training_center_courses tcc ON c.cid = tcc.course_id
-            WHERE tcf.center_id = ? AND cf.faculty_id = ?;
+            WHERE tcc.center_id = ? AND cf.faculty_id = ?;
         ";
 
         $stmt = $this->db->prepare($query);
