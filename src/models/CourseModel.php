@@ -27,18 +27,18 @@ class CourseModel
         }
     }
 
-    public function addCourse($code, $cfullname, $created_date)
+    public function addCourse($code, $cfullname, $courselevel, $created_date)
     {
         $this->db->begin_transaction();
 
         try {
-            $stmt = $this->db->prepare("INSERT INTO tbl_course (code, cfull, created_date) VALUES (?, ?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO tbl_course (code, cfull, course_level, created_date) VALUES (?, ?,?, ?)");
 
             if ($stmt === false) {
                 throw new Exception('Prepare failed: ' . $this->db->error);
             }
 
-            $stmt->bind_param('sss', $code, $cfullname, $created_date);
+            $stmt->bind_param('ssss', $code, $cfullname, $courselevel, $created_date);
             $success = $stmt->execute();
 
             if ($success === false) {

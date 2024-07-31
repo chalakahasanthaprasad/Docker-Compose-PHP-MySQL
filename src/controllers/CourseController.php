@@ -28,6 +28,7 @@ class CourseController
         if (isset($_POST['submit'])) {
             $code = $_POST['code'];
             $cfullname = $_POST['cfull'];
+            $courselevel = $_POST['course_level'];
             $created_date = $_POST['cdate'];
 
             if (!$this->courseModel->isCourseCodeAvailable($code)) {
@@ -41,7 +42,7 @@ class CourseController
                 exit;
             }
 
-            $query = $this->courseModel->addCourse($code, $cfullname, $created_date);
+            $query = $this->courseModel->addCourse($code, $cfullname,$courselevel, $created_date);
 
             if ($query) {
                 echo '<script>alert("Course Added successfully"); window.location.href="../views/add_courses.php";</script>';
