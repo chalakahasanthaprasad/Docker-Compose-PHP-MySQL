@@ -34,8 +34,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                                <label for="course">Preferred Training Center</label>
-                                                <select name="course" id="course" class="form-control">
+                                                <label for="tcenter">Preferred Training Center</label>
+                                                <select name="tcenter" id="tcenter" class="form-control">
                                                     <option value="">Select Training Center</option>
                                                     <?php
                                                     if ($tclocations) {
@@ -53,37 +53,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                                <label for="course">Preferred Faculty</label>
-                                                <select name="course" id="course" class="form-control">
-                                                    <option value="">Select Faculty</option>
-                                                    <?php
-                                                    if ($faculties) {
-                                                        foreach ($faculties as $faculty) {
-                                                            echo '<option value="' . htmlentities($faculty['faculty_id']) . '">' . htmlentities($faculty['faculty_name']) . '</option>';
-                                                        }
-                                                    } else {
-                                                        echo '<option value="">No Faculties available</option>';
-                                                    }
-                                                    ?>
+                                                <label for="faculty">Preferred Faculty</label>
+                                                <select id="d_faculty" name="faculty" class="form-control">
+                                                    <option>Select Faculty</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class=" row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <label for="course">Course Program You are Looking For</label>
-                                                <select name="course" id="course" class="form-control">
-                                                    <option value="">Select Course</option>
-                                                    <?php
-                                                    if ($courses) {
-                                                        foreach ($courses as $course) {
-                                                            echo '<option value="' . htmlentities($course['code']) . '">' . htmlentities($course['cfull']) . '</option>';
-                                                        }
-                                                    } else {
-                                                        echo '<option value="">No courses available</option>';
-                                                    }
-                                                    ?>
+                                                <select id="d_courses" name="course" class="form-control">
+                                                    <option value="">Select Programme</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -315,6 +297,98 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     messageElement.style.color = 'red';
                 }
             });
+
+            // Fetch and display the all faculties by trainnig center id wise
+            $(document).ready(function () {
+                $("#tcenter").change(function () {
+                    let centerId = $(this).val();
+                    if (centerId) {
+                        $.ajax({
+                            url: "../controllers/FacultyController.php",
+                            type: "POST",
+                            data: { center_id: centerId },
+                            success: function (response) {
+                                console.log("AJAX response:", response); // Debugging line
+                                let facultyData = JSON.parse(response);
+                                let $facultyDropdown = $("#d_faculty");
+                                $facultyDropdown.empty(); // Clear existing options
+                                if (facultyData && facultyData.length > 0) {
+                                    facultyData.forEach(function (faculty) {
+                                        $facultyDropdown.append(
+                                            $("<option></option>")
+                                                .attr("value", faculty.faculty_id)
+                                                .text(faculty.faculty_name)
+                                        );
+                                    });
+                                } else {
+                                    $facultyDropdown.append(
+                                        $("<option></option>")
+                                            .attr("value", "")
+                                            .text("No faculty available")
+                                    );
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("AJAX error:", status, error); // Error handling
+                            }
+                        });
+                    } else {
+                        $("#last-subject-code").text("");
+                    }
+                });
+            });
+
+            // Fetch and display the all courses by trainnig center and faculty id wise
+            $(document).ready(function () {
+                // Assuming you already have code to capture and set the centerId variable
+                let centerId = $("#tcenter").val();
+
+                $("#d_faculty").change(function () {
+                    let facultyId = $(this).val();
+                    if (facultyId && centerId) {
+                        $.ajax({
+                            url: "../controllers/FacultyController.php",
+                            type: "POST",
+                            data: { faculty_id_2: facultyId, center_id_2: centerId },
+                            success: function (response) {
+                                console.log("Courses AJAX response:", response); // Debugging line
+                                let courseData = JSON.parse(response);
+                                let $courseDropdown = $("#d_courses");
+                                $courseDropdown.empty(); // Clear existing options
+
+                                if (courseData && courseData.length > 0) {
+                                    $courseDropdown.append($("<option></option>").attr("value", "").text("Select Course"));
+                                    courseData.forEach(function (course) {
+                                        $courseDropdown.append(
+                                            $("<option></option>")
+                                                .attr("value", course.cid)
+                                                .text(course.cfull)
+                                        );
+                                    });
+                                } else {
+                                    $courseDropdown.append(
+                                        $("<option></option>")
+                                            .attr("value", "")
+                                            .text("No courses available")
+                                    );
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Courses AJAX error:", status, error); // Error handling
+                            }
+                        });
+                    } else {
+                        $("#d_courses").empty(); // Clear the courses dropdown if no faculty or center is selected
+                    }
+                });
+
+                // Optional: Update the centerId variable when the center dropdown changes
+                $("#tcenter").change(function () {
+                    centerId = $(this).val();
+                    $("#d_faculty").trigger('change'); // Trigger change on faculty dropdown to refresh courses
+                });
+            });
+
         </script>
 
         <?php
