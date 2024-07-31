@@ -59,7 +59,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <br><br>
                                             <div class="form-group">
                                                 <div class="col-lg-4">
-                                                    <label>Fluent In</label>
+                                                    <label>Course Level</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select name="course_level" id="course_level" class="form-control">

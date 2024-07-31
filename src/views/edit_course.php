@@ -85,6 +85,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 <br><br>
                                                 <div class="form-group">
                                                     <div class="col-lg-4">
+                                                        <label>Course Level<span style="font-size:11px;color:red">*</span></label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <select name="course_level" id="course_level" class="form-control">
+                                                            <option value=""><?php echo $course['course_level']; ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br><br>
+                                                <div class="form-group">
+                                                    <div class="col-lg-4">
                                                         <label>Last Updated Date</label>
                                                     </div>
                                                     <div class="col-lg-6">
