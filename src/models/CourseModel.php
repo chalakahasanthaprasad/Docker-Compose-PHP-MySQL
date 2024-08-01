@@ -144,7 +144,8 @@ class CourseModel
     {
         $stmt = $this->db->prepare("UPDATE tbl_course SET isActive = 0 WHERE cid = ?");
         $stmt->bind_param("i", $cid);
-        return $stmt->execute();
+        $res = $stmt->execute();
+        return $res;
     }
 
     public function deleteCourseById($cid)
