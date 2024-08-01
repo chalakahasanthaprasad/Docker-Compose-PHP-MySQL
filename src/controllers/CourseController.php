@@ -66,8 +66,9 @@ class CourseController
 
     public function deleteCourse($cid)
     {
-        $this->courseModel->deleteCourseById($cid);
-        echo '<script>alert("Course deleted")</script>';
+        $deleteSuccess = $this->courseModel->softDeleteCourseById($cid);
+        $message = $deleteSuccess ? 'Course deleted successfully!' : 'Failed to deleted course.';
+        echo "<script>alert('$message');</script>";
         echo '<script>window.location.href="../views/manage_courses.php"</script>';
     }
 

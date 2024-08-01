@@ -13,7 +13,7 @@ class CourseModel
     public function getAllCourses()
     {
         $table_name = "tbl_course";
-        $query = "SELECT * FROM $table_name WHERE isActive = 1";
+        $query = "SELECT * FROM $table_name WHERE isActive = 1 AND isDelete = 0";
         $response = mysqli_query($this->db, $query);
 
         if ($response) {
@@ -143,6 +143,14 @@ class CourseModel
     public function deactivateCourse($cid)
     {
         $stmt = $this->db->prepare("UPDATE tbl_course SET isActive = 0 WHERE cid = ?");
+        $stmt->bind_param("i", $cid);
+        $res = $stmt->execute();
+        return $res;
+    }
+
+    public function softDeleteCourseById($cid)
+    {
+        $stmt = $this->db->prepare("UPDATE tbl_course SET isDelete = 1 WHERE cid = ?");
         $stmt->bind_param("i", $cid);
         $res = $stmt->execute();
         return $res;
