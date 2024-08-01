@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jul 30, 2024 at 08:35 PM
+-- Generation Time: Aug 01, 2024 at 06:20 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.8
 
@@ -20,6 +20,45 @@ SET time_zone = "+00:00";
 --
 -- Database: `nibm`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_faculty`
+--
+
+CREATE TABLE `course_faculty` (
+  `course_id` int NOT NULL,
+  `faculty_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `course_faculty`
+--
+
+INSERT INTO `course_faculty` (`course_id`, `faculty_id`) VALUES
+(4, 1),
+(5, 1),
+(6, 1),
+(11, 1),
+(12, 1),
+(1, 2),
+(3, 2),
+(7, 2),
+(21, 2),
+(26, 2),
+(2, 3),
+(9, 3),
+(10, 3),
+(13, 3),
+(14, 3),
+(8, 4),
+(17, 4),
+(18, 4),
+(15, 5),
+(16, 5),
+(19, 6),
+(20, 6);
 
 -- --------------------------------------------------------
 
@@ -223,6 +262,8 @@ CREATE TABLE `tbl_course` (
   `code` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `cfull` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `course_level` varchar(50) NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '1',
+  `isDelete` tinyint(1) NOT NULL DEFAULT '0',
   `created_date` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `update_date` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -231,29 +272,31 @@ CREATE TABLE `tbl_course` (
 -- Dumping data for table `tbl_course`
 --
 
-INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `course_level`, `created_date`, `update_date`) VALUES
-(1, 'MCA', 'Master of Computer Applications', 'Master', '2024-03-01', '19-07-2024'),
-(2, 'B.E.', 'Bachelor of Engineering', 'Degree', '2024-03-02', NULL),
-(3, 'B.Sc.', 'Bachelor of Science', 'Degree', '2024-03-03', NULL),
-(4, 'B.Com.', 'Bachelor of Commerce', 'Degree', '2024-03-04', NULL),
-(5, 'MBA', 'Master of Business Administration', 'Master', '2024-03-05', NULL),
-(6, 'BBA', 'Bachelor of Business Administration', 'Degree', '2024-03-06', NULL),
-(7, 'M.Sc.', 'Master of Science', 'Master', '2024-03-07', NULL),
-(8, 'B.A.', 'Bachelor of Arts', 'Degree', '2024-03-08', NULL),
-(9, 'M.E.', 'Master of Engineering', 'Master', '2024-03-09', NULL),
-(10, 'Ph.D.', 'Doctor of Philosophy', 'Master', '2024-03-10', NULL),
-(11, 'LLB', 'Bachelor of Laws', 'Degree', '2024-03-11', NULL),
-(12, 'LLM', 'Master of Laws', 'Master', '2024-03-12', NULL),
-(13, 'B.Tech.', 'Bachelor of Technology', 'Degree', '2024-03-13', NULL),
-(14, 'M.Tech.', 'Master of Technology', 'Master', '2024-03-14', NULL),
-(15, 'B.Arch.', 'Bachelor of Architecture', 'Degree', '2024-03-15', NULL),
-(16, 'M.Arch.', 'Master of Architecture', 'Master', '2024-03-16', NULL),
-(17, 'B.Ed.', 'Bachelor of Education', 'Degree', '2024-03-17', NULL),
-(18, 'M.Ed.', 'Master of Education', 'Master', '2024-03-18', NULL),
-(19, 'B.Pharm.', 'Bachelor of Pharmacy', 'Degree', '2024-03-19', NULL),
-(20, 'M.Pharm.', 'Master of Pharmacy', 'Master', '2024-03-20', NULL),
-(21, 'C.java', 'Certificate Course Java', 'Certificate', '15-07-2024', '17-07-2024'),
-(26, 'DSE', 'Diploma In Software Engineering', 'Diploma', '24-07-2024', NULL);
+INSERT INTO `tbl_course` (`cid`, `code`, `cfull`, `course_level`, `isActive`, `isDelete`, `created_date`, `update_date`) VALUES
+(1, 'MCA', 'Master of Computer Applications', 'Master', 1, 0, '2024-03-01', '19-07-2024'),
+(2, 'B.E.', 'Bachelor of Engineering', 'Degree', 1, 0, '2024-03-02', NULL),
+(3, 'B.Sc.', 'Bachelor of Science', 'Degree', 1, 0, '2024-03-03', NULL),
+(4, 'B.Com.', 'Bachelor of Commerce', 'Degree', 1, 0, '2024-03-04', NULL),
+(5, 'MBA', 'Master of Business Administration', 'Master', 1, 0, '2024-03-05', NULL),
+(6, 'BBA', 'Bachelor of Business Administration', 'Degree', 1, 0, '2024-03-06', NULL),
+(7, 'M.Sc.', 'Master of Science', 'Master', 1, 0, '2024-03-07', NULL),
+(8, 'B.A.', 'Bachelor of Arts', 'Degree', 1, 0, '2024-03-08', NULL),
+(9, 'M.E.', 'Master of Engineering', 'Master', 1, 0, '2024-03-09', NULL),
+(10, 'Ph.D.', 'Doctor of Philosophy', 'Master', 1, 0, '2024-03-10', NULL),
+(11, 'LLB', 'Bachelor of Laws', 'Degree', 1, 0, '2024-03-11', NULL),
+(12, 'LLM', 'Master of Laws', 'Master', 1, 0, '2024-03-12', NULL),
+(13, 'B.Tech.', 'Bachelor of Technology', 'Degree', 1, 0, '2024-03-13', NULL),
+(14, 'M.Tech.', 'Master of Technology', 'Master', 1, 0, '2024-03-14', NULL),
+(15, 'B.Arch.', 'Bachelor of Architecture', 'Degree', 1, 0, '2024-03-15', NULL),
+(16, 'M.Arch.', 'Master of Architecture', 'Master', 1, 0, '2024-03-16', NULL),
+(17, 'B.Ed.', 'Bachelor of Education', 'Degree', 1, 0, '2024-03-17', NULL),
+(18, 'M.Ed.', 'Master of Education', 'Master', 1, 0, '2024-03-18', NULL),
+(19, 'B.Pharm.', 'Bachelor of Pharmacy', 'Degree', 1, 0, '2024-03-19', NULL),
+(20, 'M.Pharm.', 'Master of Pharmacy', 'Master', 1, 0, '2024-03-20', NULL),
+(21, 'C.java', 'Certificate Course Java', 'Certificate', 0, 0, '15-07-2024', '17-07-2024'),
+(26, 'DSE', 'Diploma In Software Engineering', 'Diploma', 0, 0, '24-07-2024', NULL),
+(27, 'a', 'a', 'English', 0, 0, '31-07-2024', NULL),
+(28, 'test2', 'test2', 'English', 0, 0, '01-08-2024', '01-08-2024');
 
 -- --------------------------------------------------------
 
@@ -595,6 +638,13 @@ INSERT INTO `training_center_faculties` (`center_id`, `faculty_id`) VALUES
 --
 
 --
+-- Indexes for table `course_faculty`
+--
+ALTER TABLE `course_faculty`
+  ADD PRIMARY KEY (`course_id`,`faculty_id`),
+  ADD KEY `faculty_id` (`faculty_id`);
+
+--
 -- Indexes for table `course_subjects`
 --
 ALTER TABLE `course_subjects`
@@ -671,7 +721,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_course`
 --
 ALTER TABLE `tbl_course`
-  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `cid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
@@ -700,6 +750,13 @@ ALTER TABLE `tbl_training_centers`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `course_faculty`
+--
+ALTER TABLE `course_faculty`
+  ADD CONSTRAINT `course_faculty_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `tbl_course` (`cid`),
+  ADD CONSTRAINT `course_faculty_ibfk_2` FOREIGN KEY (`faculty_id`) REFERENCES `tbl_faculty` (`faculty_id`);
 
 --
 -- Constraints for table `course_subjects`
