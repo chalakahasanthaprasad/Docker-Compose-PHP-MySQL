@@ -142,8 +142,7 @@ class CourseModel
 
     public function deactivateCourse($cid)
     {
-        $sql = "UPDATE tbl_course SET isActive = 0 WHERE cid = ?";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare("UPDATE tbl_course SET isActive = 0 WHERE cid = ?");
         $stmt->bind_param("i", $cid);
         return $stmt->execute();
     }
