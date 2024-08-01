@@ -42,7 +42,7 @@ class CourseController
                 exit;
             }
 
-            $query = $this->courseModel->addCourse($code, $cfullname,$courselevel, $created_date);
+            $query = $this->courseModel->addCourse($code, $cfullname, $courselevel, $created_date);
 
             if ($query) {
                 echo '<script>alert("Course Added successfully"); window.location.href="../views/add_courses.php";</script>';
@@ -84,13 +84,21 @@ class CourseController
         }
     }
 
+    public function deactivateCourse($cid)
+    {
+        $deactivationSuccess = $this->courseModel->deactivateCourse($cid);
+        $message = $deactivationSuccess ? 'Course deactivated successfully!' : 'Failed to deactivate course.';
+        echo "<script>alert('$message');</script>";
+        echo '<script>window.location.href="../views/manage_courses.php"</script>';
+    }
+
 
     public function checkCourseCodeAvailability()
     {
         if (isset($_POST['code'])) {
             $code = $_POST['code'];
             $isAvailable = $this->courseModel->isCourseCodeAvailable($code);
-            echo json_encode(['available' => $isAvailable]);
+            //echo json_encode(['available' => $isAvailable]);
         }
     }
 
@@ -99,7 +107,7 @@ class CourseController
         if (isset($_POST['cfull'])) {
             $cfull = $_POST['cfull'];
             $isAvailable = $this->courseModel->isCourseNameAvailable($cfull);
-            echo json_encode(['available' => $isAvailable]);
+            //echo json_encode(['available' => $isAvailable]);
         }
     }
     public function getLastSubject($courseCode)
@@ -129,6 +137,11 @@ if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 
     $cfullname = $_POST['cfull'] ?? null;
     $udate = $_POST['udate'] ?? null;
     $courseController->updateCourse($cid, $cshortname, $cfullname, $udate);
+
+}
+if (isset($_POST['deactivate']) && $_POST['form_id'] == 'updatecourseForm') {
+    $cid = $_POST['cid'];
+    $courseController->deactivateCourse($cid);
 
 }
 if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'addcourseForm') {

@@ -13,7 +13,7 @@ class CourseModel
     public function getAllCourses()
     {
         $table_name = "tbl_course";
-        $query = "SELECT * FROM $table_name";
+        $query = "SELECT * FROM $table_name WHERE isActive = 1";
         $response = mysqli_query($this->db, $query);
 
         if ($response) {
@@ -138,6 +138,14 @@ class CourseModel
         $stmt->bind_param('sssi', $cshortname, $cfullname, $udate, $cid); // 's' for string, 'i' for integer
         $stmt->execute();
         $stmt->close();
+    }
+
+    public function deactivateCourse($cid)
+    {
+        $sql = "UPDATE tbl_course SET isActive = 0 WHERE cid = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $cid);
+        return $stmt->execute();
     }
 
     public function deleteCourseById($cid)

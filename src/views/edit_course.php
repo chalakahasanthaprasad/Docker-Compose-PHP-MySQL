@@ -116,6 +116,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 <div class="col-lg-4"></div>
                                                 <div class="col-lg-6"><br><br>
                                                     <input type="submit" class="btn btn-primary" name="submit" value="update">
+                                                    <input type="submit" class="btn btn-warning" name="deactivate"
+                                                        value="deactivate">
                                                 </div>
                                             </div>
                                         </div>
