@@ -56,15 +56,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <select name="course" id="course" class="form-control">
                                                         <option value="">Select Course</option>
                                                         <?php
-                                                            if ($courses) {
-                                                                foreach ($courses as $course) {
-                                                                    $selected = ($course['code'] == $student['course_code']) ? 'selected' : '';
-                                                                    echo '<option value="' . htmlentities($course['code']) . '" ' . $selected . '>' . htmlentities($course['cfull']) . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="">No courses available</option>';
+                                                        if ($courses) {
+                                                            foreach ($courses as $course) {
+                                                                $selected = ($course['code'] == $student['course_code']) ? 'selected' : '';
+                                                                echo '<option value="' . htmlentities($course['code']) . '" ' . $selected . '>' . htmlentities($course['cfull']) . '</option>';
                                                             }
-                                                            ?>
+                                                        } else {
+                                                            echo '<option value="">No courses available</option>';
+                                                        }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -72,41 +72,44 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">Personal Informations</div>
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-lg-12">
 
-                                                    <div class="form-group">
-                                                        <div class="col-lg-2">
-                                                            <label>Name<span style="font-size:11px;color:red">*</span></label>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                            <input class="form-control" name="name" required="required"
-                                                                pattern="[A-Za-z]+$" value="<?php echo $student['std_name']; ?>">
-                                                        </div>
-                                                        <div class="col-lg-2">
-                                                            <label>Gender</label>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                        <input type="radio" name="gender" id="male" value="Male" <?php if ($student['gender'] == 'Male') echo 'checked'; ?>>
-                                                            <label for="male">Male</label>
-                                                            <input type="radio" name="gender" id="female" value="Female" <?php if ($student['gender'] == 'Female') echo 'checked'; ?>>
-                                                            <label for="female">Female</label>
-                                                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Personal Informations</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label>Name<span style="font-size:11px;color:red">*</span></label>
                                                     </div>
-                                                    <br><br>
-                                                    <div class="form-group">
-                                                        <div class="col-lg-2">
-                                                            <label>Date of birth</label>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                            <input class="form-control" value="<?php echo $student['birthofdate']; ?>"
-                                                                name="dob">
-                                                        </div>
+                                                    <div class="col-lg-4">
+                                                        <input class="form-control" name="name" required="required"
+                                                            pattern="[A-Za-z]+$" value="<?php echo $student['std_name']; ?>">
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label>Gender</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="radio" name="gender" id="male" value="Male" <?php if ($student['gender'] == 'Male')
+                                                            echo 'checked'; ?>>
+                                                        <label for="male">Male</label>
+                                                        <input type="radio" name="gender" id="female" value="Female" <?php if ($student['gender'] == 'Female')
+                                                            echo 'checked'; ?>>
+                                                        <label for="female">Female</label>
+                                                    </div>
+                                                </div>
+                                                <br><br>
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label>Date of birth</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input class="form-control" value="<?php echo $student['birthofdate']; ?>"
+                                                            name="dob">
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,7 +131,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="tel" name="mobile" required="required"
-                                                            maxlength="10" pattern="[0-9]{10}" value="<?php echo $student['mobile_number']; ?>">
+                                                            maxlength="10" pattern="[0-9]{10}"
+                                                            value="<?php echo $student['mobile_number']; ?>">
                                                     </div>
                                                 </div>
                                                 <br><br>
@@ -139,7 +143,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input class="form-control" type="tel" name="parent_mobile"
-                                                            required="required" maxlength="10" pattern="[0-9]{10}" value="<?php echo $student['parent_number']; ?>">
+                                                            required="required" maxlength="10" pattern="[0-9]{10}"
+                                                            value="<?php echo $student['parent_number']; ?>">
                                                     </div>
                                                 </div>
                                                 <br><br>
@@ -153,10 +158,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                             <?php
                                                             if ($cities) {
                                                                 foreach ($cities as $city) {
-                                                                    echo '<option value="' . htmlentities($city['id']) . '">' . htmlentities($city['name']) . '</option>';
+                                                                    $selected = ($city['id'] == $student['city_id']) ? 'selected' : '';
+                                                                    echo '<option value="' . htmlentities($city['id']) . '" ' . $selected . '>' . htmlentities($city['name']) . '</option>';
                                                                 }
                                                             } else {
-                                                                echo '<option value="">No courses available</option>';
+                                                                echo '<option value="">No city available</option>';
                                                             }
                                                             ?>
                                                         </select>
@@ -169,7 +175,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <textarea class="form-control" rows="3" name="address"
-                                                            required="required" ><?php echo $student['address']; ?></textarea>
+                                                            required="required"><?php echo $student['address']; ?></textarea>
                                                     </div>
                                                 </div>
                                                 <br><br>
