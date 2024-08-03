@@ -30,6 +30,26 @@ class StudentModel
         }
     }
 
+    public function getStudentsCount()
+    {
+        try {
+            $table_name = "tbl_student";
+            $query = "SELECT COUNT(*) as total_students FROM $table_name";
+            $response = mysqli_query($this->db, $query);
+
+            if ($response) {
+                $result = mysqli_fetch_assoc($response);
+                return $result['total_students'];
+            } else {
+                throw new Exception("Error fetching students count: " . mysqli_error($this->db));
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
+
     public function getStudentById($sid)
     {
         try {

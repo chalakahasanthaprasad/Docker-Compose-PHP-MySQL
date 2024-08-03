@@ -28,6 +28,21 @@ class StudentController
         }
     }
 
+    public function countsOfStudents()
+    {
+        try {
+            $stdCount = $this->studentModel->getStudentsCount();
+            if ($stdCount === false) {
+                throw new Exception("Error fetching students count.");
+            }
+            return $stdCount;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
     public function loadStudentById($sid)
     {
         try {
@@ -97,6 +112,7 @@ class StudentController
 try {
     $studentController = new StudentController($connect);
     $students = $studentController->viewStudents();
+    $stdCount = $studentController->countsOfStudents();
     $studentController->registerStudent();
 
     if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {

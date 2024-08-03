@@ -10,51 +10,118 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         session_destroy();
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
     } else {
-?>
+        ?>
         <?php include('../../includes/header.php'); ?>
+        <?php require_once('../controllers/studentController.php'); ?>
         <div id="wrapper">
-            <?php include('../../includes/sidebar.php') ?>;
+            <?php include('../../includes/sidebar.php'); ?>
 
             <div id="page-wrapper">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4 class="page-header"> <?php echo strtoupper("welcome" . " " . htmlentities($_SESSION['username'])); ?></h4>
+                            <h1 class="page-header">Dashboard</h1>
+                            <h4><?php echo strtoupper("Welcome " . htmlentities($_SESSION['username'])); ?></h4>
                         </div>
-                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- content here -->
+                    <!-- Modern Dashboard Cards -->
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel panel-default">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    Student Information
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-users fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge"><?php echo htmlspecialchars($stdCount); ?></div>
+                                            <div>Total Students</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="panel-body">
-                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>Student ID</th>
-                                                <th>Name</th>
-                                                <th>Class</th>
-                                                <th>Age</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Add PHP code here to fetch and display students from the database -->
-                                        </tbody>
-                                    </table>
+                                <a href="#">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-green">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-book fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge">18</div>
+                                            <div>Total Courses</div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <a href="#">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-yellow">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-calendar fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge">7</div>
+                                            <div>Upcoming Events</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-envelope fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge">5</div>
+                                            <div>New Messages</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
+                    <!-- End Modern Dashboard Cards -->
                 </div>
             </div>
         </div>
         <?php include '../../includes/datetime.php'; ?>
 
-<?php
+        <?php
     }
 }
 ?>
