@@ -13,6 +13,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         ?>
         <?php include('../../includes/header.php'); ?>
         <?php require_once('../controllers/studentController.php'); ?>
+        <?php require_once('../controllers/courseController.php'); ?>
         <div id="wrapper">
             <?php include('../../includes/sidebar.php'); ?>
 
@@ -56,12 +57,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <i class="fa fa-book fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge">18</div>
+                                            <div class="huge"><?php echo htmlspecialchars($coursesCount); ?></div>
                                             <div>Total Courses</div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">
+                                <a href="view_courses.php">
                                     <div class="panel-footer">
                                         <span class="pull-left">View Details</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

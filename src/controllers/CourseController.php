@@ -23,6 +23,21 @@ class CourseController
         return $courses;
     }
 
+    public function countsOfCourses()
+    {
+        try {
+            $coursesCount = $this->courseModel->getCoursesCount();
+            if ($coursesCount === false) {
+                throw new Exception("Error fetching courses count.");
+            }
+            return $coursesCount;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
     public function addCourse()
     {
         if (isset($_POST['submit'])) {
@@ -123,6 +138,7 @@ class CourseController
 
 
 $courseController = new CourseController($connect);
+$coursesCount = $courseController->countsOfCourses();
 
 // Handle AJAX request
 if (isset($_POST['code'])) {
