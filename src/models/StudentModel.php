@@ -49,6 +49,27 @@ class StudentModel
         }
     }
 
+    public function getCoursesWithStudentsCount($sid)
+    {
+        try {
+            $stmt = mysqli_prepare($this->db, "SELECT COUNT(*) AS student_count FROM tbl_student WHERE course_code = ?");
+            if (!$stmt) {
+                throw new Exception("Prepare statement failed: " . mysqli_error($this->db));
+            }
+            mysqli_stmt_bind_param($stmt, 'i', $sid);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            if (!$result) {
+                throw new Exception("Get result count: " . mysqli_error($this->db));
+            }
+            $csc = mysqli_fetch_assoc($result);
+            mysqli_stmt_close($stmt);
+            return $csc;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
 
     public function getStudentById($sid)
     {

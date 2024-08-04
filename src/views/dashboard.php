@@ -25,8 +25,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <h4><?php echo strtoupper("Welcome " . htmlentities($_SESSION['username'])); ?></h4>
                         </div>
                     </div>
+
                     <!-- Modern Dashboard Cards -->
                     <div class="row">
+                        <!-- Total Students -->
                         <div class="col-lg-3 col-md-6">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
@@ -49,6 +51,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </a>
                             </div>
                         </div>
+                        <!-- Total Courses -->
                         <div class="col-lg-3 col-md-6">
                             <div class="panel panel-green">
                                 <div class="panel-heading">
@@ -71,6 +74,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </a>
                             </div>
                         </div>
+                        <!-- Upcoming Events -->
                         <div class="col-lg-3 col-md-6">
                             <div class="panel panel-yellow">
                                 <div class="panel-heading">
@@ -93,6 +97,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </a>
                             </div>
                         </div>
+                        <!-- New Messages -->
                         <div class="col-lg-3 col-md-6">
                             <div class="panel panel-red">
                                 <div class="panel-heading">
@@ -116,12 +121,88 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             </div>
                         </div>
                     </div>
-                    <!-- End Modern Dashboard Cards -->
+
+                    <!-- Charts -->
+                    <div class="row">
+                        <!-- Performance Chart -->
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Student Performance</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="performance-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Course Enrollment Chart -->
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Course Enrollment</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="enrollment-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
         <?php include '../../includes/datetime.php'; ?>
+        <script>
+            $(document).ready(function () {
+                // Initialize Chart.js
+                var ctx1 = document.getElementById('performance-chart').getContext('2d');
+                var performanceChart = new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Math', 'Science', 'History', 'English'],
+                        datasets: [{
+                            label: 'Performance',
+                            data: [65, 59, 80, 81],
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
 
+                var ctx2 = document.getElementById('enrollment-chart').getContext('2d');
+                var enrollmentChart = new Chart(ctx2, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Science', 'Math', 'History', 'English'],
+                        datasets: [{
+                            label: 'Course Enrollment',
+                            data: [12, 19, 5, 9],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+            });
+        </script>
         <?php
     }
 }
