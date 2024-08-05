@@ -6,6 +6,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 } else {
     $now = time(); // 30 min -  Checking the time now when home page starts.
 
+
+    require_once('../controllers/DashboardController.php');
+    $bsc_count = $msc_count = $bec_count = $bcomc_count = 0; // Default values
+
+    foreach ($ccounts as $ccount) {
+        $bsc_count = $ccount['bsc_count'];
+        $msc_count = $ccount['msc_count'];
+        $bec_count = $ccount['bec_count'];
+        $bcomc_count = $ccount['bcomc_count'];
+    }
+
     if ($now > $_SESSION['expire']) {
         session_destroy();
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
@@ -14,7 +25,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php include('../../includes/header.php'); ?>
         <?php require_once('../controllers/courseController.php'); ?>
         <?php require_once('../controllers/StudentController.php'); ?>
-        <?php require_once('../controllers/DashboardController.php'); ?>
         <div id="wrapper">
             <?php include('../../includes/sidebar.php'); ?>
 
@@ -129,7 +139,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <div class="col-lg-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Student Performance</h3>
+                                    <h3 class="panel-title">Student Counts</h3>
                                 </div>
                                 <div class="panel-body">
                                     <canvas id="performance-chart"></canvas>
@@ -141,10 +151,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
-                                        <?php foreach ($ccounts as $ccount): ?>
-                                            <?php echo $ccount['bsc_count']; ?></b>
-
-                                        <?php endforeach; ?>
                                     </h3>
                                 </div>
                                 <div class="panel-body">
@@ -165,10 +171,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 var performanceChart = new Chart(ctx1, {
                     type: 'bar',
                     data: {
-                        labels: ['Math', 'Science', 'History', 'English'],
+                        labels: ['B.Sc', 'MCA', 'B.E', 'B.Com'],
                         datasets: [{
                             label: 'Performance',
-                            data: [65, 59, 80, 81],
+                            data: [<?php echo $bsc_count; ?>, <?php echo $msc_count; ?>, <?php echo $bec_count; ?>, <?php echo $bcomc_count; ?>],
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                             borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 1

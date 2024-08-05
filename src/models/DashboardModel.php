@@ -13,7 +13,11 @@ class DashboardModel
     {
         try {
             $table_name = "tbl_student";
-            $query = "SELECT SUM(CASE WHEN course_code = 'B.Sc.' THEN 1 ELSE 0 END) AS bsc_count FROM $table_name";
+            $query = "SELECT SUM(CASE WHEN course_code = 'B.Sc.' THEN 1 ELSE 0 END) AS bsc_count,
+            SUM(CASE WHEN course_code = 'MCA' THEN 1 ELSE 0 END) AS msc_count,
+            SUM(CASE WHEN course_code='B.E.' THEN 1 ELSE 0 END) AS bec_count,
+            SUM(CASE WHEN course_code='B.Com.' THEN 1 ELSE 0 END) AS bcomc_count
+            FROM $table_name";
             $response = mysqli_query($this->db, $query);
 
             if ($response) {
