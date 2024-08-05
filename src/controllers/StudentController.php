@@ -132,7 +132,6 @@ try {
     $studentController = new StudentController($connect);
     $students = $studentController->viewStudents();
     $stdCount = $studentController->countsOfStudents();
-    $stdCount = $studentController->countsOfStudents();
     $studentController->registerStudent();
 
     if (isset($_POST['submit']) && isset($_POST['form_id']) && $_POST['form_id'] == 'updatecourseForm') {

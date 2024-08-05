@@ -12,8 +12,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include('../../includes/header.php'); ?>
-        <?php require_once('../controllers/studentController.php'); ?>
         <?php require_once('../controllers/courseController.php'); ?>
+        <?php require_once('../controllers/StudentController.php'); ?>
+        <?php require_once('../controllers/DashboardController.php'); ?>
         <div id="wrapper">
             <?php include('../../includes/sidebar.php'); ?>
 
@@ -139,7 +140,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         <div class="col-lg-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Course Enrollment</h3>
+                                    <h3 class="panel-title">
+                                        <?php foreach ($ccounts as $ccount): ?>
+                                            <?php echo $ccount['bsc_count']; ?></b>
+
+                                        <?php endforeach; ?>
+                                    </h3>
                                 </div>
                                 <div class="panel-body">
                                     <canvas id="enrollment-chart"></canvas>
