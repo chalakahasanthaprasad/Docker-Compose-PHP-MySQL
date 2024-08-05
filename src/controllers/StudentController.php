@@ -62,6 +62,25 @@ class StudentController
         }
     }
 
+    public function loadCoursesWithStudentsCountByCourseId($cid)
+    {
+        try {
+            // if (empty($sid) || !is_numeric($sid)) {
+            //     throw new Exception("Invalid student ID");
+            // }
+
+            $csc = $this->studentModel->getCoursesWithStudentsCount($cid);
+            if ($csc === false) {
+                throw new Exception("Error fetching student");
+            }
+            return $csc;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage()); // Log the error for debugging
+            return false;
+        }
+    }
+
     public function registerStudent()
     {
         try {

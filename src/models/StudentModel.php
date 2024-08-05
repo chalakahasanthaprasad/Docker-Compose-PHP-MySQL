@@ -49,7 +49,6 @@ class StudentModel
         }
     }
 
-
     public function getStudentById($sid)
     {
         try {
