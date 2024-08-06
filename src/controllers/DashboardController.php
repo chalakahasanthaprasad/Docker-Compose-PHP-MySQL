@@ -42,12 +42,28 @@ class DashboardController
             return false;
         }
     }
+
+    public function countsOfCenters()
+    {
+        try {
+            $centerCounts = $this->dashboardModel->getCentersCount();
+            if ($centerCounts === false) {
+                throw new Exception("Error fetching centers count.");
+            }
+            return $centerCounts;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
 }
 
 try {
     $dashboardController = new DashboardController($connect);
     $ccounts = $dashboardController->viewCountOfCoursesStudents();
     $coursesCounts = $dashboardController->countsOfCoursesAndtypes();
+    $centerCounts = $dashboardController->countsOfCenters();
 } catch (Exception $e) {
     error_log($e->getMessage()); // Log the error for debugging
 }

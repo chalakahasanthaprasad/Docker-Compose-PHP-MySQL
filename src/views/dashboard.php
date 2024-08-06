@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
     require_once('../controllers/DashboardController.php');
     $bsc_count = $msc_count = $bec_count = $bcomc_count = 0; // Default values
-    $training_centers_count = $locations_count = $faculties_count = 0; // New default values
+    $training_centers_count = $faculties_count = 0; // New default values
     $master_courses_count = $degree_courses_count = $diploma_courses_count = 0; // New default values
 
     // Ensure $ccounts is defined and is an array
@@ -18,10 +18,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             $msc_count = isset($ccount['msc_count']) ? $ccount['msc_count'] : $msc_count;
             $bec_count = isset($ccount['bec_count']) ? $ccount['bec_count'] : $bec_count;
             $bcomc_count = isset($ccount['bcomc_count']) ? $ccount['bcomc_count'] : $bcomc_count;
-            // Uncomment these lines if these values are returned in $ccounts
-            // $training_centers_count = isset($ccount['training_centers_count']) ? $ccount['training_centers_count'] : $training_centers_count;
-            // $locations_count = isset($ccount['locations_count']) ? $ccount['locations_count'] : $locations_count;
-            // $faculties_count = isset($ccount['faculties_count']) ? $ccount['faculties_count'] : $faculties_count;
         }
     }
 
@@ -32,6 +28,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             $diploma_courses_count = isset($coursesCount['diploma_courses_count']) ? $coursesCount['diploma_courses_count'] : $diploma_courses_count;
             $master_courses_count = isset($coursesCount['master_courses_count']) ? $coursesCount['master_courses_count'] : $master_courses_count;
             $degree_courses_count = isset($coursesCount['degree_courses_count']) ? $coursesCount['degree_courses_count'] : $degree_courses_count;
+        }
+    }
+
+    if (isset($centerCounts) && is_array($centerCounts)) {
+        foreach ($centerCounts as $centerCount) {
+            $training_centers_count = isset($centerCount['unique_centers']) ? $centerCount['unique_centers'] : $training_centers_count;
+            $faculties_count = isset($centerCount['faculty_count']) ? $centerCount['faculty_count'] : $training_centers_count;
         }
     }
 
