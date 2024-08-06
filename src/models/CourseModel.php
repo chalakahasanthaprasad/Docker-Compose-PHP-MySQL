@@ -27,24 +27,6 @@ class CourseModel
         }
     }
 
-    public function getCoursesCount()
-    {
-        try {
-            $table_name = "tbl_course";
-            $query = "SELECT COUNT(*) as total_courses FROM $table_name";
-            $response = mysqli_query($this->db, $query);
-
-            if ($response) {
-                $result = mysqli_fetch_assoc($response);
-                return $result['total_courses'];
-            } else {
-                throw new Exception("Error fetching courses count: " . mysqli_error($this->db));
-            }
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            return false;
-        }
-    }
 
     public function addCourse($code, $cfullname, $courselevel, $created_date)
     {

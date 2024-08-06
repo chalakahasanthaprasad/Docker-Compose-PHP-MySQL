@@ -4,17 +4,38 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("location: login.php");
     exit;
 } else {
-    $now = time(); // 30 min -  Checking the time now when home page starts.
-
+    $now = time(); // Checking the time now when home page starts.
 
     require_once('../controllers/DashboardController.php');
     $bsc_count = $msc_count = $bec_count = $bcomc_count = 0; // Default values
+    $training_centers_count = $faculties_count = 0; // New default values
+    $master_courses_count = $degree_courses_count = $diploma_courses_count = 0; // New default values
 
-    foreach ($ccounts as $ccount) {
-        $bsc_count = $ccount['bsc_count'];
-        $msc_count = $ccount['msc_count'];
-        $bec_count = $ccount['bec_count'];
-        $bcomc_count = $ccount['bcomc_count'];
+    // Ensure $ccounts is defined and is an array
+    if (isset($ccounts) && is_array($ccounts)) {
+        foreach ($ccounts as $ccount) {
+            $bsc_count = isset($ccount['bsc_count']) ? $ccount['bsc_count'] : $bsc_count;
+            $msc_count = isset($ccount['msc_count']) ? $ccount['msc_count'] : $msc_count;
+            $bec_count = isset($ccount['bec_count']) ? $ccount['bec_count'] : $bec_count;
+            $bcomc_count = isset($ccount['bcomc_count']) ? $ccount['bcomc_count'] : $bcomc_count;
+        }
+    }
+
+    // Ensure $coursesCounts is defined and is an array
+    if (isset($coursesCounts) && is_array($coursesCounts)) {
+        foreach ($coursesCounts as $coursesCount) {
+            $total_courses = isset($coursesCount['total_courses']) ? $coursesCount['total_courses'] : $total_courses;
+            $diploma_courses_count = isset($coursesCount['diploma_courses_count']) ? $coursesCount['diploma_courses_count'] : $diploma_courses_count;
+            $master_courses_count = isset($coursesCount['master_courses_count']) ? $coursesCount['master_courses_count'] : $master_courses_count;
+            $degree_courses_count = isset($coursesCount['degree_courses_count']) ? $coursesCount['degree_courses_count'] : $degree_courses_count;
+        }
+    }
+
+    if (isset($centerCounts) && is_array($centerCounts)) {
+        foreach ($centerCounts as $centerCount) {
+            $training_centers_count = isset($centerCount['unique_centers']) ? $centerCount['unique_centers'] : $training_centers_count;
+            $faculties_count = isset($centerCount['faculty_count']) ? $centerCount['faculty_count'] : $training_centers_count;
+        }
     }
 
     if ($now > $_SESSION['expire']) {
@@ -23,7 +44,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include('../../includes/header.php'); ?>
-        <?php require_once('../controllers/courseController.php'); ?>
         <?php require_once('../controllers/StudentController.php'); ?>
         <div id="wrapper">
             <?php include('../../includes/sidebar.php'); ?>
@@ -36,11 +56,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <h4><?php echo strtoupper("Welcome " . htmlentities($_SESSION['username'])); ?></h4>
                         </div>
                     </div>
+                    <br><br>
 
-                    <!-- Modern Dashboard Cards -->
+
+                    <!-- studnts Section -->
                     <div class="row">
-                        <!-- Total Students -->
-                        <div class="col-lg-3 col-md-6">
+                        <div class="col-lg-12">
+                            <h3 class="section-heading">Students</h3>
+                        </div>
+                        <!-- Student Counts Chart -->
+                        <div class="col-lg-6">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -61,6 +86,32 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     </div>
                                 </a>
                             </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Student Counts by Course Type</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="performance-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Course Enrollment Chart -->
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Training Centers wise Students</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="enrollment-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Section -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3 class="section-heading">Courses</h3>
                         </div>
                         <!-- Total Courses -->
                         <div class="col-lg-3 col-md-6">
@@ -71,7 +122,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <i class="fa fa-book fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge"><?php echo htmlspecialchars($coursesCount); ?></div>
+                                            <div class="huge"><?php echo htmlspecialchars($total_courses); ?></div>
                                             <div>Total Courses</div>
                                         </div>
                                     </div>
@@ -85,21 +136,21 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </a>
                             </div>
                         </div>
-                        <!-- Upcoming Events -->
+                        <!-- Master Courses -->
                         <div class="col-lg-3 col-md-6">
-                            <div class="panel panel-yellow">
+                            <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-3">
-                                            <i class="fa fa-calendar fa-5x"></i>
+                                            <i class="fa fa-graduation-cap fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge">7</div>
-                                            <div>Upcoming Events</div>
+                                            <div class="huge"><?php echo htmlspecialchars($master_courses_count); ?></div>
+                                            <div>Master Courses</div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">
+                                <a href="view_master_courses.php">
                                     <div class="panel-footer">
                                         <span class="pull-left">View Details</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -108,21 +159,44 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </a>
                             </div>
                         </div>
-                        <!-- New Messages -->
+                        <!-- Degree Courses -->
                         <div class="col-lg-3 col-md-6">
-                            <div class="panel panel-red">
+                            <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-3">
-                                            <i class="fa fa-envelope fa-5x"></i>
+                                            <i class="fa fa-graduation-cap fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge">5</div>
-                                            <div>New Messages</div>
+                                            <div class="huge"><?php echo htmlspecialchars($degree_courses_count); ?></div>
+                                            <div>Degree Courses</div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#">
+                                <a href="view_degree_courses.php">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Diploma Courses -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-graduation-cap fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge"><?php echo htmlspecialchars($diploma_courses_count); ?></div>
+                                            <div>Diploma Courses</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="view_diploma_courses.php">
                                     <div class="panel-footer">
                                         <span class="pull-left">View Details</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -133,29 +207,56 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         </div>
                     </div>
 
-                    <!-- Charts -->
+                    <!-- Centers Section -->
                     <div class="row">
-                        <!-- Performance Chart -->
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
+                        <div class="col-lg-12">
+                            <h3 class="section-heading">Centers and Faculties</h3>
+                        </div>
+                        <!-- Training Centers -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Student Counts</h3>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-building fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge"><?php echo htmlspecialchars($training_centers_count); ?></div>
+                                            <div>Training Centers</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="panel-body">
-                                    <canvas id="performance-chart"></canvas>
-                                </div>
+                                <a href="view_training_centers.php">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                        <!-- Course Enrollment Chart -->
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
+
+                        <!-- Faculties -->
+                        <div class="col-lg-3 col-md-6">
+                            <div class="panel panel-success">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">
-                                    </h3>
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <i class="fa fa-chalkboard-teacher fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge"><?php echo htmlspecialchars($faculties_count); ?></div>
+                                            <div>Faculties</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="panel-body">
-                                    <canvas id="enrollment-chart"></canvas>
-                                </div>
+                                <a href="view_faculties.php">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -173,7 +274,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     data: {
                         labels: ['B.Sc', 'MCA', 'B.E', 'B.Com'],
                         datasets: [{
-                            label: 'Performance',
+                            label: 'Student Counts',
                             data: [<?php echo $bsc_count; ?>, <?php echo $msc_count; ?>, <?php echo $bec_count; ?>, <?php echo $bcomc_count; ?>],
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                             borderColor: 'rgba(54, 162, 235, 1)',
@@ -193,21 +294,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 var enrollmentChart = new Chart(ctx2, {
                     type: 'pie',
                     data: {
-                        labels: ['Science', 'Math', 'History', 'English'],
+                        labels: ['Colombo', 'Kurunagela', 'Kandy', 'Galle', 'Mathara'],
                         datasets: [{
-                            label: 'Course Enrollment',
-                            data: [12, 19, 5, 9],
+                            label: 'Training Centers wise Students',
+                            data: [26547, 12753, 13457, 8751, 11656],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
                                 'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)'
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(120, 110, 102, 0.2)'
                             ],
                             borderColor: [
                                 'rgba(255, 99, 132, 1)',
                                 'rgba(54, 162, 235, 1)',
                                 'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)'
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(60, 60, 60, 1)'
                             ],
                             borderWidth: 1
                         }]
@@ -219,6 +322,4 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     }
 }
 ?>
-
-
 <?php include '../../includes/footer.php'; ?>
