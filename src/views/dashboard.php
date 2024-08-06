@@ -11,16 +11,28 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     $training_centers_count = $locations_count = $faculties_count = 0; // New default values
     $master_courses_count = $degree_courses_count = $diploma_courses_count = 0; // New default values
 
-    foreach ($ccounts as $ccount) {
-        $bsc_count = $ccount['bsc_count'];
-        $msc_count = $ccount['msc_count'];
-        $bec_count = $ccount['bec_count'];
-        $bcomc_count = $ccount['bcomc_count'];
-        // $training_centers_count = $ccount['training_centers_count'];
-        // $locations_count = $ccount['locations_count'];
-        // $faculties_count = $ccount['faculties_count'];
-        // $master_courses_count = $ccount['master_courses_count'];
-        // $degree_courses_count = $ccount['degree_courses_count'];
+    // Ensure $ccounts is defined and is an array
+    if (isset($ccounts) && is_array($ccounts)) {
+        foreach ($ccounts as $ccount) {
+            $bsc_count = isset($ccount['bsc_count']) ? $ccount['bsc_count'] : $bsc_count;
+            $msc_count = isset($ccount['msc_count']) ? $ccount['msc_count'] : $msc_count;
+            $bec_count = isset($ccount['bec_count']) ? $ccount['bec_count'] : $bec_count;
+            $bcomc_count = isset($ccount['bcomc_count']) ? $ccount['bcomc_count'] : $bcomc_count;
+            // Uncomment these lines if these values are returned in $ccounts
+            // $training_centers_count = isset($ccount['training_centers_count']) ? $ccount['training_centers_count'] : $training_centers_count;
+            // $locations_count = isset($ccount['locations_count']) ? $ccount['locations_count'] : $locations_count;
+            // $faculties_count = isset($ccount['faculties_count']) ? $ccount['faculties_count'] : $faculties_count;
+        }
+    }
+
+    // Ensure $coursesCounts is defined and is an array
+    if (isset($coursesCounts) && is_array($coursesCounts)) {
+        foreach ($coursesCounts as $coursesCount) {
+            $total_courses = isset($coursesCount['total_courses']) ? $coursesCount['total_courses'] : $total_courses;
+            $diploma_courses_count = isset($coursesCount['diploma_courses_count']) ? $coursesCount['diploma_courses_count'] : $diploma_courses_count;
+            $master_courses_count = isset($coursesCount['master_courses_count']) ? $coursesCount['master_courses_count'] : $master_courses_count;
+            $degree_courses_count = isset($coursesCount['degree_courses_count']) ? $coursesCount['degree_courses_count'] : $degree_courses_count;
+        }
     }
 
     if ($now > $_SESSION['expire']) {
@@ -29,7 +41,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include('../../includes/header.php'); ?>
-        <?php require_once('../controllers/courseController.php'); ?>
         <?php require_once('../controllers/StudentController.php'); ?>
         <div id="wrapper">
             <?php include('../../includes/sidebar.php'); ?>
@@ -108,7 +119,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <i class="fa fa-book fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge"><?php echo htmlspecialchars($coursesCount); ?></div>
+                                            <div class="huge"><?php echo htmlspecialchars($total_courses); ?></div>
                                             <div>Total Courses</div>
                                         </div>
                                     </div>

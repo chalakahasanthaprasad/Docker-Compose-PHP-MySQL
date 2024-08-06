@@ -27,11 +27,27 @@ class DashboardController
             return false;
         }
     }
+
+    public function countsOfCoursesAndtypes()
+    {
+        try {
+            $coursesCounts = $this->dashboardModel->getCoursesCount();
+            if ($coursesCounts === false) {
+                throw new Exception("Error fetching courses count.");
+            }
+            return $coursesCounts;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
 }
 
 try {
     $dashboardController = new DashboardController($connect);
     $ccounts = $dashboardController->viewCountOfCoursesStudents();
+    $coursesCounts = $dashboardController->countsOfCoursesAndtypes();
 } catch (Exception $e) {
     error_log($e->getMessage()); // Log the error for debugging
 }
