@@ -86,13 +86,19 @@ class StudentController
         try {
             if (isset($_POST['submit'])) {
                 $data = [
+                    'title' => $_POST['title'],
                     'fname' => $_POST['name'],
+                    'tcenter' => $_POST['tcenter'],
+                    'faculty' => $_POST['faculty'],
                     'course' => $_POST['course'],
+                    'nic' => $_POST['nic'],
                     'gender' => $_POST['gender'],
                     'address' => $_POST['address'],
+                    'email' => $_POST['email'],
                     'dob' => $_POST['dob'],
                     'mobile' => $_POST['mobile'],
                     'parent_mobile' => $_POST['parent_mobile'],
+                    'language' => $_POST['language'],
                     'regdate' => $_POST['registerd_date'],
                     'city' => $_POST['city']
                 ];
