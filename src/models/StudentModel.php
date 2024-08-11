@@ -74,13 +74,13 @@ class StudentModel
     public function registerStudent($data)
     {
         try {
-            $query = "INSERT INTO tbl_student (std_name, course_code, gender, address, birthofdate, mobile_number, parent_number, registered_date, city_id)
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO tbl_student (title,std_name,tcenter_id,faculty_id,course_code,nic_no,gender,email,address, birthofdate, mobile_number, parent_number,f_language,registered_date, city_id)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,?,?,?)";
             $stmt = $this->db->prepare($query);
             if (!$stmt) {
                 throw new Exception("Prepare statement failed: " . mysqli_error($this->db));
             }
-            $stmt->bind_param("sssssssss", ...array_values($data));
+            $stmt->bind_param("ssiiisssssssssi", ...array_values($data));
             if (!$stmt->execute()) {
                 throw new Exception("Execute statement failed: " . $stmt->error);
             }

@@ -106,8 +106,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>Full Name<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    <input class="form-control" name="name" required="required"
-                                                        pattern="[A-Za-z]+$">
+                                                    <input class="form-control" name="name" required="required">
                                                 </div>
                                             </div>
 
