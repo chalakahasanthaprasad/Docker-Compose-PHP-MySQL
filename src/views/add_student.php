@@ -15,6 +15,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php include('../controllers/CourseController.php'); ?>
         <?php include('../controllers/CityController.php'); ?>
         <?php include('../controllers/FacultyController.php'); ?>
+        <?php include('../controllers/BatchController.php'); ?>
         <?php include('../controllers/TrainingCenterLocationController.php'); ?>
         <form method="post" id="addstudentForm" action="../controllers/StudentController.php">
             <div id="wrapper">
@@ -66,6 +67,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 <label for="course">Course Program You are Looking For</label>
                                                 <select id="d_courses" name="course" class="form-control">
                                                     <option value="">Select Programme</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <label for="batch">Enroll for which batch</label>
+                                                <select id="d_batches" name="batch" class="form-control">
+                                                    <option value="">Select Batch</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -307,7 +318,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             type: "POST",
                             data: { center_id: centerId },
                             success: function (response) {
-                                console.log("AJAX response:", response); // Debugging line
+                                console.log("Faculty AJAX response:", response); // Debugging line
                                 let facultyData = JSON.parse(response);
                                 let $facultyDropdown = $("#d_faculty");
                                 $facultyDropdown.empty(); // Clear existing options
@@ -385,6 +396,67 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 $("#tcenter").change(function () {
                     centerId = $(this).val();
                     $("#d_faculty").trigger('change'); // Trigger change on faculty dropdown to refresh courses
+                });
+            });
+
+
+            // Fetch and display the all courses by trainnig center and faculty id wise
+            $(document).ready(function () {
+                // Assuming you already have code to capture and set the centerId variable
+                let centerId = $("#tcenter").val();
+                let facultyId = $("#d_faculty").val();
+
+                $("#d_courses").change(function () {
+                    let courseId = $(this).val();
+                    //console.log("Batch AJAX response:", centerId, facultyId, courseId);
+                    if (facultyId && centerId && courseId) {
+                        $.ajax({
+                            url: "../controllers/BatchController.php",
+                            type: "POST",
+                            data: { faculty_id_2: facultyId, center_id_2: centerId, course_id_2: courseId },
+                            success: function (response) {
+                                console.log("Batch AJAX response:", response); // Debugging line
+
+                                let batchData = JSON.parse(response);
+                                let $batchDropdown = $("#d_batches");
+                                $batchDropdown.empty(); // Clear existing options
+
+                                if (batchData && batchData.length > 0) {
+                                    $batchDropdown.append($("<option></option>").attr("value", "").text("Select Batch"));
+                                    batchData.forEach(function (batch) {
+                                        $batchDropdown.append(
+                                            $("<option></option>")
+                                                .attr("value", batch.batch_id)
+                                                .text(batch.batch_code)
+                                        );
+                                    });
+                                } else {
+                                    $batchDropdown.append(
+                                        $("<option></option>")
+                                            .attr("value", "")
+                                            .text("No batches available")
+                                    );
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Batches AJAX error:", status, error); // Error handling
+                            }
+                        });
+                    } else {
+                        $("#d_courses").empty(); // Clear the courses dropdown if no faculty or center is selected
+                    }
+                });
+
+                // Update the centerId variable when the center dropdown changes
+                $("#tcenter").change(function () {
+                    centerId = $(this).val();
+                    $("#d_courses").trigger('change');
+                });
+
+                // Update the facultyId variable when the faculty dropdown changes
+                $("#d_faculty").change(function () {
+                    facultyId = $(this).val(); // Update the facultyId
+                    $("#d_courses").trigger('change'); // Trigger change event to update batches
                 });
             });
 
