@@ -95,3 +95,7 @@ Therefore, subjects would be more standard and conventional than subject.
 507 Insufficient Storage: The server is unable to store the representation needed to complete the request. (WebDAV)
 508 Loop Detected: The server detected an infinite loop while processing a request with "Depth: infinity". (WebDAV)
 510 Not Extended: Further extensions to the request are required for the server to fulfill it. (RFC 2774)
+
+
+#Remove data
+TRUNCATE TABLE `tbl_student`;
