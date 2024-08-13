@@ -29,4 +29,12 @@ class BatchModel
         return $batches;
     }
 
+    public function updateBatchStdCount($centerId, $facultyId, $courseId)
+    {
+        $stmt = $this->db->prepare("UPDATE tbl_batch SET student_count = student_count+1 WHERE center_id= ? AND faculty_id= ? AND course_id= ?");
+        $stmt->bind_param('iii', $centerId, $facultyId, $courseId); // 's' for string, 'i' for integer
+        $res = $stmt->execute();
+        return $res;
+    }
+
 }

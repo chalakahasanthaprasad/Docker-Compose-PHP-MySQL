@@ -101,7 +101,7 @@ class StudentController
                 }
 
                 //create student index
-                echo $std_index = $batch_Code . '-0' . $std_count;
+                echo $std_index = $batch_Code . '-0' . $std_count + 1;
 
                 $data = [
                     'title' => $_POST['title'],
@@ -130,6 +130,8 @@ class StudentController
                 echo "<script>console.log($jsonData);</script>";
 
                 if ($this->studentModel->registerStudent($data)) {
+                    $UpdateSuccess = $this->batchModel->updateBatchStdCount($centerId, $facultyId, $courseId);
+                    $message = $UpdateSuccess ? 'Batch count update successfully!' : 'Failed to Batch count update.';
                     echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
                 } else {
                     throw new Exception("Something went wrong. Please try again");
