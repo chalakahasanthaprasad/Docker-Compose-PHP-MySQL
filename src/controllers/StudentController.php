@@ -129,11 +129,11 @@ class StudentController
                 // Output the JSON data to the browser's console
                 echo "<script>console.log($jsonData);</script>";
 
-                // if ($this->studentModel->registerStudent($data)) {
-                //     echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
-                // } else {
-                //     throw new Exception("Something went wrong. Please try again");
-                // }
+                if ($this->studentModel->registerStudent($data)) {
+                    echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
+                } else {
+                    throw new Exception("Something went wrong. Please try again");
+                }
             }
         } catch (Exception $e) {
             echo '<script>alert("' . $e->getMessage() . '"); window.location.href="../views/add_student.php";</script>';
