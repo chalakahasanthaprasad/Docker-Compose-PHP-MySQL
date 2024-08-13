@@ -3,14 +3,17 @@
 
 require_once('../../config/dbcon.php');
 require_once('../models/StudentModel.php');
+require_once('../models/BatchModel.php');
 
 class StudentController
 {
     private $studentModel;
+    private $batchModel;
 
     public function __construct($db)
     {
         $this->studentModel = new StudentModel($db);
+        $this->batchModel = new BatchModel($db);
     }
 
     public function viewStudents()
@@ -85,12 +88,29 @@ class StudentController
     {
         try {
             if (isset($_POST['submit'])) {
+
+                $facultyId = $_POST['faculty'];
+                $centerId = $_POST['tcenter'];
+                $courseId = $_POST['course'];
+                $batches = $this->batchModel->getBatchesByCenterIdAndFacultyIdAndCoursesId($centerId, $facultyId, $courseId);
+
+                foreach ($batches as $batch) {
+                    $batch_Id = $batch['batch_id'];
+                    $batch_Code = $batch['batch_code'];
+                    $std_count = $batch['student_count'];
+                }
+
+                //create student index
+                echo $std_index = $batch_Code . '-0' . $std_count;
+
                 $data = [
                     'title' => $_POST['title'],
                     'fname' => $_POST['name'],
+                    'index' => $std_index,
                     'tcenter' => $_POST['tcenter'],
                     'faculty' => $_POST['faculty'],
                     'course' => $_POST['course'],
+                    'batch' => $batch_Id,
                     'nic' => $_POST['nic'],
                     'gender' => $_POST['gender'],
                     'address' => $_POST['address'],
@@ -109,11 +129,11 @@ class StudentController
                 // Output the JSON data to the browser's console
                 echo "<script>console.log($jsonData);</script>";
 
-                if ($this->studentModel->registerStudent($data)) {
-                    echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
-                } else {
-                    throw new Exception("Something went wrong. Please try again");
-                }
+                // if ($this->studentModel->registerStudent($data)) {
+                //     echo '<script>alert("Student Registration successful "); window.location.href="../views/add_student.php";</script>';
+                // } else {
+                //     throw new Exception("Something went wrong. Please try again");
+                // }
             }
         } catch (Exception $e) {
             echo '<script>alert("' . $e->getMessage() . '"); window.location.href="../views/add_student.php";</script>';

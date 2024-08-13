@@ -13,7 +13,7 @@ class BatchModel
     public function getBatchesByCenterIdAndFacultyIdAndCoursesId($centerId, $facultyId, $courseId)
     {
         $query = "
-            SELECT batch_id, batch_code FROM tbl_batch WHERE center_id= ? AND faculty_id= ? AND course_id= ? AND enrollment_end_date > CURDATE();
+            SELECT batch_id, batch_code,student_count FROM tbl_batch WHERE center_id= ? AND faculty_id= ? AND course_id= ? AND enrollment_end_date > CURDATE();
         ";
 
         $stmt = $this->db->prepare($query);
@@ -28,4 +28,5 @@ class BatchModel
         }
         return $batches;
     }
+
 }
