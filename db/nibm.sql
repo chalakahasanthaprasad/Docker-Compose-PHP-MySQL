@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Aug 12, 2024 at 06:07 PM
+-- Generation Time: Aug 13, 2024 at 06:14 PM
 -- Server version: 8.0.39
 -- PHP Version: 8.2.8
 
@@ -379,10 +379,12 @@ CREATE TABLE `tbl_student` (
   `std_id` int NOT NULL,
   `title` varchar(6) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `std_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `std_index` varchar(30) NOT NULL,
   `tcenter_id` int NOT NULL,
   `faculty_id` int NOT NULL,
   `course_code` int NOT NULL,
-  `nic_no` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `batch_id` int NOT NULL,
+  `nic_no` varchar(12) NOT NULL,
   `gender` varchar(10) DEFAULT NULL,
   `address` varchar(250) DEFAULT NULL,
   `email` varchar(250) NOT NULL,
@@ -393,15 +395,6 @@ CREATE TABLE `tbl_student` (
   `registered_date` date NOT NULL,
   `city_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_student`
---
-
-INSERT INTO `tbl_student` (`std_id`, `title`, `std_name`, `tcenter_id`, `faculty_id`, `course_code`, `nic_no`, `gender`, `address`, `email`, `birthofdate`, `mobile_number`, `parent_number`, `f_language`, `registered_date`, `city_id`) VALUES
-(1, 'Mr', 'testname', 1, 2, 1, '951234567V', 'Male', '4646 Galle Road', 'test@gmail.com', '2002-08-14', '0725445545', '0725445546', 'Sinhala', '2024-08-11', 5),
-(2, 'Mr', 'aaaaaaaaaaaaaa', 1, 2, 1, '951234567V', 'Male', 'abc@gmail.com', 'cccccccccc', '2000-08-11', '0715116262', '0725445545', 'Sinhala', '2024-08-11', 5),
-(3, 'Mrs', 'testFemale', 2, 1, 5, '911111111V', 'Female', 'abc@gmail.com', '4646 Galle Road', '1991-08-11', '0715116262', '0725445545', 'English', '2024-08-11', 5);
 
 -- --------------------------------------------------------
 
@@ -670,7 +663,8 @@ ALTER TABLE `tbl_login`
 -- Indexes for table `tbl_student`
 --
 ALTER TABLE `tbl_student`
-  ADD PRIMARY KEY (`std_id`);
+  ADD PRIMARY KEY (`std_id`),
+  ADD KEY `fk_batch` (`batch_id`);
 
 --
 -- Indexes for table `tbl_subjects`
@@ -730,7 +724,7 @@ ALTER TABLE `tbl_login`
 -- AUTO_INCREMENT for table `tbl_student`
 --
 ALTER TABLE `tbl_student`
-  MODIFY `std_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `std_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_subjects`
@@ -755,6 +749,12 @@ ALTER TABLE `tbl_batch`
   ADD CONSTRAINT `fk_faculty` FOREIGN KEY (`faculty_id`) REFERENCES `tbl_faculty` (`faculty_id`),
   ADD CONSTRAINT `tbl_batch_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `tbl_course` (`cid`),
   ADD CONSTRAINT `tbl_batch_ibfk_2` FOREIGN KEY (`center_id`) REFERENCES `tbl_training_centers` (`center_id`);
+
+--
+-- Constraints for table `tbl_student`
+--
+ALTER TABLE `tbl_student`
+  ADD CONSTRAINT `fk_batch` FOREIGN KEY (`batch_id`) REFERENCES `tbl_batch` (`batch_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
