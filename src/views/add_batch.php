@@ -103,26 +103,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </form>
         <?php include '../../includes/datetime.php'; ?>
         <script>
-            document.getElementById('nic').addEventListener('input', function () {
-                const nicInput = document.getElementById('nic').value;
-                const messageElement = document.getElementById('message');
-
-                // Regex patterns for NIC numbers
-                const oldNicPattern = /^[0-9]{9}[vVxX]$/;
-                const newNicPattern = /^[0-9]{12}$/;
-
-                // Check if the NIC number matches either pattern
-                if (oldNicPattern.test(nicInput) || newNicPattern.test(nicInput)) {
-                    messageElement.textContent = '  Valid NIC number!';
-                    messageElement.className = 'success';
-                    messageElement.style.color = 'green';
-                } else {
-                    messageElement.textContent = '  Invalid NIC number. Please enter a valid NIC.';
-                    messageElement.className = 'error';
-                    messageElement.style.color = 'red';
-                }
-            });
-
             // Fetch and display the all faculties by trainnig center id wise
             $(document).ready(function () {
                 $("#tcenter").change(function () {
