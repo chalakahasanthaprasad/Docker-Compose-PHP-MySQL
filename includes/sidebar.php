@@ -74,6 +74,20 @@
                     <!-- /.nav-second-level -->
                 </li>
 
+                <!-- Batch Section -->
+                <li>
+                    <a href="#"><i class="fa fa-book fa-fw"></i> Intank<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="add_batch.php">Add Batch</a>
+                        </li>
+                        <li>
+                            <a href="add_batch.php">View Batch</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
