@@ -87,4 +87,15 @@ class InstituteModel
         }
         return $faculties;
     }
+
+    public function getCenterCodeById($center_id)
+    {
+        $stmt = mysqli_prepare($this->db, "SELECT * FROM tbl_training_centers WHERE center_id = ?");
+        mysqli_stmt_bind_param($stmt, 'i', $center_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $code = mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt);
+        return $code;
+    }
 }

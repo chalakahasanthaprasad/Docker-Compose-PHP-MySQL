@@ -29,6 +29,34 @@ class BatchModel
         return $batches;
     }
 
+    public function addBatch($batch_code, $course_id, $faculty_id, $center_id, $batch_year, $estart_date, $eend_date)
+    {
+        $this->db->begin_transaction();
+
+        try {
+
+            $stmt = $this->db->prepare("INSERT INTO tbl_batch (batch_code, course_id, faculty_id, center_id,student_count,batch_year, enrollment_start_date, enrollment_end_date) VALUES (?, ?, ?,?,?,?,?,?)");
+
+            if ($stmt === false) {
+                throw new Exception('Prepare failed (batch table): ' . $this->db->error);
+            }
+
+            $stmt->bind_param('ssssssss', $batch_code, $course_id, $faculty_id, $center_id, 0, $batch_year, $estart_date, $eend_date);
+            $success = $stmt->execute();
+
+            if ($success === false) {
+                throw new Exception('Execute failed (batch table): ' . $stmt->error);
+            }
+            $stmt->close();
+            return $success;
+
+        } catch (Exception $e) {
+            $this->db->rollback();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
     public function updateBatchStdCount($centerId, $facultyId, $courseId)
     {
         $stmt = $this->db->prepare("UPDATE tbl_batch SET student_count = student_count+1 WHERE center_id= ? AND faculty_id= ? AND course_id= ?");

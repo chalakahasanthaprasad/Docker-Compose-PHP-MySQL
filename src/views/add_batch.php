@@ -12,8 +12,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include('../../includes/header.php'); ?>
-        <?php include('../controllers/CourseController.php'); ?>
-        <?php include('../controllers/CityController.php'); ?>
+        <?php require_once('../controllers/CourseController.php'); ?>
         <?php include('../controllers/FacultyController.php'); ?>
         <?php include('../controllers/BatchController.php'); ?>
         <?php include('../controllers/TrainingCenterLocationController.php'); ?>
@@ -72,6 +71,26 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <label for="course">Course Program type</label>
+                                                <select id="d_courses" name="course_type" class="form-control">
+                                                    <option value="">Select Programme Type</option>
+                                                    <option value="F">Full-Time</option>
+                                                    <option value="P">Part-Time</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="start_year">Start Year</label>
+                                            <input type="number" class="form-control" id="start_year" name="start_year"
+                                                value="<?php echo date('Y'); ?>" min="<?php echo date('Y') ?>" max="<?php echo date('Y') + 1; ?>"
+                                                step="1">
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="start_date">Start Date</label>
                                             <input type="date" class="form-control" id="start_date" name="start_date"
@@ -89,7 +108,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <div class="col-lg-4">
                                             </div>
                                             <div class="col-lg-6">
-                                                <button type="submit" class="btn btn-success" name="submit">Create</button>
+                                                <button type="submit" class="btn btn-success" style="width: 200px;" name="submit">Create</button>
                                             </div>
                                         </div>
                                     </div>
@@ -103,26 +122,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </form>
         <?php include '../../includes/datetime.php'; ?>
         <script>
-            document.getElementById('nic').addEventListener('input', function () {
-                const nicInput = document.getElementById('nic').value;
-                const messageElement = document.getElementById('message');
-
-                // Regex patterns for NIC numbers
-                const oldNicPattern = /^[0-9]{9}[vVxX]$/;
-                const newNicPattern = /^[0-9]{12}$/;
-
-                // Check if the NIC number matches either pattern
-                if (oldNicPattern.test(nicInput) || newNicPattern.test(nicInput)) {
-                    messageElement.textContent = '  Valid NIC number!';
-                    messageElement.className = 'success';
-                    messageElement.style.color = 'green';
-                } else {
-                    messageElement.textContent = '  Invalid NIC number. Please enter a valid NIC.';
-                    messageElement.className = 'error';
-                    messageElement.style.color = 'red';
-                }
-            });
-
             // Fetch and display the all faculties by trainnig center id wise
             $(document).ready(function () {
                 $("#tcenter").change(function () {
