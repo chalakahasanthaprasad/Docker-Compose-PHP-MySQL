@@ -22,8 +22,14 @@ class TrainingCenterLocationController
         return $tclocations;
     }
 
+    public function getCenterCode($center_id)
+    {
+        $lastSubject = $this->instituteModel->getCenterCodeById($center_id);
+        return $lastSubject;
+    }
+
 }
 
 $trainingCenterLocationController = new trainingCenterLocationController($connect);
 $tclocations = $trainingCenterLocationController->viewTrainingCentersLocations();
-mysqli_close($connect);
+//mysqli_close($connect);

@@ -54,7 +54,7 @@ class CourseController
         }
 
     }
-    public function editCourse($cid)
+    public function loadCourseById($cid)
     {
         $course = $this->courseModel->getCourseById($cid);
         if ($course === false) {

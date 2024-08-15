@@ -12,7 +12,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     } else {
         ?>
         <?php include('../../includes/header.php'); ?>
-        <?php include('../controllers/CourseController.php'); ?>
+        <?php require_once('../controllers/CourseController.php'); ?>
         <?php include('../controllers/FacultyController.php'); ?>
         <?php include('../controllers/BatchController.php'); ?>
         <?php include('../controllers/TrainingCenterLocationController.php'); ?>
@@ -74,7 +74,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <label for="course">Course Program type</label>
-                                                <select id="d_courses" name="course" class="form-control">
+                                                <select id="d_courses" name="course_type" class="form-control">
                                                     <option value="">Select Programme Type</option>
                                                     <option value="F">Full-Time</option>
                                                     <option value="P">Part-Time</option>
