@@ -13,9 +13,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         ?>
         <?php include('../../includes/header.php'); ?>
         <?php require_once('../controllers/CourseController.php'); ?>
-        <?php include('../controllers/FacultyController.php'); ?>
-        <?php include('../controllers/BatchController.php'); ?>
-        <?php include('../controllers/TrainingCenterLocationController.php'); ?>
+        <?php require_once('../controllers/FacultyController.php'); ?>
+        <?php require_once('../controllers/BatchController.php'); ?>
+        <?php require_once('../controllers/TrainingCenterLocationController.php'); ?>
         <form method="post" id="addbatchForm" action="../controllers/BatchController.php">
             <div id="wrapper">
                 <?php include('../../includes/sidebar.php'); ?>

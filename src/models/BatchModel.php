@@ -65,4 +65,20 @@ class BatchModel
         return $res;
     }
 
+    public function searchBatchCodeByCode($batchCodePrefix, $batchCodeSuffix)
+    {
+        $query = "SELECT * FROM tbl_batch WHERE batch_code LIKE ?";
+        $stmt = $this->db->prepare($query);
+        $searchTerm = $batchCodePrefix . "_" . $batchCodeSuffix;
+        $stmt->bind_param('s', $searchTerm);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $batches = [];
+        while ($row = $result->fetch_assoc()) {
+            $batches[] = $row;
+        }
+
+        return $batches;
+    }
+
 }

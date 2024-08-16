@@ -62,8 +62,30 @@ class BatchController
 
         $batch_code_v1 = $center_code . '' . $course_code . '' . $lastTwoDigitsYear;
 
-        echo json_encode(['available' => $batch_code_v1]);
+        $searchResult = $this->batchModel->searchBatchCodeByCode($batch_code_v1, $course_type);
+
+        $result = $this->getMaxBatchCode($searchResult);
+
+        echo json_encode(['available' => $result]);
+        //echo json_encode(['available' => $searchResult]);
         //echo json_encode(['available' => $course['code']]);
+    }
+
+    function getMaxBatchCode($batches)
+    {
+        $maxBatchCode = '';
+
+        foreach ($batches as $batch) {
+            // Check if the batch code matches the pattern COMCA24XF
+            if (strpos($batch['batch_code'], 'COMCA24') === 0 && substr($batch['batch_code'], -1) === 'F') {
+                // Compare batch codes to find the maximum
+                if ($batch['batch_code'] > $maxBatchCode) {
+                    $maxBatchCode = $batch['batch_code'];
+                }
+            }
+        }
+
+        return $maxBatchCode;
     }
 
 }
