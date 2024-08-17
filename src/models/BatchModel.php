@@ -47,12 +47,14 @@ class BatchModel
             if ($success === false) {
                 throw new Exception('Execute failed (batch table): ' . $stmt->error);
             }
+            $this->db->commit();
             $stmt->close();
-            return $success;
+            return true;
 
         } catch (Exception $e) {
             $this->db->rollback();
             error_log($e->getMessage());
+            echo '<script>alert("Something 1 went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
             return false;
         }
     }

@@ -82,7 +82,7 @@ class BatchController
             $isPosibble = 1;
         }
 
-        echo json_encode(['available' => $batch_code_v1]);
+        echo json_encode(['available' => $batch_code_v2]);
         //echo json_encode(['available' => $searchResult]);
         //echo json_encode(['available' => $course['code']]);
         return [$batch_code_v2, $isPosibble];
