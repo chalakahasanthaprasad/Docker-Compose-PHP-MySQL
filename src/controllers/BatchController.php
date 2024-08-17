@@ -36,22 +36,29 @@ class BatchController
             $batch_year = $_POST['start_year'];
             $estart_date = $_POST['start_date'];
             $eend_date = $_POST['end_date'];
-            $this->generate_BatchCode($center_id, $course_id, $course_type, $batch_year);
-            // $query = $this->batchModel->addBatch($course_id, $faculty_id, $center_id, $batch_year, $estart_date, $eend_date);
+            list($batch_code_v2, $isPosibble) = $this->generate_BatchCode($center_id, $course_id, $course_type, $batch_year);
+            if ($isPosibble == 1) {
+                $student_count = 0;
+                $query = $this->batchModel->addBatch($batch_code_v2, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
 
-            // if ($query) {
-            //     echo '<script>alert("batch Added successfully"); window.location.href="../views/add_batch.php";</script>';
-            // } else {
-            //     echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
-            // }
+                if ($query) {
+                    echo '<script>alert("batch Added successfully"); window.location.href="../views/add_batch.php";</script>';
+                } else {
+                    echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
+                }
 
-            // exit;
+                exit;
+            } else {
+
+            }
+
         }
 
     }
 
     public function generate_BatchCode($center_id, $course_id, $course_type, $batch_year)
     {
+        $isPosibble = 0;
         $course = $this->courseController->loadCourseById($course_id);
         $course_code = $course['code']; // MCA
 
@@ -64,28 +71,39 @@ class BatchController
 
         $searchResult = $this->batchModel->searchBatchCodeByCode($batch_code_v1, $course_type);
 
-        $result = $this->getMaxBatchCode($searchResult);
+        $result = $this->getMaxBatchCode($searchResult, $batch_code_v1, $course_type);
 
-        echo json_encode(['available' => $result]);
+        if ($result == 3) {
+            $batch_code_v1 = "Nan";
+            echo '<script>alert("Already have 3 batches"); window.location.href="../views/add_batch.php";</script>';
+            exit;
+        } else {
+            $batch_code_v2 = $center_code . '' . $course_code . '' . $lastTwoDigitsYear . '' . $result + 1 . '' . $course_type;
+            $isPosibble = 1;
+        }
+
+        echo json_encode(['available' => $batch_code_v1]);
         //echo json_encode(['available' => $searchResult]);
         //echo json_encode(['available' => $course['code']]);
+        return [$batch_code_v2, $isPosibble];
     }
 
-    function getMaxBatchCode($batches)
+    function getMaxBatchCode($batches, $batch_code_v1, $course_type)
     {
         $maxBatchCode = '';
-
+        $lastNumber = 0;
         foreach ($batches as $batch) {
-            // Check if the batch code matches the pattern COMCA24XF
-            if (strpos($batch['batch_code'], 'COMCA24') === 0 && substr($batch['batch_code'], -1) === 'F') {
+            // Check if the batch code matches the pattern 
+            if (strpos($batch['batch_code'], $batch_code_v1) === 0 && substr($batch['batch_code'], -1) === $course_type) {
                 // Compare batch codes to find the maximum
                 if ($batch['batch_code'] > $maxBatchCode) {
                     $maxBatchCode = $batch['batch_code'];
+                    $lastNumber = substr($maxBatchCode, -2, 1);
                 }
             }
         }
 
-        return $maxBatchCode;
+        return $lastNumber;
     }
 
 }
