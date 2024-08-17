@@ -29,7 +29,7 @@ class BatchModel
         return $batches;
     }
 
-    public function addBatch($batch_code, $course_id, $faculty_id, $center_id, $batch_year, $estart_date, $eend_date)
+    public function addBatch($batch_code, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date)
     {
         $this->db->begin_transaction();
 
@@ -41,18 +41,20 @@ class BatchModel
                 throw new Exception('Prepare failed (batch table): ' . $this->db->error);
             }
 
-            $stmt->bind_param('ssssssss', $batch_code, $course_id, $faculty_id, $center_id, 0, $batch_year, $estart_date, $eend_date);
+            $stmt->bind_param('siiiisss', $batch_code, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
             $success = $stmt->execute();
 
             if ($success === false) {
                 throw new Exception('Execute failed (batch table): ' . $stmt->error);
             }
+            $this->db->commit();
             $stmt->close();
-            return $success;
+            return true;
 
         } catch (Exception $e) {
             $this->db->rollback();
             error_log($e->getMessage());
+            echo '<script>alert("Something 1 went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
             return false;
         }
     }
