@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Aug 13, 2024 at 06:14 PM
+-- Generation Time: Aug 18, 2024 at 06:19 PM
 -- Server version: 8.0.39
 -- PHP Version: 8.2.8
 
@@ -221,7 +221,7 @@ CREATE TABLE `tbl_batch` (
   `faculty_id` int NOT NULL,
   `center_id` int NOT NULL,
   `student_count` int DEFAULT '0',
-  `batch_year` int NOT NULL,
+  `batch_year` varchar(4) NOT NULL,
   `enrollment_start_date` date NOT NULL,
   `enrollment_end_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -231,7 +231,9 @@ CREATE TABLE `tbl_batch` (
 --
 
 INSERT INTO `tbl_batch` (`batch_id`, `batch_code`, `course_id`, `faculty_id`, `center_id`, `student_count`, `batch_year`, `enrollment_start_date`, `enrollment_end_date`) VALUES
-(1, 'COMCA242F', 1, 2, 1, 0, 24, '2024-08-10', '2024-09-10');
+(1, 'COMCA242F', 1, 2, 1, 0, '24', '2024-08-10', '2024-09-10'),
+(2, 'COMCA243F', 1, 2, 1, 0, '2024', '2024-08-16', '2024-10-16'),
+(11, 'COMCA241P', 1, 2, 1, 0, '2024', '2024-08-17', '2024-10-17');
 
 -- --------------------------------------------------------
 
@@ -527,6 +529,7 @@ INSERT INTO `tbl_subjects` (`subject_id`, `subject_code`, `subject_name`, `creat
 
 CREATE TABLE `tbl_training_centers` (
   `center_id` int NOT NULL,
+  `c_code` varchar(5) NOT NULL,
   `center_name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `city` varchar(100) NOT NULL,
@@ -539,12 +542,12 @@ CREATE TABLE `tbl_training_centers` (
 -- Dumping data for table `tbl_training_centers`
 --
 
-INSERT INTO `tbl_training_centers` (`center_id`, `center_name`, `address`, `city`, `state`, `postal_code`, `country`) VALUES
-(1, 'Colombo Training Center', '123 Main St', 'Colombo', 'Western Province', '00100', 'Sri Lanka'),
-(2, 'Kandy Training Center', '456 Queen St', 'Kandy', 'Central Province', '20000', 'Sri Lanka'),
-(3, 'Galle Training Center', '789 King St', 'Galle', 'Southern Province', '80000', 'Sri Lanka'),
-(4, 'Mathara Training Center', '101 Prince St', 'Mathara', 'Southern Province', '81000', 'Sri Lanka'),
-(5, 'Kurunagela Training Center', '202 Princess St', 'Kurunagela', 'North Western Province', '60000', 'Sri Lanka');
+INSERT INTO `tbl_training_centers` (`center_id`, `c_code`, `center_name`, `address`, `city`, `state`, `postal_code`, `country`) VALUES
+(1, 'CO', 'Colombo Training Center', '123 Main St', 'Colombo', 'Western Province', '00100', 'Sri Lanka'),
+(2, 'KA', 'Kandy Training Center', '456 Queen St', 'Kandy', 'Central Province', '20000', 'Sri Lanka'),
+(3, 'GA', 'Galle Training Center', '789 King St', 'Galle', 'Southern Province', '80000', 'Sri Lanka'),
+(4, 'MA', 'Mathara Training Center', '101 Prince St', 'Mathara', 'Southern Province', '81000', 'Sri Lanka'),
+(5, 'KU', 'Kurunagela Training Center', '202 Princess St', 'Kurunagela', 'North Western Province', '60000', 'Sri Lanka');
 
 -- --------------------------------------------------------
 
@@ -700,7 +703,7 @@ ALTER TABLE `training_center_faculties`
 -- AUTO_INCREMENT for table `tbl_batch`
 --
 ALTER TABLE `tbl_batch`
-  MODIFY `batch_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `batch_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_city`
