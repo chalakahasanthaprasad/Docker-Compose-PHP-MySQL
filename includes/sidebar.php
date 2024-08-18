@@ -82,7 +82,7 @@
                             <a href="add_batch.php">Add Batch</a>
                         </li>
                         <li>
-                            <a href="add_batch.php">View Batch</a>
+                            <a href="view_batch.php">View Batch</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
