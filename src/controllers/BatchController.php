@@ -39,10 +39,25 @@ class BatchController
             list($batch_code_v2, $isPosibble) = $this->generate_BatchCode($center_id, $course_id, $course_type, $batch_year);
             if ($isPosibble == 1) {
                 $student_count = 0;
-                $query = $this->batchModel->addBatch($batch_code_v2, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
+                $insertedBatch = $this->batchModel->addBatch($batch_code_v2, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
 
-                if ($query) {
-                    echo '<script>alert("batch Added successfully"); window.location.href="../views/add_batch.php";</script>';
+                if ($insertedBatch) {
+                    //echo '<script>alert("batch Added successfully"); window.location.href="../views/add_batch.php";</script>';
+                    if ($insertedBatch) {
+                        echo "<h3>Inserted Batch Details:</h3>";
+                        echo "<p>Batch ID: " . $insertedBatch['batch_id'] . "</p>";
+                        echo "<p>Batch Code: " . $insertedBatch['batch_code'] . "</p>";
+                        echo "<p>Course ID: " . $insertedBatch['course_id'] . "</p>";
+                        echo "<p>Faculty ID: " . $insertedBatch['faculty_id'] . "</p>";
+                        echo "<p>Center ID: " . $insertedBatch['center_id'] . "</p>";
+                        echo "<p>Student Count: " . $insertedBatch['student_count'] . "</p>";
+                        echo "<p>Batch Year: " . $insertedBatch['batch_year'] . "</p>";
+                        echo "<p>Enrollment Start Date: " . $insertedBatch['enrollment_start_date'] . "</p>";
+                        echo "<p>Enrollment End Date: " . $insertedBatch['enrollment_end_date'] . "</p>";
+                    } else {
+                        echo "<p>Failed to add batch. Please try again.</p>";
+                    }
+
                 } else {
                     echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
                 }
