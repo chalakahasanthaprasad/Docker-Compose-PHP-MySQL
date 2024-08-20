@@ -49,9 +49,20 @@ class BatchModel
             }
 
             $lastInsertedId = $this->db->insert_id;
+            $insertedId = $stmt->insert_id;
             $this->db->commit();
             $stmt->close();
-            return $this->getBatchById($lastInsertedId);
+            return [
+                'batch_id' => $insertedId,
+                'batch_code' => $batch_code,
+                'course_id' => $course_id,
+                'faculty_id' => $faculty_id,
+                'center_id' => $center_id,
+                'student_count' => $student_count,
+                'batch_year' => $batch_year,
+                'enrollment_start_date' => $estart_date,
+                'enrollment_end_date' => $eend_date
+            ];
 
         } catch (Exception $e) {
             $this->db->rollback();

@@ -42,7 +42,7 @@ class BatchController
                 $insertedBatch = $this->batchModel->addBatch($batch_code_v2, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
 
                 if ($insertedBatch) {
-                    //echo '<script>alert("batch Added successfully"); window.location.href="../views/add_batch.php";</script>';
+                    echo '<script>alert("batch Added successfully"); window.location.href="../views/print.php";</script>';
                     if ($insertedBatch) {
                         echo "<h3>Inserted Batch Details:</h3>";
                         echo "<p>Batch ID: " . $insertedBatch['batch_id'] . "</p>";
