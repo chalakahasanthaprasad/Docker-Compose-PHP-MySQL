@@ -42,21 +42,8 @@ class BatchController
                 $insertedBatch = $this->batchModel->addBatch($batch_code_v2, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
 
                 if ($insertedBatch) {
-                    echo '<script>alert("batch Added successfully"); window.location.href="../views/print.php";</script>';
-                    if ($insertedBatch) {
-                        echo "<h3>Inserted Batch Details:</h3>";
-                        echo "<p>Batch ID: " . $insertedBatch['batch_id'] . "</p>";
-                        echo "<p>Batch Code: " . $insertedBatch['batch_code'] . "</p>";
-                        echo "<p>Course ID: " . $insertedBatch['course_id'] . "</p>";
-                        echo "<p>Faculty ID: " . $insertedBatch['faculty_id'] . "</p>";
-                        echo "<p>Center ID: " . $insertedBatch['center_id'] . "</p>";
-                        echo "<p>Student Count: " . $insertedBatch['student_count'] . "</p>";
-                        echo "<p>Batch Year: " . $insertedBatch['batch_year'] . "</p>";
-                        echo "<p>Enrollment Start Date: " . $insertedBatch['enrollment_start_date'] . "</p>";
-                        echo "<p>Enrollment End Date: " . $insertedBatch['enrollment_end_date'] . "</p>";
-                    } else {
-                        echo "<p>Failed to add batch. Please try again.</p>";
-                    }
+                    header("Location: ../views/print.php?batch_code=$batch_code_v2&course_id=$course_id&faculty_id=$faculty_id&center_id=$center_id&student_count=$student_count&batch_year=$batch_year&estart_date=$estart_date&eend_date=$eend_date");
+                    exit;
 
                 } else {
                     echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
