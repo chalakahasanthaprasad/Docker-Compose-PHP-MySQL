@@ -42,8 +42,21 @@ class BatchController
                 $insertedBatch = $this->batchModel->addBatch($batch_code_v2, $course_id, $faculty_id, $center_id, $student_count, $batch_year, $estart_date, $eend_date);
 
                 if ($insertedBatch) {
-                    header("Location: ../views/print.php?batch_code=$batch_code_v2&course_id=$course_id&faculty_id=$faculty_id&center_id=$center_id&student_count=$student_count&batch_year=$batch_year&estart_date=$estart_date&eend_date=$eend_date");
+                    $data = [
+                        'batch_code' => $batch_code_v2,
+                        'course_id' => $course_id,
+                        'faculty_id' => $faculty_id,
+                        'center_id' => $center_id,
+                        'student_count' => $student_count,
+                        'batch_year' => $batch_year,
+                        'estart_date' => $estart_date,
+                        'eend_date' => $eend_date,
+                    ];
+                    session_start();
+                    $_SESSION['batch_data'] = $data;
+                    header("Location: ../views/print.php");
                     exit;
+
 
                 } else {
                     echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_batch.php";</script>';
@@ -84,7 +97,7 @@ class BatchController
             $isPosibble = 1;
         }
 
-        echo json_encode(['available' => $batch_code_v2]);
+        //echo json_encode(['available' => $batch_code_v2]);
         //echo json_encode(['available' => $searchResult]);
         //echo json_encode(['available' => $course['code']]);
         return [$batch_code_v2, $isPosibble];
