@@ -47,9 +47,11 @@ class BatchModel
             if ($success === false) {
                 throw new Exception('Execute failed (batch table): ' . $stmt->error);
             }
+
+            $lastInsertedId = $this->db->insert_id;
             $this->db->commit();
             $stmt->close();
-            return true;
+            return $this->getBatchById($lastInsertedId);
 
         } catch (Exception $e) {
             $this->db->rollback();
@@ -81,6 +83,17 @@ class BatchModel
         }
 
         return $batches;
+    }
+
+    public function getBatchById($batch_id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM tbl_batch WHERE batch_id = ?");
+        $stmt->bind_param('i', $batch_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $batch = $result->fetch_assoc();
+        $stmt->close();
+        return $batch;
     }
 
 }
