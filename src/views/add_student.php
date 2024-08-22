@@ -16,7 +16,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php include('../controllers/CityController.php'); ?>
         <?php include('../controllers/FacultyController.php'); ?>
         <?php include('../controllers/BatchController.php'); ?>
-        <?php include('../controllers/TrainingCenterLocationController.php'); ?>
+        <?php require_once('../controllers/TrainingCenterLocationController.php'); ?>
         <form method="post" id="addstudentForm" action="../controllers/StudentController.php">
             <div id="wrapper">
                 <?php include('../../includes/sidebar.php'); ?>
