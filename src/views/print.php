@@ -53,6 +53,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 </div>
 
                 <button class="btn-print" onclick="window.print()">Print or Save as PDF</button>
+                <?php include '../../includes/footer.php'; ?>
             </div>
 
         </body>
@@ -60,10 +61,4 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <?php
     }
 }
-?>
-
-
-<?php include '../../includes/footer.php';
-
-
 ?>
