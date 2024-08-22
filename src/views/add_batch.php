@@ -74,7 +74,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <label for="course">Course Program type</label>
-                                                <select id="d_courses" name="course_type" class="form-control">
+                                                <select id="course_type" name="course_type" class="form-control">
                                                     <option value="">Select Programme Type</option>
                                                     <option value="F">Full-Time</option>
                                                     <option value="P">Part-Time</option>
@@ -86,8 +86,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="form-group col-sm-6">
                                             <label for="start_year">Start Year</label>
                                             <input type="number" class="form-control" id="start_year" name="start_year"
-                                                value="<?php echo date('Y'); ?>" min="<?php echo date('Y') ?>" max="<?php echo date('Y') + 1; ?>"
-                                                step="1">
+                                                value="<?php echo date('Y'); ?>" min="<?php echo date('Y') ?>"
+                                                max="<?php echo date('Y') + 1; ?>" step="1">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -108,13 +108,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                             <div class="col-lg-4">
                                             </div>
                                             <div class="col-lg-6">
-                                                <button type="submit" class="btn btn-success" style="width: 200px;" name="submit">Create</button>
+                                                <button type="submit" class="btn btn-success" style="width: 200px;"
+                                                    name="submit">Create</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="selected_center_text" name="selected_center_text">
+                        <input type="hidden" id="selected_faculty_text" name="selected_faculty_text">
+                        <input type="hidden" id="selected_course_text" name="selected_course_text">
+                        <input type="hidden" id="selected_course_type_text" name="selected_course_type_text">
                     </div>
 
                 </div>
@@ -122,17 +127,34 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </form>
         <?php include '../../includes/datetime.php'; ?>
         <script>
+
+
+            function updateSelectedText(dropdownId, hiddenInputId) {
+                var selectElement = document.getElementById(dropdownId);
+                var selectedText = selectElement.options[selectElement.selectedIndex].text;
+                document.getElementById(hiddenInputId).value = selectedText;
+                console.log("selected Text:", selectedText); // Debugging line
+            };
+
             // Fetch and display the all faculties by trainnig center id wise
             $(document).ready(function () {
                 $("#tcenter").change(function () {
                     let centerId = $(this).val();
+
+                    // var selectElement = document.getElementById("tcenter");
+                    // var selectedText = selectElement.options[selectElement.selectedIndex].text;
+                    // document.getElementById("selected_center_text").value = selectedText;
+                    // console.log("selected Text:", selectedText); // Debugging line
+
+                    updateSelectedText("tcenter", "selected_center_text");
+
                     if (centerId) {
                         $.ajax({
                             url: "../controllers/FacultyController.php",
                             type: "POST",
                             data: { center_id: centerId },
                             success: function (response) {
-                                console.log("Faculty AJAX response:", response); // Debugging line
+                                //console.log("Faculty AJAX response:", response); // Debugging line
                                 let facultyData = JSON.parse(response);
                                 let $facultyDropdown = $("#d_faculty");
                                 $facultyDropdown.empty(); // Clear existing options
@@ -166,16 +188,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             $(document).ready(function () {
                 // Assuming you already have code to capture and set the centerId variable
                 let centerId = $("#tcenter").val();
-
                 $("#d_faculty").change(function () {
                     let facultyId = $(this).val();
+                    updateSelectedText("d_faculty", "selected_faculty_text");
                     if (facultyId && centerId) {
                         $.ajax({
                             url: "../controllers/FacultyController.php",
                             type: "POST",
                             data: { faculty_id_2: facultyId, center_id_2: centerId },
                             success: function (response) {
-                                console.log("Courses AJAX response:", response); // Debugging line
+                                //console.log("Courses AJAX response:", response); // Debugging line
                                 let courseData = JSON.parse(response);
                                 let $courseDropdown = $("#d_courses");
                                 $courseDropdown.empty(); // Clear existing options
@@ -216,49 +238,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
             // Fetch and display the all courses by trainnig center and faculty id wise
             $(document).ready(function () {
-                // Assuming you already have code to capture and set the centerId variable
-                let centerId = $("#tcenter").val();
-                let facultyId = $("#d_faculty").val();
-
                 $("#d_courses").change(function () {
                     let courseId = $(this).val();
-                    //console.log("Batch AJAX response:", centerId, facultyId, courseId);
-                    if (facultyId && centerId && courseId) {
-                        $.ajax({
-                            url: "../controllers/BatchController.php",
-                            type: "POST",
-                            data: { faculty_id_2: facultyId, center_id_2: centerId, course_id_2: courseId },
-                            success: function (response) {
-                                console.log("Batch AJAX response:", response); // Debugging line
-
-                                let batchData = JSON.parse(response);
-                                let $batchDropdown = $("#d_batches");
-                                $batchDropdown.empty(); // Clear existing options
-
-                                if (batchData && batchData.length > 0) {
-                                    $batchDropdown.append($("<option></option>").attr("value", "").text("Select Batch"));
-                                    batchData.forEach(function (batch) {
-                                        $batchDropdown.append(
-                                            $("<option></option>")
-                                                .attr("value", batch.batch_id)
-                                                .text(batch.batch_code)
-                                        );
-                                    });
-                                } else {
-                                    $batchDropdown.append(
-                                        $("<option></option>")
-                                            .attr("value", "")
-                                            .text("No batches available")
-                                    );
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Batches AJAX error:", status, error); // Error handling
-                            }
-                        });
-                    } else {
-                        $("#d_courses").empty(); // Clear the courses dropdown if no faculty or center is selected
-                    }
+                    updateSelectedText("d_courses", "selected_course_text");
                 });
 
                 // Update the centerId variable when the center dropdown changes
@@ -273,6 +255,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     $("#d_courses").trigger('change'); // Trigger change event to update batches
                 });
             });
+
+            $(document).ready(function () {
+                $("#course_type").change(function () {
+                    let courseId = $(this).val();
+                    updateSelectedText("course_type", "selected_course_type_text");
+                });
+            });
+
+
 
         </script>
 

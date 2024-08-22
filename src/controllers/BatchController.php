@@ -29,10 +29,16 @@ class BatchController
     public function addBatch()
     {
         if (isset($_POST['submit'])) {
+
             $course_id = $_POST['course'];
+            $selected_course_text = $_POST['selected_course_text'];
             $course_type = $_POST['course_type'];
+            $selected_course_type_text = $_POST['selected_course_type_text'];
             $faculty_id = $_POST['faculty'];
+            $selected_faculty_text = $_POST['selected_faculty_text'];
             $center_id = $_POST['tcenter'];
+            $selected_center_text = $_POST['selected_center_text'];
+
             $batch_year = $_POST['start_year'];
             $estart_date = $_POST['start_date'];
             $eend_date = $_POST['end_date'];
@@ -45,9 +51,12 @@ class BatchController
                     $data = [
                         'batch_code' => $batch_code_v2,
                         'course_id' => $course_id,
+                        'course_name' => $selected_course_text,
                         'faculty_id' => $faculty_id,
+                        'faculty_name' => $selected_faculty_text,
                         'center_id' => $center_id,
-                        'student_count' => $student_count,
+                        'center_name' => $selected_center_text,
+                        'course_type' => $selected_course_type_text,
                         'batch_year' => $batch_year,
                         'estart_date' => $estart_date,
                         'eend_date' => $eend_date,
