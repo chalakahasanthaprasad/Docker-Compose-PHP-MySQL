@@ -151,7 +151,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input class="form-control" type="text" id="nic" name="nic" maxlength="12"
-                                                        required="required">
+                                                        required="required" value="<?php echo $student['nic_no']; ?>">
                                                     <p id="message"></p>
                                                 </div>
                                             </div>
@@ -235,7 +235,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                     <label>Email<span style="font-size:11px;color:red">*</span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input class="form-control" type="email" name="email" required="required">
+                                                    <input class="form-control" type="email" name="email" required="required"
+                                                        value="<?php echo $student['email']; ?>">
                                                 </div>
                                             </div>
                                             <br><br>
