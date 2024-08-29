@@ -57,6 +57,9 @@ class StudentController
             if ($student === false) {
                 throw new Exception("Error fetching student");
             }
+            $jsonData = json_encode($student);
+            echo "<script>console.log($jsonData);</script>";
+
             return $student;
         } catch (Exception $e) {
             echo $e->getMessage();

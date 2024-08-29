@@ -28,12 +28,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         echo "Your session has expired! <a href='http://localhost/src/views/login.php'>Login here</a>";
     } else {
         ?>
-        <?php include('../../includes/header.php'); ?>
-        <?php include('../controllers/CourseController.php'); ?>
-        <?php include('../controllers/CityController.php'); ?>
-
-
-
+        <?php require_once('../../includes/header.php'); ?>
+        <?php require_once('../controllers/CourseController.php'); ?>
+        <?php require_once('../controllers/CityController.php'); ?>
+        <?php require_once('../controllers/FacultyController.php'); ?>
+        <?php require_once('../controllers/BatchController.php'); ?>
+        <?php require_once('../controllers/TrainingCenterLocationController.php'); ?>
         <form method="post" id="addstudentForm" action="../controllers/StudentController.php">
             <div id="wrapper">
                 <?php include('../../includes/sidebar.php'); ?>
@@ -47,23 +47,48 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
+                                <div class="panel-heading">Index</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="form-group">
+                                                <div class="col-lg-4">
+                                                    <label>Student Index No :</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <label><?php echo $student['std_index']; ?></label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
                                 <div class="panel-heading">Course Details</div>
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                                <label for="tcenter">Preferred Training Center</label>
+                                                <label for="tcenter">Training Center</label>
                                                 <select name="tcenter" id="tcenter" class="form-control">
                                                     <option value="">Select Training Center</option>
                                                     <?php
                                                     if ($tclocations) {
                                                         foreach ($tclocations as $tclocation) {
-                                                            echo '<option value="' . htmlentities($tclocation['center_id']) . '">' . htmlentities($tclocation['center_name']) . '</option>';
+                                                            $selected = ($tclocation['center_id'] == $student['tcenter_id']) ? 'selected' : '';
+                                                            echo '<option value="' . htmlentities($tclocation['center_id']) . '" ' . $selected . '>' . htmlentities($tclocation['center_name']) . '</option>';
                                                         }
                                                     } else {
                                                         echo '<option value="">No Training Center available</option>';
                                                     }
+                                                    $tcenterId = $student['tcenter_id'];
                                                     ?>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -71,8 +96,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                                <label for="faculty">Preferred Faculty</label>
-                                                <select id="d_faculty" name="faculty" class="form-control">
+                                                <label for="faculty">Faculty</label>
+                                                <select id="d_faculty" name="faculty" class="form-control"
+                                                    data-selected-faculty-id="<?php echo $student['faculty_id']; ?>">
                                                     <option>Select Faculty</option>
                                                 </select>
                                             </div>
@@ -81,7 +107,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                     <div class=" row">
                                         <div class="col-lg-10">
                                             <div class="form-group">
-                                                <label for="course">Course Program You are Looking For</label>
+                                                <label for="course">Course Program</label>
                                                 <select id="d_courses" name="course" class="form-control">
                                                     <option value="">Select Programme</option>
                                                 </select>
@@ -116,10 +142,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 <div class="col-lg-4">
                                                     <select name="title" id="title" class="form-control">
                                                         <option value="">Select Title</option>
-                                                        <option value="Mr">Mr</option>
-                                                        <option value="Mrs">Mrs</option>
-                                                        <option value="Miss">Miss</option>
-                                                        <option value="Rev">Rev</option>
+                                                        <option value="Mr" <?php echo $student['title'] == 'Mr' ? 'selected' : ''; ?>>Mr</option>
+                                                        <option value="Mrs" <?php echo $student['title'] == 'Mrs' ? 'selected' : ''; ?>>Mrs</option>
+                                                        <option value="Miss" <?php echo $student['title'] == 'Miss' ? 'selected' : ''; ?>>Miss</option>
+                                                        <!-- <option value="Rev" <?php echo $student['title'] == 'Rev' ? 'selected' : ''; ?>>Rev</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -200,9 +226,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 <div class="col-lg-4">
                                                     <select name="language" id="language" class="form-control">
                                                         <option value="">Select Language</option>
-                                                        <option value="English">English</option>
-                                                        <option value="Sinhala">Sinhala</option>
-                                                        <option value="Tamil">Tamil</option>
+                                                        <option value="English" <?php echo $student['f_language'] == 'English' ? 'selected' : ''; ?>>English</option>
+                                                        <option value="Sinhala" <?php echo $student['f_language'] == 'Sinhala' ? 'selected' : ''; ?>>Sinhala</option>
+                                                        <!-- <option value="Tamil" <?php echo $student['f_language'] == 'Tamil' ? 'selected' : ''; ?>>Tamil</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -311,7 +337,28 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
         </form>
         <?php include '../../includes/datetime.php'; ?>
+        <script>
+            document.getElementById('nic').addEventListener('input', function () {
+                const nicInput = document.getElementById('nic').value;
+                const messageElement = document.getElementById('message');
 
+                // Regex patterns for NIC numbers
+                const oldNicPattern = /^[0-9]{9}[vVxX]$/;
+                const newNicPattern = /^[0-9]{12}$/;
+
+                // Check if the NIC number matches either pattern
+                if (oldNicPattern.test(nicInput) || newNicPattern.test(nicInput)) {
+                    messageElement.textContent = '  Valid NIC number!';
+                    messageElement.className = 'success';
+                    messageElement.style.color = 'green';
+                } else {
+                    messageElement.textContent = '  Invalid NIC number. Please enter a valid NIC.';
+                    messageElement.className = 'error';
+                    messageElement.style.color = 'red';
+                }
+            });
+
+        </script>
         <?php
     }
 }
