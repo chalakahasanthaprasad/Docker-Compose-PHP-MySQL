@@ -52,7 +52,11 @@ class StudentModel
     public function getStudentById($sid)
     {
         try {
-            $stmt = mysqli_prepare($this->db, "SELECT * FROM tbl_student WHERE std_id = ?");
+            $stmt = mysqli_prepare($this->db, "SELECT s.*, c.cfull, f.faculty_name, b.batch_code FROM tbl_student s
+                    JOIN tbl_course c ON s.course_code = c.cid
+                    JOIN tbl_faculty f ON s.faculty_id = f.faculty_id
+                    JOIN tbl_batch b ON s.batch_id = b.batch_id
+                    WHERE s.std_id = ?");
             if (!$stmt) {
                 throw new Exception("Prepare statement failed: " . mysqli_error($this->db));
             }

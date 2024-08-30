@@ -85,9 +85,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <label for="faculty">Faculty</label>
-                                                <select id="d_faculty" name="faculty" class="form-control"
-                                                    data-selected-faculty-id="<?php echo $student['faculty_id']; ?>">
-                                                    <option>Select Faculty</option>
+                                                <select id="d_faculty" name="faculty" class="form-control" disabled>
+                                                    <option><?php echo $student['faculty_name']; ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -96,8 +95,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <label for="course">Course Program</label>
-                                                <select id="d_courses" name="course" class="form-control">
-                                                    <option value="">Select Programme</option>
+                                                <select id="d_courses" name="course" class="form-control" disabled>
+                                                    <option value=""><?php echo $student['cfull']; ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -106,8 +105,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                         <div class="col-lg-10">
                                             <div class="form-group">
                                                 <label for="batch">Enroll for which batch</label>
-                                                <select id="d_batches" name="batch" class="form-control">
-                                                    <option value="">Select Batch</option>
+                                                <select id="d_batches" name="batch" class="form-control" disabled>
+                                                    <option value=""><?php echo $student['batch_code']; ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -165,7 +164,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <input class="form-control" type="text" id="nic" name="nic" maxlength="12"
-                                                        required="required" value="<?php echo $student['nic_no']; ?>">
+                                                        required="required" value="<?php echo $student['nic_no']; ?>" disabled>
                                                     <p id="message"></p>
                                                 </div>
                                             </div>
