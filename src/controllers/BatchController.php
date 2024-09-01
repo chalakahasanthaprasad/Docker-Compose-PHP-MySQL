@@ -1,8 +1,8 @@
 <?php
 // controller/BatchController.php 
 
-include('../../config/dbcon.php');
-include('../models/BatchModel.php');
+require_once('../../config/dbcon.php');
+require_once('../models/BatchModel.php');
 require_once('../controllers/CourseController.php');
 require_once('../controllers/TrainingCenterLocationController.php');
 
