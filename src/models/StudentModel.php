@@ -96,6 +96,14 @@ class StudentModel
         }
     }
 
+    public function updateStudent($std_id, $index, $std_tcenter, $std_title, $std_name, $std_gender, $std_dob, $std_language, $std_mobile, $std_email, $std_parent_mobile, $std_city, $std_address, $update)
+    {
+        $stmt = $this->db->prepare("UPDATE tbl_student SET tcenter_id = ?, title = ?, std_name = ?, gender = ?, birthofdate = ?, f_language = ?, mobile_number = ?, email = ?, parent_number = ?, city_id = ?, address = ?, update_date = ? WHERE std_id = ?");
+        $stmt->bind_param('issssssssisi', $std_tcenter, $std_title, $std_name, $std_gender, $std_dob, $std_language, $std_mobile, $std_email, $std_parent_mobile, $std_parent_mobile, $std_city, $std_address, $update, $std_id); // 's' for string, 'i' for integer
+        $stmt->execute();
+        $stmt->close();
+    }
+
     public function deleteStudentById($sid)
     {
         try {

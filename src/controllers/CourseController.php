@@ -74,7 +74,7 @@ class CourseController
 
     public function updateCourse($cid, $cshortname, $cfullname, $udate)
     {
-        $dv_course = $this->editCourse($cid);
+        $dv_course = $this->loadCourseById($cid);
         if ($dv_course['code'] !== $cshortname || $dv_course['cfull'] !== $cfullname) {
             $this->courseModel->updateCourse($cid, $cshortname, $cfullname, $udate);
             echo '<script>alert("Course updated successfully ")</script>';
