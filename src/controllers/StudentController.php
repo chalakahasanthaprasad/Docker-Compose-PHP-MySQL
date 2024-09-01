@@ -149,11 +149,6 @@ class StudentController
     public function updateStudent($std_id, $index, $std_tcenter, $std_title, $std_name, $std_gender, $std_dob, $std_language, $std_mobile, $std_email, $std_parent_mobile, $std_city, $std_address, $update)
     {
         $currentData = $this->loadStudentById($std_id);
-        $jsonData = json_encode($currentData);
-
-        // Output the JSON data to the browser's console
-        echo "<script>console.log($jsonData);</script>";
-        // ($std_id, $index, $std_tcenter, $std_title, $std_name, $std_gender, $std_dob, $std_language, $std_mobile, $std_email, $std_parent_mobile, $std_city, $std_address, $udate)
         if (
             $currentData['tcenter_id'] !== $std_tcenter ||
             $currentData['title'] !== $std_title ||
@@ -170,9 +165,9 @@ class StudentController
         ) {
             $this->studentModel->updateStudent($std_id, $index, $std_tcenter, $std_title, $std_name, $std_gender, $std_dob, $std_language, $std_mobile, $std_email, $std_parent_mobile, $std_city, $std_address, $update);
             echo '<script>alert("Student updated successfully ")</script>';
-            echo '<script>window.location.href="../views/manage_students.php"</script>';
+            echo '<script>window.location.href="../views/manage_student.php"</script>';
         } else {
-            echo '<script>window.location.href="../views/manage_students.php"</script>';
+            echo '<script>window.location.href="../views/manage_student.php"</script>';
         }
     }
 
