@@ -85,13 +85,14 @@ class BatchController
         $isPosibble = 0;
         $course = $this->courseController->loadCourseById($course_id);
         $course_code = $course['code']; // MCA
+        $formatted_course_code = strtoupper(str_replace('.', '', $course_code));
 
         $center = $this->trainingCenterLocationController->getCenterCode($center_id);
         $center_code = $center['c_code'];
 
         $lastTwoDigitsYear = substr($batch_year, -2);
 
-        $batch_code_v1 = $center_code . '' . $course_code . '' . $lastTwoDigitsYear;
+        $batch_code_v1 = $center_code . '' . $formatted_course_code . '' . $lastTwoDigitsYear;
 
         $searchResult = $this->batchModel->searchBatchCodeByCode($batch_code_v1, $course_type);
 
@@ -102,7 +103,7 @@ class BatchController
             echo '<script>alert("Already have 3 batches"); window.location.href="../views/add_batch.php";</script>';
             exit;
         } else {
-            $batch_code_v2 = $center_code . '' . $course_code . '' . $lastTwoDigitsYear . '' . $result + 1 . '' . $course_type;
+            $batch_code_v2 = $center_code . '' . $formatted_course_code . '' . $lastTwoDigitsYear . '' . $result + 1 . '' . $course_type;
             $isPosibble = 1;
         }
 
