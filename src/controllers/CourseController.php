@@ -3,6 +3,7 @@
 
 include('../../config/dbcon.php');
 require_once('../models/CourseModel.php');
+require_once('../helpers/validation.php');
 
 class CourseController
 {
@@ -31,28 +32,63 @@ class CourseController
             $courselevel = $_POST['course_level'];
             $created_date = $_POST['cdate'];
 
-            if (!$this->courseModel->isCourseCodeAvailable($code)) {
-                echo '<script>alert("Course Code Already Exist")</script>';
-                echo '<script>window.location.href="../views/add_courses.php";</script>';
-                exit;
-            }
-            if (!$this->courseModel->isCourseNameAvailable($cfullname)) {
-                echo '<script>alert("Course Name Already Exist")</script>';
-                echo '<script>window.location.href="../views/add_courses.php";</script>';
-                exit;
+
+            $errors = [];
+            $code_result = validate_input($code, "Course Code");
+            if ($code_result !== true) {
+                $errors[] = $code_result;
             }
 
-            $query = $this->courseModel->addCourse($code, $cfullname, $courselevel, $created_date);
+            $cfullname_result = validate_input($cfullname, "Course Full Name");
+            if ($cfullname_result !== true) {
+                $errors[] = $cfullname_result;
+            }
 
-            if ($query) {
-                echo '<script>alert("Course Added successfully"); window.location.href="../views/add_courses.php";</script>';
+            $courselevel_result = validate_input($courselevel, "Course Level");
+            if ($courselevel_result !== true) {
+                $errors[] = $courselevel_result;
+            }
+
+            if (empty($created_date)) {
+                $errors[] = "Created Date cannot be empty.";
+            } elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $created_date)) {
+                $errors[] = "Created Date format should be YYYY-MM-DD.";
+            }
+
+            if (!empty($errors)) {
+
+                if (!empty($errors)) {
+                    $all_errors = implode("\\n", $errors);
+                    echo '<script>alert("' . $all_errors . '"); window.location.href="../views/add_courses.php";</script>';
+                }
             } else {
-                echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_courses.php";</script>';
+                if (!$this->courseModel->isCourseCodeAvailable($code)) {
+                    echo '<script>alert("Course Code Already Exist")</script>';
+                    echo '<script>window.location.href="../views/add_courses.php";</script>';
+                    exit;
+                }
+                if (!$this->courseModel->isCourseNameAvailable($cfullname)) {
+                    echo '<script>alert("Course Name Already Exist")</script>';
+                    echo '<script>window.location.href="../views/add_courses.php";</script>';
+                    exit;
+                }
+
+                $code = strtoupper($_POST['code']);
+                if (preg_match('/^[A-Z0-9]+$/', $code)) {
+                    $query = $this->courseModel->addCourse($code, $cfullname, $courselevel, $created_date);
+                    if ($query) {
+                        echo '<script>alert("Course Added successfully"); window.location.href="../views/add_courses.php";</script>';
+                    } else {
+                        echo '<script>alert("Something went wrong. Please try again"); window.location.href="../views/add_courses.php";</script>';
+                    }
+                    exit;
+
+                } else {
+                    echo '<script>alert("Invalid code: Only letters and numbers are allowed. No spaces or special characters."); window.location.href="../views/add_courses.php";</script>';
+                    exit;
+                }
             }
-
-            exit;
         }
-
     }
     public function loadCourseById($cid)
     {
