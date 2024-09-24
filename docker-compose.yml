@@ -20,6 +20,8 @@ services:
     ports:
       - "80:80"
       - "443:443" # for future ssl traffic
+    env_file:
+    - .env  
     depends_on:
       - db    # services wait for db to start.
   phpmyadmin:
