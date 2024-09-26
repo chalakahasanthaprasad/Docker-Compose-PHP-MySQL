@@ -99,3 +99,25 @@ Therefore, subjects would be more standard and conventional than subject.
 
 #Remove data
 TRUNCATE TABLE `tbl_student`;
+
+MySQL Server
+SET GLOBAL time_zone = '+5:30';
+
+IF You Use PHP project without Docker ADD this too ----------------------
+
+Add this to php.ini file
+
+Ensures the cookie is sent only over HTTPS
+session.cookie_secure = 1  
+
+Prevents JavaScript access to the session cookie (mitigates XSS)
+session.cookie_httponly = 1     
+
+Provides CSRF protection by restricting cross-site requests
+session.cookie_samesite = Strict
+
+
+.htaccess file (ClickJacking' attacks)
+
+Header always set X-Frame-Options "SAMEORIGIN"
+Header set Content-Security-Policy "default-src 'self';"
