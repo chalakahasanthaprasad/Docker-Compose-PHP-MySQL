@@ -98,4 +98,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Inspiration and resources from the open-source community.
 
----
